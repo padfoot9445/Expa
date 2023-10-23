@@ -1,0 +1,15 @@
+/workspaces/Expa/obj/Debug/net7.0/Expa.csproj.AssemblyReference.cache
+/workspaces/Expa/obj/Debug/net7.0/Expa.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/Expa/obj/Debug/net7.0/Expa.AssemblyInfoInputs.cache
+/workspaces/Expa/obj/Debug/net7.0/Expa.AssemblyInfo.cs
+/workspaces/Expa/obj/Debug/net7.0/Expa.csproj.CoreCompileInputs.cache
+/workspaces/Expa/bin/Debug/net7.0/Expa
+/workspaces/Expa/bin/Debug/net7.0/Expa.deps.json
+/workspaces/Expa/bin/Debug/net7.0/Expa.runtimeconfig.json
+/workspaces/Expa/bin/Debug/net7.0/Expa.dll
+/workspaces/Expa/bin/Debug/net7.0/Expa.pdb
+/workspaces/Expa/obj/Debug/net7.0/Expa.dll
+/workspaces/Expa/obj/Debug/net7.0/refint/Expa.dll
+/workspaces/Expa/obj/Debug/net7.0/Expa.pdb
+/workspaces/Expa/obj/Debug/net7.0/Expa.genruntimeconfig.cache
+/workspaces/Expa/obj/Debug/net7.0/ref/Expa.dll

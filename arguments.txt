@@ -1,0 +1,23 @@
+speed
+comment
+display
+nation{
+    time
+}
+nation, area, shipyard{
+    maxsize, 
+    minsize
+}
+shipyard{
+    berths,
+}
+
+ship{
+    time,
+    speed,
+
+}
+
+template{
+    equalize
+}

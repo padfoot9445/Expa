@@ -1,0 +1,52 @@
+Global { 
+New time globalTime(62.2); 
+New nation Icarus( 
+Time: globalTime; 
+Speed: 1; 
+Display:; 
+Comment: na; 
+) 
+} 
+Icarus{ 
+        New area homeworld( 
+                Time: Icarus.time; 
+                Speed: 1; 
+        ) 
+        New placeholder p1; 
+        View information Icarus; 
+        View program Icarus; 
+        View all Icarus; 
+} 
+homeworld{ 
+        Using{ 
+                placeholder//from immediate parent; 
+                From global globalTime; 
+        } 
+        New shipyard orbitalDocks( 
+                berths: 7; 
+                maxSize: 800; 
+                Minsize: -1; 
+        ) 
+        New ship wanderer( 
+                Time: 3.2; 
+        ) 
+        New ship fighter( 
+                Time: 3.1; 
+        ) 
+        New template mainTemplate( 
+                equalize: False;) 
+         
+        If(orbitalDocks.hasSpace){ 
+                orbitalDocks.add(wanderer); 
+        } 
+        OrbitalDocks.remove(wanderer); 
+        While(orbitalDocks.hasSpace){ 
+                OrbitalDocs.add(mainTemplate);//this just keeps using the template 
+        } 
+} 
+Template MainTemplate{ 
+        //automatically imports all ships from immediate parent 
+        //but you can import additional ships 
+        Wanderer: 2; 
+        Fighter: 200; 
+        } 
