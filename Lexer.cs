@@ -5,13 +5,16 @@ namespace lexer{
         private int current = 0;
         private int start = 0;
         private int line = 1;
-        private readonly List<Token> tokenList = new List<Token>();
+        private readonly List<Token> tokenList = new();
         public Dictionary<string, TokenType> keywords = Keywords.keywords;
         public Lexer(string Acode){
             code = Acode;
         }			
-        public Token[] getTokens(){
+        public Token[] GetTokens(){
             while(!isAtEnd()){;
+                if(current%10 == 0){
+                    Console.WriteLine(current);
+                }
                 switch(code[current]){
                     case '(':
                         tokenList.Add(new Token(TokenType.LEFTPAREN, line, "(", null));
@@ -49,6 +52,7 @@ namespace lexer{
                         start = current;
                         break;
                     case ' ':
+                    case '\r':
                     case '\t':
                         current++;
                         start = current;
@@ -87,15 +91,19 @@ namespace lexer{
                         start = current;
                         break;
                     case '"':
+                        Console.WriteLine(code[current]);
+                        Console.WriteLine(current);
                         current++;
                         start = current;
                         while(code[current] != '"'){
+                            Console.WriteLine(code[current]);
                             current++;
                             if(code[current] == '\n'){
                                 line++;
                             }
                         }
-                        tokenList.Add(new Token(TokenType.STRING, line, code.Substring(start,current), code.Substring(start,current)));
+                        current++;
+                        tokenList.Add(new Token(TokenType.STRING, line, code[start..(current - 1)], code[start..(current - 1)]));
                         break;
                     case '%':
                         current++;
@@ -118,17 +126,17 @@ namespace lexer{
                             while(!isAtEnd() && (Char.IsDigit(code[current]) || code[current] == '.' || code[current] == ' ' || code[current] == ',' || code[current] == '-')){
                                 current++;
                             }
-                            tokenList.Add(new Token(TokenType.NUMBER, line, code.Substring(start, current), code.Substring(start,current)));
+                            tokenList.Add(new Token(TokenType.NUMBER, line, code[start..current], code[start..current]));
                             break;
                         } else if (Char.IsLetter(code[current]) || code[current] == '_'){
                             //identifiers and keywords
                             while(!isAtEnd() && code[current] != ' ' && code[current] != '\t' && code[current] != '\n' && char.IsLetterOrDigit(code[current])){
                                 current++;
                             }
-                            if(keywords.ContainsKey(code.Substring(start, current))){
-                                tokenList.Add(new Token(keywords[code.Substring(start,current)], line, code.Substring(start, current), null));
+                            if(keywords.ContainsKey(code[start..current])){
+                                tokenList.Add(new Token(keywords[code[start..current]], line, code[start..current], null));
                             } else{                            
-                                tokenList.Add(new Token(TokenType.IDENTIFIER, line, code.Substring(start, current), code.Substring(start, current)));
+                                tokenList.Add(new Token(TokenType.IDENTIFIER, line, code[start..current], code[start..current]));
                             }
                         }
                         //TODO: throw exception;
