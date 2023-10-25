@@ -11,13 +11,7 @@ namespace lexer{
             code = Acode;
         }			
         public Token[] getTokens(){
-            Console.WriteLine(code);
-            Console.WriteLine(code.Length);
-            Console.WriteLine(current);
-            while(!isAtEnd()){
-                Console.WriteLine(current);
-                Console.WriteLine("currentAbove");
-                Console.WriteLine(code[current]);
+            while(!isAtEnd()){;
                 switch(code[current]){
                     case '(':
                         tokenList.Add(new Token(TokenType.LEFTPAREN, line, "(", null));
@@ -26,6 +20,16 @@ namespace lexer{
                         break;
                     case ')':
                         tokenList.Add(new Token(TokenType.RIGHTPAREN, line, ")", null));
+                        current++;
+                        start = current;
+                        break;
+                    case '{':
+                        tokenList.Add(new Token(TokenType.LEFTBRACE, line, "{", null));
+                        current++;
+                        start = current;
+                        break;
+                    case '}':
+                        tokenList.Add(new Token(TokenType.RIGHTBRACE, line, "}", null));
                         current++;
                         start = current;
                         break;
@@ -118,18 +122,13 @@ namespace lexer{
                             break;
                         } else if (Char.IsLetter(code[current]) || code[current] == '_'){
                             //identifiers and keywords
-                            while(!isAtEnd() && code[current] != ' ' && code[current] != '\t' && code[current] != '\n'){
-                                Console.WriteLine(".");
+                            while(!isAtEnd() && code[current] != ' ' && code[current] != '\t' && code[current] != '\n' && char.IsLetterOrDigit(code[current])){
                                 current++;
                             }
                             if(keywords.ContainsKey(code.Substring(start, current))){
                                 tokenList.Add(new Token(keywords[code.Substring(start,current)], line, code.Substring(start, current), null));
-                            } else{
-                                Console.WriteLine("Adding");
-                            
+                            } else{                            
                                 tokenList.Add(new Token(TokenType.IDENTIFIER, line, code.Substring(start, current), code.Substring(start, current)));
-                                Token tempToken = new Token(TokenType.IDENTIFIER, line, code.Substring(start, current), code.Substring(start, current));
-                                Console.WriteLine(tempToken.ToString());
                             }
                         }
                         //TODO: throw exception;

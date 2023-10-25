@@ -40,7 +40,7 @@ namespace helpers{
             
         }
     
-        public void PPrint(object[] array){
+        public static void PPrint<T>(T[] array){
             Console.WriteLine("[{0}]", String.Join(',', array));
             return;
         }

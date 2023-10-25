@@ -24,4 +24,12 @@ namespace Scope{
                 get{return __code;}
             }
         }
+    readonly struct TypeAndIdentifier{
+            public readonly TokenType type;
+            public readonly Token identifier;
+            public TypeAndIdentifier(TokenType aType, Token aIdentifier){
+                type = aType;
+                identifier = aIdentifier;
+            }
+        }
 }

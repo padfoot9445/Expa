@@ -1,4 +1,5 @@
 namespace Tokens{
+    using System.Collections.Generic;
     public static class Keywords{
         public static readonly Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>(){
             {"global", TokenType.GLOBAL},
@@ -15,7 +16,7 @@ namespace Tokens{
             {"using", TokenType.USING},
             {"from", TokenType.FROM},
             {"shipyard", TokenType.SHIPYARD},
-            {"berth", TokenType.BERTH},
+            {"berths", TokenType.BERTHS},
             {"maxSize", TokenType.MAXSIZE},
             {"minSize", TokenType.MINSIZE},
             {"ship", TokenType.SHIP},
@@ -23,7 +24,7 @@ namespace Tokens{
             {"true", TokenType.TRUE},
             {"false", TokenType.FALSE},
             {"equalize", TokenType.EQUALIZE},
-            {"switch", TokenType.SWITCH},
+            {"switch", TokenType.SWITCH},//replaces if
             {"else", TokenType.ELSE},
             {"add", TokenType.ADD},
             {"remove", TokenType.REMOVE},
@@ -31,7 +32,7 @@ namespace Tokens{
             {"release", TokenType.RELEASE},
             {"while", TokenType.WHILE},
             {"queueLength", TokenType.QUEUELENGTH},
-            {"maxQueue", TokenType.MAXQUEUE},
+            {"maxQueue", TokenType.MAXQUEUE},//idk what this does; i'm going to assume its an attribute, but it can be replaced with max anyways
             {"minQueue", TokenType.MINQUEUE},
             {"min", TokenType.MIN},
             {"max", TokenType.MAX},
@@ -50,6 +51,18 @@ namespace Tokens{
             {"comment", TokenType.COMMENT},
             {"modify", TokenType.MODIFY}
         };
+        public static readonly HashSet<TokenType> argumentNames = new(){
+            TokenType.TIME,
+            TokenType.NATION,
+            TokenType.SPEED,
+            TokenType.DISPLAY,
+            TokenType.BERTHS,
+            TokenType.MAXSIZE,
+            TokenType.MINSIZE,
+            TokenType.EQUALIZE,
+            TokenType.MAX,
+            TokenType.COMMENT
+            };
     }
     public enum TokenType{
         GLOBAL,
@@ -76,7 +89,7 @@ namespace Tokens{
         USING,
         FROM,
         SHIPYARD,
-        BERTH,
+        BERTHS,
         MAXSIZE,
         MINSIZE,
         SHIP,

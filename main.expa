@@ -7,7 +7,7 @@ Display:;
 Comment: na; 
 ) 
 } 
-Icarus{ 
+nation Icarus{ 
         New area homeworld( 
                 Time: Icarus.time; 
                 Speed: 1; 
@@ -17,7 +17,7 @@ Icarus{
         View program Icarus; 
         View all Icarus; 
 } 
-homeworld{ 
+area homeworld{ 
         Using{ 
                 placeholder//from immediate parent; 
                 From global globalTime; 
