@@ -20,12 +20,12 @@ namespace helpers{
             System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
     [System.Serializable]
-    public class mainException : System.Exception
+    public class MainException : System.Exception
     {
-        public mainException() { }
-        public mainException(string message) : base(message) { }
-        public mainException(string message, System.Exception inner) : base(message, inner) { }
-        protected mainException(
+        public MainException() { }
+        public MainException(string message) : base(message) { }
+        public MainException(string message, System.Exception inner) : base(message, inner) { }
+        protected MainException(
             System.Runtime.Serialization.SerializationInfo info,
             System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
@@ -41,7 +41,7 @@ namespace helpers{
         }
     
         public static void PPrint<T>(T[] array){
-            Console.WriteLine("[{0}]", String.Join(',', array));
+            Console.WriteLine("[{0}]", String.Join(" , ", array));
             return;
         }
     }
