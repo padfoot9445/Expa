@@ -1,52 +1,53 @@
-Global { 
-New time globalTime(62.2); 
-New nation Icarus( 
-Time: globalTime; 
-Speed: 1; 
-Display:; 
-Comment: na; 
-) 
+global { 
+        new time globalTime(62.2); 
+        new nation Icarus( 
+                time: globalTime; 
+                speed: 1; 
+                display:" e"; 
+                comment: na; 
+        ) 
 } 
 nation Icarus{ 
-        New area homeworld( 
-                Time: Icarus.time; 
-                Speed: 1; 
+        new area homeworld( 
+                time: Icarus.time; 
+                speed: 1; 
         ) 
-        New placeholder p1; 
-        View information Icarus; 
-        View program Icarus; 
-        View all Icarus; 
+        new placeholder p1; 
+        view information Icarus; 
+        view program Icarus; 
+        view all Icarus; 
 } 
 area homeworld{ 
-        Using{ 
+        using{ 
                 placeholder//from immediate parent; 
-                From global globalTime; 
+                from global globalTime; 
         } 
-        New shipyard orbitalDocks( 
+        new shipyard orbitalDocks( 
                 berths: 7; 
                 maxSize: 800; 
                 Minsize: -1; 
         ) 
-        New ship wanderer( 
-                Time: 3.2; 
+        new ship wanderer( 
+                time: 3.2; 
         ) 
-        New ship fighter( 
-                Time: 3.1; 
+        new ship fighter( 
+                time: 3.1; 
         ) 
-        New template mainTemplate( 
-                equalize: False;) 
+        new template mainTemplate(equalize: False;) 
          
-        If(orbitalDocks.hasSpace){ 
-                orbitalDocks.add(wanderer); 
+        switch(orbitalDocks.hasSpace){ 
+                case (true){
+                        orbitalDocks.add(wanderer);
+                }; 
         } 
-        OrbitalDocks.remove(wanderer); 
-        While(orbitalDocks.hasSpace){ 
+        orbitalDocks.remove(wanderer); 
+        while(orbitalDocks.hasSpace){ 
                 OrbitalDocs.add(mainTemplate);//this just keeps using the template 
         } 
 } 
-Template MainTemplate{ 
+template mainTemplate{ 
         //automatically imports all ships from immediate parent 
         //but you can import additional ships 
-        Wanderer: 2; 
-        Fighter: 200; 
+        wanderer: 2; 
+        fighter: 200; 
         } 
