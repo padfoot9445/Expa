@@ -1,8 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "Rm73Hq7AyM7to7GiHOtRIaOpdHaVCFIXLzjqI/22h98mFZvPx6XDHuRZ5y0GRTz0tEHgfD07+Nu5bGZC3dvbtA==",
+  "dgSpecHash": "8LeqyfB++JBS7uC0yz3tY3h5nLzNNdLMyrTWaqSgOIg15QFLxUf600lVEbjdv/i1DntjDj8fkekA/hzQP7SwEQ==",
   "success": true,
-  "projectFilePath": "/workspaces/Expa/Expa.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\coding\\c#\\expa\\Expa\\Expa.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Isaac\\.nuget\\packages\\microsoft.data.sqlite\\7.0.13\\microsoft.data.sqlite.7.0.13.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.13\\microsoft.data.sqlite.core.7.0.13.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.4\\sqlitepclraw.bundle_e_sqlite3.2.1.4.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\sqlitepclraw.core\\2.1.4\\sqlitepclraw.core.2.1.4.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.4\\sqlitepclraw.lib.e_sqlite3.2.1.4.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.4\\sqlitepclraw.provider.e_sqlite3.2.1.4.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+  ],
   "logs": []
 }

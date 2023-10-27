@@ -1,40 +1,7 @@
-namespace helpers{
-    [System.Serializable]
-    public class ExpaSyntaxError : System.Exception
-    {
-        public ExpaSyntaxError(int line): base($"at line: {line}") { }
-        public ExpaSyntaxError(int line, string message) : base($"{message} at line: {line}") { }
-        public ExpaSyntaxError(int line, string message, System.Exception inner) : base($"{message} at line: {line}", inner) { }
-        protected ExpaSyntaxError(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
-                }
-    [System.Serializable]   
-    public class ExpaNameError : System.Exception
-    {
-        public ExpaNameError(int line): base($"at line: {line}") { }
-        public ExpaNameError(int line, string message) : base($"{message} at line: {line}") { }
-        public ExpaNameError(int line, string message, System.Exception inner) : base($"{message} at line: {line}", inner) { }
-        protected ExpaNameError(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
-    }
-    [System.Serializable]
-    public class MainException : System.Exception
-    {
-        public MainException() { }
-        public MainException(string message) : base(message) { }
-        public MainException(string message, System.Exception inner) : base(message, inner) { }
-        protected MainException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
-    }
-    public class ExpaWarning{
-        static List<ExpaWarning> warnings = new List<ExpaWarning>();
-        public ExpaWarning(){
-            
-        }
-    }
+using ExpaObjects;
+
+namespace Helpers{
+   
     public class PPrinter{
         public PPrinter(){
             
@@ -50,6 +17,18 @@ namespace helpers{
             T[] result = new T[end - start];
             Array.Copy(array, start,result, 0, end - start);
             return result;
+        }
+    }
+
+    public static class Converters{
+        public static Type StringToType(string input){
+            switch(input){
+                case "global": return typeof(ExpaGlobal);
+                case "nation": return typeof(ExpaNation);
+                case "template": return typeof(ExpaTemplate);
+                case "time": return typeof(BackgroundObjects.Time);
+                default: throw new KeyNotFoundException($"{input} not found in StringToType");
+            }
         }
     }
 }

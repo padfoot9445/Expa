@@ -1,16 +1,26 @@
 namespace ExpaObjects{
     using Tokens;
-    using Scope;
+    using Structs;
     using BackgroundObjects;
-    public class ExpaObject{
+    using System.Data.Common;
+
+    public abstract class ExpaObject{
         public Token TokenIdentifier;
         public Dictionary<string, ExpaNameSpace> parents = new();
-        public ExpaObject(ExpaNameSpace parent, Token identifier){
+        public string display;
+        public string? comment;
+
+        public ExpaObject(ExpaNameSpace parent, Token identifier, string? display=null, string? comment = null){
             TokenIdentifier = identifier;
             parents[parent.scope.TokenIdentifier.lexeme] = parent;
+            this.display = display ?? identifier.lexeme;
+            this.comment = comment;
         }
-        public ExpaObject(Token identifier){
+        public ExpaObject(Token identifier, string? display=null, string? comment = null){
             TokenIdentifier = identifier;
+            display = identifier.lexeme;
+            this.display = display ?? identifier.lexeme;
+            this.comment = comment;
         }
         
         public bool AddParent(ExpaNameSpace parent){
@@ -34,10 +44,10 @@ namespace ExpaObjects{
     public class ExpaNameSpace: ExpaObject{
         public Scope scope;
         public Dictionary <string, ExpaObject> children = new();
-        public ExpaNameSpace(ExpaNameSpace parent, Scope aScope):base(parent, aScope.TokenIdentifier){
+        public ExpaNameSpace(ExpaNameSpace parent, Scope aScope, string? display=null, string? comment = null):base(parent, aScope.TokenIdentifier, display, comment){
             scope = aScope;
         }
-        public ExpaNameSpace(Scope aScope): base(aScope.TokenIdentifier){
+        public ExpaNameSpace(Scope aScope, string? display=null, string? comment = null): base(aScope.TokenIdentifier, display, comment){
             scope = aScope;
         }
         public bool AddChild(ExpaObject child){
@@ -78,7 +88,7 @@ namespace ExpaObjects{
             TokenType.NATION
         };
 
-        public ExpaTemplate(ExpaNameSpace parent, Scope scope, ExpaNation nation, bool equalize): base(parent, scope){
+        public ExpaTemplate(ExpaNameSpace parent, Scope scope, ExpaNation nation, bool equalize, string? display=null, string? comment = null): base(parent, scope, display, comment){
             this.nation = nation;
             this.equalize = equalize;
         }
@@ -86,13 +96,18 @@ namespace ExpaObjects{
 
     public class ExpaNation: ExpaNameSpace{
         public Time time;
-        public ExpaNation(ExpaNameSpace parent, Scope scope, Time time):base(parent, scope){//handle implicit time on caller side; Global gets its time by modify and not set.
+        public ExpaNation(ExpaNameSpace parent, Scope scope, Time time, string? display=null, string? comment = null):base(parent, scope, display, comment){//handle implicit time on caller side; Global gets its time by modify and not set.
             this.time = time;
         }
     }
     public class ExpaGlobal : ExpaNameSpace{
-        public Time time = new(0, 0);
-        public ExpaGlobal(Scope scope): base(scope){}
+        public Time time;
+        public ExpaGlobal(Scope scope, string? display=null, string? comment = null): base(scope, display, comment){
+            time = new(0, 0);
+        }
+        public ExpaGlobal(Scope scope, Time time): base(scope){
+            this.time = time;
+        }
     }
 }
 

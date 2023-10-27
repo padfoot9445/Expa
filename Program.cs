@@ -3,7 +3,8 @@ using System.Collections.Generic;
 namespace interpreter{
 
     using lexer;
-    using helpers;
+    using Helpers;
+	using Errors;
     using System.IO;
     public class Interpreter{
         public static void Main(string[] args){

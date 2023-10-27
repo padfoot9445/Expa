@@ -1,7 +1,7 @@
-namespace Scope{
+namespace Structs{
     using Tokens;
+    using ExpaObjects;
     public readonly struct Scope{
-            
             public readonly Token __identifier;
             public readonly TokenType __type;
             public readonly Token[] __code;
@@ -24,7 +24,7 @@ namespace Scope{
                 get{return __code;}
             }
         }
-    readonly struct TypeAndIdentifier{
+    public readonly struct TypeAndIdentifier{
             public readonly TokenType type;
             public readonly Token identifier;
             public TypeAndIdentifier(TokenType aType, Token aIdentifier){
@@ -32,4 +32,17 @@ namespace Scope{
                 identifier = aIdentifier;
             }
         }
+
+    public readonly struct CodeParseTransferrer{
+        public readonly int current;
+        public readonly Token[] tokenList;
+        public readonly ExpaNameSpace parent;
+        public readonly ExpaNameSpace self;
+        public CodeParseTransferrer(int current, Token[] tokenList, ExpaNameSpace parent, ExpaNameSpace self){
+            this.current = current;
+            this.tokenList = tokenList;
+            this.parent = parent;
+            this.self = self;
+        }
+    }
 }
