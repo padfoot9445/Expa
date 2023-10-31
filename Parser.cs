@@ -1,5 +1,5 @@
 using System;
-namespace parser{
+namespace Parser{
     
     using System.Data.Common;
     using Helpers;
@@ -8,18 +8,22 @@ namespace parser{
     using ExpaObjects;
     using Structs;
     public class Parser{
-        private Token[] tokens;
-        public readonly Dictionary<string, Scope> unparsedScopes = new();
-        private readonly List<ExpaObject> expaObjects = new();
-        public ExpaGlobal expaGlobal;
-        public Parser(Token[] aTokens){
+        public static Token[] tokens{get; private set;} = Array.Empty<Token>();
+        public static Dictionary<string, Scope> unparsedScopes{get; private set;} = new();
+        public static readonly Dictionary<string, ExpaObject> expaObjects = new();
+        public ExpaGlobal? expaGlobal;
+        public static void SetParser(Token[] aTokens){//due to fileHandler reasons, we extract the scopes before initializing the Parser object
             tokens = aTokens.Concat(new Token[]{new(TokenType.EOF, -1, "EOF inserted by interpreter", null)}).ToArray();
-            unparsedScopes = ExtractNamespaceScope(tokens);
+            Parser.unparsedScopes = ExtractNamespaceScope(tokens);
             //load all expa objects from storage
+            foreach(var scope in unparsedScopes.Values){
+                expaObjects[scope.TokenIdentifier.lexeme] = new ExpaGlobal(scope, new(0,0));
+            }
+            
         }
-        public void ParseTokens(){
+        public static void ParseTokens(){
         }
-        public Dictionary<string, Scope> ExtractNamespaceScope(Token[] aTokens){
+        public static Dictionary<string, Scope> ExtractNamespaceScope(Token[] aTokens){
             int current = 0;
             int start = 0;
             Dictionary<string, Scope> returnDict = new();
@@ -41,11 +45,15 @@ namespace parser{
                     } else{
                         switch(aTokens[start - 2].tokenType){//to account for the identifier
                             case TokenType.FUNCTION:
+                                break;
                             case TokenType.AREA:
+                                break;
                             case TokenType.TEMPLATE:
                             //TODO: Finish
                             returnDict[aTokens[start - 1].lexeme] = new Scope(aTokens[start - 1], aTokens[start - 2].tokenType, aTokens.SubArray(start + 1, current)); //start + 1 is because we want to skip the curly braces; current and not current + 1 for the same reason
                                 break;
+                            default:
+                                throw new ExpaSyntaxError(aTokens[start-2].line, $"Expected Type, got {aTokens[start - 2]} of type {aTokens[start - 2].tokenType}");
                         }
                     }
                 }

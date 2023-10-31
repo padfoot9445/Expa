@@ -6,15 +6,11 @@ namespace lexer{
         private int start = 0;
         private int line = 1;
         private readonly List<Token> tokenList = new();
-        public Dictionary<string, TokenType> keywords = Keywords.keywords;
         public Lexer(string Acode){
             code = Acode;
         }			
         public Token[] GetTokens(){
-            while(!isAtEnd()){;
-                if(current%10 == 0){
-                    Console.WriteLine(current);
-                }
+            while(!isAtEnd()){
                 switch(code[current]){
                     case '(':
                         tokenList.Add(new Token(TokenType.LEFTPAREN, line, "(", null));
@@ -91,12 +87,9 @@ namespace lexer{
                         start = current;
                         break;
                     case '"':
-                        Console.WriteLine(code[current]);
-                        Console.WriteLine(current);
                         current++;
                         start = current;
                         while(code[current] != '"'){
-                            Console.WriteLine(code[current]);
                             current++;
                             if(code[current] == '\n'){
                                 line++;
@@ -133,8 +126,8 @@ namespace lexer{
                             while(!isAtEnd() && code[current] != ' ' && code[current] != '\t' && code[current] != '\n' && char.IsLetterOrDigit(code[current])){
                                 current++;
                             }
-                            if(keywords.ContainsKey(code[start..current])){
-                                tokenList.Add(new Token(keywords[code[start..current]], line, code[start..current], null));
+                            if(Keywords.keywords(code[start..current]) != TokenType.INTERPRETERNULL){
+                                tokenList.Add(new Token(Keywords.keywords(code[start..current]), line, code[start..current], null));
                             } else{                            
                                 tokenList.Add(new Token(TokenType.IDENTIFIER, line, code[start..current], code[start..current]));
                             }

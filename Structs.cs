@@ -37,12 +37,20 @@ namespace Structs{
         public readonly int current;
         public readonly Token[] tokenList;
         public readonly ExpaNameSpace parent;
-        public readonly ExpaNameSpace self;
-        public CodeParseTransferrer(int current, Token[] tokenList, ExpaNameSpace parent, ExpaNameSpace self){
+        public CodeParseTransferrer(int current, Token[] tokenList, ExpaNameSpace parent){
             this.current = current;
             this.tokenList = tokenList;
             this.parent = parent;
-            this.self = self;
+        }
+    }
+    public readonly struct Result{
+        public readonly ExpaObject expaObject;
+        public readonly string[] parentIdentifiers;
+        public readonly string[]? childIdentifiers;
+        public Result(ExpaObject expaObject, string[] parentIdentifiers, string[] childIdentifiers){
+            this.expaObject = expaObject;
+            this.parentIdentifiers = parentIdentifiers;
+            this.childIdentifiers = childIdentifiers;
         }
     }
 }

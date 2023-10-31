@@ -1,7 +1,7 @@
 namespace Tokens{
     using System.Collections.Generic;
     public static class Keywords{
-        public TokenType keywords(string input){
+        public static TokenType keywords(string input){
             switch(input){
                 case "global": return TokenType.GLOBAL;
                 case "new": return TokenType.NEW;
@@ -51,11 +51,12 @@ namespace Tokens{
                 case "function": return TokenType.FUNCTION;
                 case "comment": return TokenType.COMMENT;
                 case "modify": return TokenType.MODIFY;
-                default: throw new KeyNotFoundException();
+                case "iParent": return TokenType.IPARENT;
+                default: return TokenType.INTERPRETERNULL;
 
             }
         }
-        public static readonly Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>(){
+        public static readonly Dictionary<string, TokenType> kweywords = new Dictionary<string, TokenType>(){
             {"global", TokenType.GLOBAL},
             {"new", TokenType.NEW},
             {"time", TokenType.TIME},
@@ -185,7 +186,9 @@ namespace Tokens{
         CASE,
         BREAK,
         FUNCTION,
-        MODIFY
+        MODIFY,
+        IPARENT,
+        INTERPRETERNULL
     }
     //implement arguments, round(true, false);
     public class Token{

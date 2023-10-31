@@ -7,17 +7,13 @@ namespace Commands{
         public int current;
         public Token[] code;
         public ExpaNameSpace parent;
-        public parser.Parser parser;
-        public ExpaNameSpace self;
-        public Commands(CodeParseTransferrer input, parser.Parser parser){
+        public Commands(CodeParseTransferrer input){
             current = input.current;
             code = input.tokenList;
             parent = input.parent;
-            this.parser = parser;
-            this.self = input.self;
         }
         public CodeParseTransferrer Transfer(){
-            return new(current, code, parent, self);
+            return new(current, code, parent);
         }
         public abstract void Parse();
         public bool HasArgument(){

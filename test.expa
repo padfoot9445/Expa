@@ -1,0 +1,6 @@
+global{
+    new template myTemplate(equalize: true; display: "myCustomTemplate");
+}
+template myTemplate{
+
+}

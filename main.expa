@@ -51,3 +51,165 @@ template mainTemplate{
         wanderer: 2; 
         fighter: 200; 
         } 
+
+global { 
+        new time globalTime(62.2); 
+        new nation Icarus( 
+                time: globalTime; 
+                speed: 1; 
+                display:" e"; 
+                comment: na; 
+        ) 
+} 
+nation Icarus{ 
+        new area homeworld( 
+                time: Icarus.time; 
+                speed: 1; 
+        ) 
+        new placeholder p1; 
+        view information Icarus; 
+        view program Icarus; 
+        view all Icarus; 
+} 
+area homeworld{ 
+        using{ 
+                placeholder//from immediate parent; 
+                from global globalTime; 
+        } 
+        new shipyard orbitalDocks( 
+                berths: 7; 
+                maxSize: 800; 
+                Minsize: -1; 
+        ) 
+        new ship wanderer( 
+                time: 3.2; 
+        ) 
+        new ship fighter( 
+                time: 3.1; 
+        ) 
+        new template mainTemplate(equalize: False;) 
+         
+        switch(orbitalDocks.hasSpace){ 
+                case (true){
+                        orbitalDocks.add(wanderer);
+                }; 
+        } 
+        orbitalDocks.remove(wanderer); 
+        while(orbitalDocks.hasSpace){ 
+                OrbitalDocs.add(mainTemplate);//this just keeps using the template 
+        } 
+} 
+template mainTemplate{ 
+        //automatically imports all ships from immediate parent 
+        //but you can import additional ships 
+        wanderer: 2; 
+        fighter: 200; 
+        } 
+        global { 
+        new time globalTime(62.2); 
+        new nation Icarus( 
+                time: globalTime; 
+                speed: 1; 
+                display:" e"; 
+                comment: na; 
+        ) 
+} 
+nation Icarus{ 
+        new area homeworld( 
+                time: Icarus.time; 
+                speed: 1; 
+        ) 
+        new placeholder p1; 
+        view information Icarus; 
+        view program Icarus; 
+        view all Icarus; 
+} 
+area homeworld{ 
+        using{ 
+                placeholder//from immediate parent; 
+                from global globalTime; 
+        } 
+        new shipyard orbitalDocks( 
+                berths: 7; 
+                maxSize: 800; 
+                Minsize: -1; 
+        ) 
+        new ship wanderer( 
+                time: 3.2; 
+        ) 
+        new ship fighter( 
+                time: 3.1; 
+        ) 
+        new template mainTemplate(equalize: False;) 
+         
+        switch(orbitalDocks.hasSpace){ 
+                case (true){
+                        orbitalDocks.add(wanderer);
+                }; 
+        } 
+        orbitalDocks.remove(wanderer); 
+        while(orbitalDocks.hasSpace){ 
+                OrbitalDocs.add(mainTemplate);//this just keeps using the template 
+        } 
+} 
+template mainTemplate{ 
+        //automatically imports all ships from immediate parent 
+        //but you can import additional ships 
+        wanderer: 2; 
+        fighter: 200; 
+        } 
+        global { 
+        new time globalTime(62.2); 
+        new nation Icarus( 
+                time: globalTime; 
+                speed: 1; 
+                display:" e"; 
+                comment: na; 
+        ) 
+} 
+nation Icarus{ 
+        new area homeworld( 
+                time: Icarus.time; 
+                speed: 1; 
+        ) 
+        new placeholder p1; 
+        view information Icarus; 
+        view program Icarus; 
+        view all Icarus; 
+} 
+area homeworld{ 
+        using{ 
+                placeholder//from immediate parent; 
+                from global globalTime; 
+        } 
+        new shipyard orbitalDocks( 
+                berths: 7; 
+                maxSize: 800; 
+                Minsize: -1; 
+        ) 
+        new ship wanderer( 
+                time: 3.2; 
+        ) 
+        new ship fighter( 
+                time: 3.1; 
+        ) 
+        new template mainTemplate(equalize: False;) 
+         
+        switch(orbitalDocks.hasSpace){ 
+                case (true){
+                        orbitalDocks.add(wanderer);
+                }; 
+        } 
+        orbitalDocks.remove(wanderer); 
+        while(orbitalDocks.hasSpace){ 
+                OrbitalDocs.add(mainTemplate);//this just keeps using the template 
+        } 
+} 
+template mainTemplate{ 
+        //automatically imports all ships from immediate parent 
+        //but you can import additional ships 
+        wanderer: 2; 
+        fighter: 200; 
+        } 
+"This is a string and i want to see if thsi affects performance"
+1234.5 234123.7

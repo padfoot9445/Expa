@@ -31,4 +31,16 @@ namespace Helpers{
             }
         }
     }
+    public static class UID{
+        private static readonly HashSet<double> existing = new();
+        private static readonly Random rnd = new();
+        public static double New(string selfIdentifier, string parentIdentifier){
+            //doesn't need to be like this, but it should help prevent collisions
+            double tempCode = (selfIdentifier + parentIdentifier).GetHashCode();
+            while(existing.Contains(tempCode)){
+                tempCode += rnd.Next();
+            }
+            return tempCode;
+        }
+    }
 }

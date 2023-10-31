@@ -1,20 +1,27 @@
+using Errors;
+
 namespace ExpaObjects{
     using Tokens;
     using Structs;
     using BackgroundObjects;
     using System.Data.Common;
+    using System.Runtime.Serialization;
+    using Helpers;
+    using Parser;
 
     public abstract class ExpaObject{
         public Token TokenIdentifier;
-        public Dictionary<string, ExpaNameSpace> parents = new();
+        public HashSet<string> parents = new();
         public string display;
         public string? comment;
+        public readonly double objectID; 
 
         public ExpaObject(ExpaNameSpace parent, Token identifier, string? display=null, string? comment = null){
             TokenIdentifier = identifier;
-            parents[parent.scope.TokenIdentifier.lexeme] = parent;
+            parents.Add(parent.TokenIdentifier.lexeme);
             this.display = display ?? identifier.lexeme;
             this.comment = comment;
+            this.objectID = UID.New(identifier.lexeme, parent.TokenIdentifier.lexeme);
         }
         public ExpaObject(Token identifier, string? display=null, string? comment = null){
             TokenIdentifier = identifier;
@@ -23,58 +30,37 @@ namespace ExpaObjects{
             this.comment = comment;
         }
         
-        public bool AddParent(ExpaNameSpace parent){
-            bool rv;
-            if(parents[parent.scope.TokenIdentifier.lexeme] != parent){
-                //raise syntax warning on caller end, but still do the assignment
-                rv = false;
-            } else{
-                rv = true;
+        public bool AddParent(string parent){
+            if(parents.Contains(parent)){
+                return false;
             }
-            parents[parent.TokenIdentifier.lexeme] = parent;
-            if (!parent.children.ContainsKey(TokenIdentifier.lexeme)){
+            parents.Add(parent);
+            if (!((ExpaNameSpace)Parser.expaObjects[parent]).children.Contains(TokenIdentifier.lexeme)){
                 //if the parent does not have the current object as a child
-                parents[parent.TokenIdentifier.lexeme].AddChild(this);
+                ((ExpaNameSpace)Parser.expaObjects[parent]).AddChild(TokenIdentifier.lexeme);
             }
-            return rv;
+            return true;
                 
         }
     }
     
     public class ExpaNameSpace: ExpaObject{
         public Scope scope;
-        public Dictionary <string, ExpaObject> children = new();
+        public HashSet<string> children = new();
         public ExpaNameSpace(ExpaNameSpace parent, Scope aScope, string? display=null, string? comment = null):base(parent, aScope.TokenIdentifier, display, comment){
             scope = aScope;
         }
         public ExpaNameSpace(Scope aScope, string? display=null, string? comment = null): base(aScope.TokenIdentifier, display, comment){
             scope = aScope;
         }
-        public bool AddChild(ExpaObject child){
-            bool rv;
-            if(children[child.TokenIdentifier.lexeme] != child){
-                //if the identifier is a child and the child is different
-                rv = false;
-            } else{
-                rv = true;
+        public bool AddChild(string child){
+            if(children.Contains(child)){
+                return false;
             }
-            children[child.TokenIdentifier.lexeme] = child;
-            return rv;
-        }
-        public bool AddChild(ExpaNameSpace child){
-            bool rv;
-            children[child.TokenIdentifier.lexeme] = child;
-            if(children[child.TokenIdentifier.lexeme] != child){
-                rv = false;
-            } else{
-                rv = true;
-            }
-            if (!children[child.TokenIdentifier.lexeme].parents.ContainsKey(scope.TokenIdentifier.lexeme)){
-                children[child.TokenIdentifier.lexeme].AddParent(this);
+            children.Add(child);
+            if (!Parser.expaObjects[child].parents.Contains(TokenIdentifier.lexeme)){
+                Parser.expaObjects[child].AddParent(TokenIdentifier.lexeme);
             } 
-            return rv;
-        }
-        public bool addUnparsedChild(){
             return true;
         }
 
@@ -94,24 +80,27 @@ namespace ExpaObjects{
         }
     }
 
-    public class ExpaNation: ExpaNameSpace{
-        public Time time;
+    public class ExpaNation: ExpaNameSpace, IHasTime{
+        public Time Time{get; private set;}
         public ExpaNation(ExpaNameSpace parent, Scope scope, Time time, string? display=null, string? comment = null):base(parent, scope, display, comment){//handle implicit time on caller side; Global gets its time by modify and not set.
-            this.time = time;
+            this.Time = time;
         }
     }
-    public class ExpaGlobal : ExpaNameSpace{
-        public Time time;
+    public class ExpaGlobal : ExpaNameSpace, IHasTime{
+        public Time Time{get; private set;}
         public ExpaGlobal(Scope scope, string? display=null, string? comment = null): base(scope, display, comment){
-            time = new(0, 0);
+            Time = new(0, 0);
         }
         public ExpaGlobal(Scope scope, Time time): base(scope){
-            this.time = time;
+            this.Time = time;
         }
     }
 }
 
 namespace BackgroundObjects{
+    interface IHasTime{
+        public Time Time{get;}
+    }
     public class Time{
         //parse only mm/yy or yy.q
         public readonly int year;
@@ -145,6 +134,24 @@ namespace BackgroundObjects{
            return new Time(year, quarter);
         }
         public static Time operator /(Time self, int other) => self * (1 / other);
+        public static Time ParseAcTime(string input){
+            string[] parts = input.Split('.');
+            if(parts.Length > 2 || parts.Length < 1){
+                throw new MainException($"{input} was an invalid AC time format");
+            } else if(parts.Length == 1){
+                try{
+                    return new(int.Parse(parts[0]), 0);
+                } catch(FormatException){
+                    throw new MainException($"{input} was an invalid AC time format - could not split into year and month || invalid year");
+                }
+            } else{
+                try{
+                    return new(int.Parse(parts[0]), int.Parse(parts[1]));
+                } catch(FormatException){
+                    throw new MainException($"{input} was an invalid AC time format - either month or year could not be converted into an int");
+                }
+            }
+        }
         private static (int, int) WrapTime(int year, int quarter){
             while(quarter > 4){
                 quarter -= 4;
