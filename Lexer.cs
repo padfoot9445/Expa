@@ -1,4 +1,5 @@
 namespace lexer{
+    using Errors;
     using Tokens;
     class Lexer{
         public string code;
@@ -116,10 +117,20 @@ namespace lexer{
                         start = current;
                         //numbers
                         if(Char.IsDigit(code[current])){
-                            while(!isAtEnd() && (Char.IsDigit(code[current]) || code[current] == '.' || code[current] == ' ' || code[current] == ',' || code[current] == '-')){
+                            while(!isAtEnd() && (Char.IsDigit(code[current]) || code[current] == '.' || code[current] == ' ' || code[current] == ',' || code[current] == '-' || code[current] == '/')){
                                 current++;
                             }
-                            tokenList.Add(new Token(TokenType.NUMBER, line, code[start..current], code[start..current]));
+                            string extract = code[start..current];
+                            tokenList.Add(
+                                extract.Contains('/')?
+                                new Token(TokenType.MONTHTIME, line, extract, extract):
+                                new Token(TokenType.NUMBER, line, extract, extract)
+                            );
+                            if(extract.Count(c=>c=='.') > 1){
+                                throw new ExpaSyntaxError(line, "Number must not contain more than one decimal point");
+                            } else if(extract.Count(c=>c=='/') > 1){
+                                throw new ExpaSyntaxError(line, "Month must not contain more than one slash");
+                            }
                             break;
                         } else if (Char.IsLetter(code[current]) || code[current] == '_'){
                             //identifiers and keywords
@@ -131,8 +142,11 @@ namespace lexer{
                             } else{                            
                                 tokenList.Add(new Token(TokenType.IDENTIFIER, line, code[start..current], code[start..current]));
                             }
+                        } else{
+                            current++;
                         }
                         //TODO: throw exception;
+                        
                         break;
                         
                         

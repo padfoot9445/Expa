@@ -4,20 +4,53 @@ namespace FileHandler{
     using Structs;
     using BackgroundObjects;
     using Errors;
-
-    public class FileHandler{
-        //store a csv of parent IDs rather than parent
+    using Parser;
+    public abstract class FileHandlerBase{
         public readonly string filePath;
-        public readonly Dictionary<string, Scope> unparsedScopes;
-        SqliteConnection connection;
-        public FileHandler(string filePath, Dictionary<string, Scope> unparsedScopes){
+        public SqliteConnection connection;
+        public FileHandlerBase(string filePath){
             this.filePath = filePath;
-            this.unparsedScopes = unparsedScopes;
             connection = new SqliteConnection($"Data Source={filePath}");
+            connection.Open();
+        }
+        public void Close() => connection.Close();
+    }
+
+    public class LoadObjects: FileHandlerBase{
+        //store a csv of parent IDs rather than parent
+        public LoadObjects(string filePath): base(filePath){
+            MakeTables();
+        }
+        private void MakeTables(){
+            string[] commands = {
+                "CREATE TABLE IF NOT EXISTS Objects (identifier string,  type string,  parents string, display string,  comment string,  children string)",
+                "CREATE TABLE IF NOT EXISTS Global (identifier string, time int)",
+                "CREATE TABLE IF NOT EXISTS Nation (identifier string, time int, minChildShipSize int, maxChildShipSize int)",
+                "CREATE TABLE IF NOT EXISTS Area (identifier string, minChildShipSize int, maxChildShipSize int)"
+            };
+            foreach(var command in commands){
+                ExecuteNonQuery(command);
+            }
+
+        }
+        private void ExecuteNonQuery(string command){
+            using(var myCommand = new SqliteCommand(command, connection)){
+                myCommand.ExecuteNonQuery();
+            }
         }
         
         private bool DbExists(){
             if(File.Exists(filePath)){return true;} return false;
+        }
+    }
+    public class FileHandler: FileHandlerBase{
+
+
+        public readonly LoadObjects loader;
+        public FileHandler(string filePath): base(filePath){
+            loader = new(filePath);
+
+            // writer = new(filePath);
         }
         private readonly Dictionary<string, ExpaObject> cachedObjects = new();
         public ExpaObject GetObject(string identifier){
@@ -50,17 +83,19 @@ namespace FileHandler{
             //assume the caller knows the thing exists
             List<Result> rl = new();
             using(var reader = RSearchTable(key, table, column) ){
-                int TYPEORDINAL = reader.GetOrdinal("type");
-                int IDENTIFIERORDINAL = reader.GetOrdinal("identifier");
-                int PARENTSORDINAL = reader.GetOrdinal("parents");
-                int DISPLAYORDINAL = reader.GetOrdinal("display");
-                int COMMENTORDINAL = reader.GetOrdinal("comment");
+                int TYPEORDINAL = reader.GetOrdinal("type"); //string, 2
+                int IDENTIFIERORDINAL = reader.GetOrdinal("identifier");//string, 1
+                int PARENTSORDINAL = reader.GetOrdinal("parents");//string, csv, 2
+                int DISPLAYORDINAL = reader.GetOrdinal("display");//string, 3
+                int COMMENTORDINAL = reader.GetOrdinal("comment");//string, 4
                 while(reader.Read()){
                     string[] parents = reader.GetString(PARENTSORDINAL).Split(',');
-                    SqliteDataReader paramReader = IdentifierSearchTable(reader.GetString(IDENTIFIERORDINAL)/*second entry in a object table will always be id*/, reader.GetString(TYPEORDINAL)/*third entry in a object table will always be type*/);
+                    SqliteDataReader paramReader = IdentifierSearchTable(reader.GetString(IDENTIFIERORDINAL), reader.GetString(TYPEORDINAL));
                     ExpaObject expaObject = reader.GetString(TYPEORDINAL) switch{
-                        "global" => new ExpaGlobal(unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], Time.ParseAcTime(paramReader["time"].ToString()!)),
-                        "nation" => new ExpaNation((ExpaNameSpace)GetObject(parents[0]), unparsedScopes[reader.GetString(IDENTIFIERORDINAL)],(Time)paramReader["time"], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
+                        //if there is somehow an error here it has to be reported as a compiler error, not a user error
+                        "global" => new ExpaGlobal(Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], Time.ParseAcTime(paramReader["time"].ToString()!), reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
+                        "nation" => new ExpaNation((ICanBeParent<ExpaNation>)GetObject(parents[0]), Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)],(Time)paramReader["time"],(int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
+                        "area" => new ExpaArea((ICanBeParent<ExpaArea>)GetObject(parents[0]), (ExpaNation)GetObject(paramReader["nationParent"].ToString()!), (int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)), 
                         _ => throw new MainException("error while parsing db file")
                     };
                     rl.Add(new Result(expaObject, parents,reader["children"].ToString()!.Split(',')/*children*/));
@@ -69,37 +104,34 @@ namespace FileHandler{
             return rl.ToArray();
         }
         public SqliteDataReader RSearchTable(string key, string table, string column){
-                connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText = 
-                @$"FROM {table}
-                SELECT *
-                WHERE {column} = {key}
+                @$"SELECT * FROM {table} WHERE {column} = {key}
                 ";
                 return command.ExecuteReader();
             
         }
-        public string[] GetAllIdentifiers(){
+        public HashSet<string> GetAllIdentifiers(){
             using(var connection = new SqliteConnection($"Data Source={filePath}")){
                 connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText = 
-                @$"FROM objects
-                SELECT identifier
-                ";
-                List<string> rv = new();
+                @$"SELECT identifier FROM Objects";
+                HashSet<string> rv = new();
                 using(var reader = command.ExecuteReader()){
                     while(reader.Read()){
                         rv.Add(reader.GetString(0));
                     }
                 }
-                return rv.ToArray();
+                return rv;
             }
         }
         public bool ItemExists(string key, string table, string column) => RSearchTable(key, table, column).HasRows;
     }
     
-    
+    // public class WriteObjects: FileHandlerBase{
+    //     public WriteObjects
+    // }
 }
 
 namespace StorageObjects{

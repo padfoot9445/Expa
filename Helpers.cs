@@ -1,15 +1,63 @@
+using BackgroundObjects;
 using ExpaObjects;
-
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Tokens;
 namespace Helpers{
    
-    public class PPrinter{
-        public PPrinter(){
-            
+    public static class PPrinter{    
+        public static void PPrint(object? input){
+            Console.WriteLine(input);
         }
-    
         public static void PPrint<T>(T[] array){
-            Console.WriteLine("[{0}]", String.Join(" , ", array));
+            Console.WriteLine("[{0}]", string.Join(" , ", array));
             return;
+        }
+        public static void PPrint<T>(HashSet<T> set){
+            Console.WriteLine("{{{0}}}", string.Join(" , ", set));
+        }
+        public static void PPrint(IHasTime input){
+            Console.WriteLine($"Time: {input.Time}");
+        }
+        public static void PPrint(ExpaGlobal input){
+            PPrint((ExpaNameSpace)input);
+            PPrint((IHasTime)input);
+        }
+        public static void PPrint(IHasMinMaxSize input){
+            Console.WriteLine($"MinChildShipSize: {input.MinChildShipSize}\n MaxChildShipSize: {input.MaxChildShipSize}");
+        }
+        public static void PPrint(ExpaNation input, bool printScope = false){
+            PPrint((IHasMinMaxSize)input);
+            PPrint((IHasTime)input);
+            PPrint((ExpaNameSpace)input, printScope);
+        }
+        public static void PPrint(ExpaArea input){
+            Console.WriteLine($"MainNationParent: {input.mainNationParent}");
+            PPrint((IHasMinMaxSize)input);
+            PPrint((ExpaNameSpace)input);
+        }
+        public static void PPrint(ExpaObject input){
+            Console.WriteLine("identifier:");
+            Console.WriteLine(input.TokenIdentifier);
+            Console.WriteLine("Parents:");
+            PPrint<string>(input.parents);
+            Console.WriteLine("Display:");
+            Console.WriteLine(input.display);
+            Console.WriteLine("Comment:");
+            Console.WriteLine(input.comment);
+        }
+        public static void PPrint(ExpaNameSpace input, bool printScope=false){
+            if(printScope){
+                PPrint(input.scope);
+            }
+            Console.WriteLine("Children:");
+            PPrint<string>(input.children);
+            PPrint((ExpaObject)input);
+        }
+        public static void PPrint(Structs.Scope input){
+            Console.WriteLine($"***SCOPE***\n\tidentifier = {input.TokenIdentifier}\n\ttype={input.TType}\n\t"); 
+            PPrint<Token>(input.Code);
+            Console.WriteLine("***ENDOFSCOPE***");
         }
     }
     public static class Extensions{
@@ -42,5 +90,10 @@ namespace Helpers{
             }
             return tempCode;
         }
+    }
+    public static class Defaults{
+        public const int MINCSS = -1;
+        public const int MAXCSS = 10000;
+        public static readonly string[] VALIDDBFILEEXTENSIONS = {".sqlite", ". db", ".db3"};
     }
 }

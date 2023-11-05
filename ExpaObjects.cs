@@ -14,14 +14,12 @@ namespace ExpaObjects{
         public HashSet<string> parents = new();
         public string display;
         public string? comment;
-        public readonly double objectID; 
 
         public ExpaObject(ExpaNameSpace parent, Token identifier, string? display=null, string? comment = null){
             TokenIdentifier = identifier;
             parents.Add(parent.TokenIdentifier.lexeme);
             this.display = display ?? identifier.lexeme;
             this.comment = comment;
-            this.objectID = UID.New(identifier.lexeme, parent.TokenIdentifier.lexeme);
         }
         public ExpaObject(Token identifier, string? display=null, string? comment = null){
             TokenIdentifier = identifier;
@@ -80,25 +78,53 @@ namespace ExpaObjects{
         }
     }
 
-    public class ExpaNation: ExpaNameSpace, IHasTime{
+    public class ExpaNation: ExpaNameSpace, IHasTime, ICanBeParent<ExpaNation>, ICanBeParent<ExpaArea>, IHasMinMaxSize{
         public Time Time{get; private set;}
-        public ExpaNation(ExpaNameSpace parent, Scope scope, Time time, string? display=null, string? comment = null):base(parent, scope, display, comment){//handle implicit time on caller side; Global gets its time by modify and not set.
+        public int MaxChildShipSize{get; set;}
+        public int MinChildShipSize{get; set;}
+
+        public ExpaNation(ICanBeParent<ExpaNation> parent, Scope scope, Time time, int MinChildShipSize=Helpers.Defaults.MINCSS, int MaxChildShipSize=Defaults.MAXCSS,string? display=null, string? comment = null):base((ExpaNameSpace)parent, scope, display, comment){//handle implicit time on caller side; Global gets its time by modify and not set.
             this.Time = time;
+            this.MinChildShipSize = MinChildShipSize;
+            this.MaxChildShipSize = MaxChildShipSize;
         }
     }
-    public class ExpaGlobal : ExpaNameSpace, IHasTime{
+    public class ExpaGlobal : ExpaNameSpace, IHasTime, ICanBeParent<ExpaNation>{
         public Time Time{get; private set;}
         public ExpaGlobal(Scope scope, string? display=null, string? comment = null): base(scope, display, comment){
             Time = new(0, 0);
+        }
+        public ExpaGlobal(Scope scope, Time time,string? display=null, string? comment = null): base(scope, display, comment){
+            Time = time;
         }
         public ExpaGlobal(Scope scope, Time time): base(scope){
             this.Time = time;
         }
     }
+    public class ExpaArea : ExpaNameSpace, ICanBeParent<ExpaArea>, IHasMinMaxSize{
+        public ExpaNation mainNationParent;
+        public int MinChildShipSize{get; set;}
+        public int MaxChildShipSize{get; set;}
+        public ExpaArea(ICanBeParent<ExpaArea> parent, ExpaNation mainNationParent, int minCSS, int maxCSS,Scope aScope, string? display = null, string? comment = null) : base((ExpaNameSpace)parent, aScope, display, comment){
+            this.mainNationParent = mainNationParent;
+            this.MinChildShipSize = minCSS;
+            this.MaxChildShipSize = maxCSS;
+        }
+        
+    }
+    public class ExpaTime: ExpaObject,IHasTime{
+        public Time Time{get; private set;}
+        public ExpaTime(ExpaNameSpace parent, Token identifier, Time time, string? display = null, string? comment = null) : base(parent, identifier, display, comment){
+            Time = time;
+        }
+    }
+
+        
+        
 }
 
 namespace BackgroundObjects{
-    interface IHasTime{
+    public interface IHasTime{
         public Time Time{get;}
     }
     public class Time{
@@ -134,6 +160,18 @@ namespace BackgroundObjects{
            return new Time(year, quarter);
         }
         public static Time operator /(Time self, int other) => self * (1 / other);
+        public string ToString(bool MonthTime)
+        {
+            return MonthTime? $"{year}/{month}" : $"{year}.{quarter}";
+        }
+        public override string ToString()
+        {
+            return ToString(false);
+        }
+        ///<summary>
+        ///returns a new Time object with the given Quarter Notation AC time string input
+        ///</summary>
+        ///<param name="input"> the string containing Quarter Notation AC time</param>
         public static Time ParseAcTime(string input){
             string[] parts = input.Split('.');
             if(parts.Length > 2 || parts.Length < 1){
@@ -152,6 +190,24 @@ namespace BackgroundObjects{
                 }
             }
         }
+        public static Time ParseMonthTime(string input){
+            string[] parts = input.Split('/');
+            if(parts.Length > 2 || parts.Length < 1){
+                throw new MainException($"{input} was an invalid Month AC time format");
+            } else if(parts.Length == 1){
+                try{
+                    return new(int.Parse(parts[0]), 0);
+                } catch(FormatException){
+                    throw new MainException($"{input} was an invalid Month AC time format - could not split into year and month || invalid year");
+                } 
+            } else{
+                try{
+                    return Time.MonthTime(int.Parse(parts[0]), int.Parse(parts[1]));
+                } catch(FormatException){
+                    throw new MainException($"{input} was an invalid Month AC time format - either month or year could not be converted into an int");
+                }
+            }
+        }
         private static (int, int) WrapTime(int year, int quarter){
             while(quarter > 4){
                 quarter -= 4;
@@ -164,4 +220,12 @@ namespace BackgroundObjects{
             return (year, quarter);
         }
     }
+    public interface ICanBeParent<T>{}
+    public interface IHasMaxSize{
+        public int MaxChildShipSize{get; set;}
+    }
+    public interface IHasMinSize{
+        public int MinChildShipSize{get; set;}
+    }
+    public interface IHasMinMaxSize: IHasMaxSize, IHasMinSize{}
 }

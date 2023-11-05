@@ -1,0 +1,9 @@
+namespaceType ::= "nation" | "global" | "function" | "area" | "template";
+type ::= namespaceType | "shipyard" | "ship" | "time";
+identifier ::= {char};
+char ::= 'A'...'Z' | 'a'...'z' | '_';
+namespace ::= namespaceType identifier '{' *expr'}';
+expr ::= pexpr ';';
+pexpr ::= new;
+new ::= 'new' type ['(']
+argpair ::= argumentparam

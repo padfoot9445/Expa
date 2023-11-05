@@ -7,17 +7,30 @@ namespace Parser{
     using Tokens;
     using ExpaObjects;
     using Structs;
+    using FileHandler;
+    using BackgroundObjects;
+
     public class Parser{
         public static Token[] tokens{get; private set;} = Array.Empty<Token>();
         public static Dictionary<string, Scope> unparsedScopes{get; private set;} = new();
         public static readonly Dictionary<string, ExpaObject> expaObjects = new();
         public ExpaGlobal? expaGlobal;
-        public static void SetParser(Token[] aTokens){//due to fileHandler reasons, we extract the scopes before initializing the Parser object
+        public static FileHandler? FileHandler{get; private set;}
+        public static void SetParser(Token[] aTokens, FileHandler fileHandler){//due to fileHandler reasons, we extract the scopes before initializing the Parser object
+            FileHandler = fileHandler;
             tokens = aTokens.Concat(new Token[]{new(TokenType.EOF, -1, "EOF inserted by interpreter", null)}).ToArray();
             Parser.unparsedScopes = ExtractNamespaceScope(tokens);
             //load all expa objects from storage
-            foreach(var scope in unparsedScopes.Values){
-                expaObjects[scope.TokenIdentifier.lexeme] = new ExpaGlobal(scope, new(0,0));
+            HashSet<string> IdentifierSet = fileHandler.GetAllIdentifiers();
+            foreach(var Identifier in IdentifierSet){
+                if(IdentifierSet.Contains(Identifier)){
+                    expaObjects[Identifier] = FileHandler.GetObject(Identifier);
+                }
+            }
+            if(IdentifierSet.Contains("global")){
+                expaObjects["global"] = FileHandler.GetObject("global");
+            } else{
+                expaObjects["global"] = new ExpaGlobal(unparsedScopes["global"], new Time(0,0));
             }
             
         }
@@ -43,7 +56,8 @@ namespace Parser{
                     if(aTokens[start - 1].tokenType == TokenType.GLOBAL){
                         returnDict[aTokens[start-1].lexeme] = new Scope(aTokens[start-1], aTokens[start-1].tokenType, aTokens.SubArray(start + 1, current));
                     } else{
-                        switch(aTokens[start - 2].tokenType){//to account for the identifier
+                        returnDict[aTokens[start - 1].lexeme] = new Scope(aTokens[start - 1], aTokens[start - 2].tokenType, aTokens.SubArray(start + 1, current));
+                        /*switch(aTokens[start - 2].tokenType){//to account for the identifier
                             case TokenType.FUNCTION:
                                 break;
                             case TokenType.AREA:
@@ -54,7 +68,7 @@ namespace Parser{
                                 break;
                             default:
                                 throw new ExpaSyntaxError(aTokens[start-2].line, $"Expected Type, got {aTokens[start - 2]} of type {aTokens[start - 2].tokenType}");
-                        }
+                        }*/
                     }
                 }
             }

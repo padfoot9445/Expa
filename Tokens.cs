@@ -18,8 +18,8 @@ namespace Tokens{
                 case "from": return TokenType.FROM;
                 case "shipyard": return TokenType.SHIPYARD;
                 case "berths": return TokenType.BERTHS;
-                case "maxSize": return TokenType.MAXSIZE;
-                case "minSize": return TokenType.MINSIZE;
+                case "maxsize": case "maxSize": return TokenType.MAXSIZE;
+                case "minsize": case "minSize": return TokenType.MINSIZE;
                 case "ship": return TokenType.SHIP;
                 case "template": return TokenType.TEMPLATE;
                 case "true": return TokenType.TRUE;
@@ -29,12 +29,12 @@ namespace Tokens{
                 case "else": return TokenType.ELSE;
                 case "add": return TokenType.ADD;
                 case "remove": return TokenType.REMOVE;
-                case "holdQueue": return TokenType.HOLDQUEUE;
+                case "holdQueue": case "holdqueue": return TokenType.HOLDQUEUE;
                 case "release": return TokenType.RELEASE;
                 case "while": return TokenType.WHILE;
-                case "queueLength": return TokenType.QUEUELENGTH;
-                case "maxQueue": return TokenType.MAXQUEUE;//idk what this does; i'm going to assume its an attribute: but it can be replaced with max anyways
-                case "minQueue": return TokenType.MINQUEUE;
+                case "queueLength": case "queuelength": return TokenType.QUEUELENGTH;
+                case "maxQueue": case "maxqueue": return TokenType.MAXQUEUE;//idk what this does; i'm going to assume its an attribute: but it can be replaced with max anyways
+                case "minQueue": case "minqueue": return TokenType.MINQUEUE;
                 case "min": return TokenType.MIN;
                 case "max": return TokenType.MAX;
                 case "not": return TokenType.NOT;
@@ -106,18 +106,23 @@ namespace Tokens{
             {"comment", TokenType.COMMENT},
             {"modify", TokenType.MODIFY}
         };
-        public static readonly HashSet<TokenType> argumentNames = new(){
-            TokenType.TIME,
-            TokenType.NATION,
-            TokenType.SPEED,
-            TokenType.DISPLAY,
-            TokenType.BERTHS,
-            TokenType.MAXSIZE,
-            TokenType.MINSIZE,
-            TokenType.EQUALIZE,
-            TokenType.MAX,
-            TokenType.COMMENT
-            };
+        public static bool IsValidArgumentName(TokenType input){
+            switch(input){
+                case TokenType.NATION:
+                case TokenType.SPEED:
+                case TokenType.TIME:
+                case TokenType.DISPLAY:
+                case TokenType.BERTHS:
+                case TokenType.MAXSIZE:
+                case TokenType.MINSIZE:
+                case TokenType.EQUALIZE:
+                case TokenType.MAX:
+                case TokenType.COMMENT:
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
     public enum TokenType{
         GLOBAL,
@@ -188,6 +193,7 @@ namespace Tokens{
         FUNCTION,
         MODIFY,
         IPARENT,
+        MONTHTIME,
         INTERPRETERNULL
     }
     //implement arguments, round(true, false);

@@ -4,11 +4,13 @@ namespace Commands{
     using Errors;
     using ExpaObjects;
     abstract public class Commands{
-        public int current;
+        private int start;
+        public int current{get; set;}
         public Token[] code;
         public ExpaNameSpace parent;
         public Commands(CodeParseTransferrer input){
             current = input.current;
+            start = current;
             code = input.tokenList;
             parent = input.parent;
         }
@@ -26,6 +28,7 @@ namespace Commands{
                 throw new ExpaSyntaxError(code[current].line, $"Expected parenthesis or semicolon, got {code[current].tokenType}");
             }
         }
+        public int Increment() => current - start;
     }
     
 

@@ -28,19 +28,20 @@ namespace ParseScope{
             int start = 0;
             int length = code.Length;
             while(current < length){
-                //for every token
+                //for every token; 
                 switch(code[current].tokenType){
                     //switch
-                    case TokenType.NEW:ParseNewExpr(); break;
+                    case TokenType.NEW:current += ParseNewExpr(); break;
                 }
                 current++;
             }
         }
         private void ParseTemplate(){
+            Console.WriteLine("Parsing template...");
             return;
         }
-        private void ParseNewExpr(){
-            new New(new CodeParseTransferrer(current, code, self));
+        private int ParseNewExpr(){
+            return new New(new CodeParseTransferrer(current, code, self)).Increment();
         }
         
         

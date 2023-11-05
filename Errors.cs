@@ -46,6 +46,25 @@ namespace Errors{
         protected ExpaReassignmentError(
             System.Runtime.Serialization.SerializationInfo info,
             System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+        
+    }
+    [System.Serializable]
+    public class ExpaArgumentError : ExpaMainError
+    {
+        public ExpaArgumentError(int line, string message) : base(line, message){}
+        public ExpaArgumentError(int line) : base(line){}
+        public ExpaArgumentError(int line, string message, Exception inner) : base(line, message, inner) { }
+        protected ExpaArgumentError(System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context): base(info, context) { }
+    }
+    [System.Serializable]
+    public class ExpaInterpreterError : ExpaMainError
+    {
+        public ExpaInterpreterError(int line, string message) : base(line, message){}
+        public ExpaInterpreterError(int line) : base(line){}
+        public ExpaInterpreterError(int line, string message, Exception inner) : base(line, message, inner) { }
+        protected ExpaInterpreterError(System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context): base(info, context) { }
     }
     public class ExpaWarning{
         static List<ExpaWarning> warnings = new List<ExpaWarning>();

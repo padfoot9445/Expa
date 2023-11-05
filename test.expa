@@ -1,6 +1,14 @@
+//#!0.1.0;
 global{
-    new template myTemplate(equalize: true; display: "myCustomTemplate");
+    new nation Icarus(time: 12.0; display: "MyIcarus"; comment: "Icarus is going to come back soon");
+    new template myTemplate(equalize: true; display: "myCustomTemplate"; nation: Icarus);
 }
 template myTemplate{
+
+}
+nation Icarus{
+    new area IcarusHomeWorld(maxsize: 850; minsize: 200;);
+}
+area IcarusHomeWorld{
 
 }
