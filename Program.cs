@@ -52,7 +52,7 @@ namespace interpreter{
         public static void Main(string[] args){
             //TODO: SEMIURGENT: Load existing objects from disk\
             //TODO: ships have ship-classes, string, for easy print for ani
-            string fp = """D:\coding\c#\expa\Expa\test.expa""";
+            string fp = """/workspaces/Expa/test.expa""";
             bool validDbFP = false;
             if(args.Length >= 2){
                 foreach(var extension in Helpers.Defaults.VALIDDBFILEEXTENSIONS){
