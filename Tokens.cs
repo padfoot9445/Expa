@@ -52,60 +52,15 @@ namespace Tokens{
                 case "comment": return TokenType.COMMENT;
                 case "modify": return TokenType.MODIFY;
                 case "iParent": return TokenType.IPARENT;
+                case "int": return TokenType.INT;
+                case "string": return TokenType.STRING;
+                case "component": return TokenType.COMPONENT;
+                case "alias": return TokenType.ALIAS;
+                case "dependancy": return TokenType.DEPENDANCY;
                 default: return TokenType.INTERPRETERNULL;
 
             }
         }
-        public static readonly Dictionary<string, TokenType> kweywords = new Dictionary<string, TokenType>(){
-            {"global", TokenType.GLOBAL},
-            {"new", TokenType.NEW},
-            {"time", TokenType.TIME},
-            {"nation", TokenType.NATION},
-            {"speed", TokenType.SPEED},
-            {"display", TokenType.DISPLAY},
-            {"area", TokenType.AREA},
-            {"view", TokenType.VIEW},
-            {"information", TokenType.INFORMATION},
-            {"program", TokenType.PROGRAM},
-            {"all", TokenType.ALL},
-            {"using", TokenType.USING},
-            {"from", TokenType.FROM},
-            {"shipyard", TokenType.SHIPYARD},
-            {"berths", TokenType.BERTHS},
-            {"maxSize", TokenType.MAXSIZE},
-            {"minSize", TokenType.MINSIZE},
-            {"ship", TokenType.SHIP},
-            {"template", TokenType.TEMPLATE},
-            {"true", TokenType.TRUE},
-            {"false", TokenType.FALSE},
-            {"equalize", TokenType.EQUALIZE},
-            {"switch", TokenType.SWITCH},//replaces if
-            {"else", TokenType.ELSE},
-            {"add", TokenType.ADD},
-            {"remove", TokenType.REMOVE},
-            {"holdQueue", TokenType.HOLDQUEUE},
-            {"release", TokenType.RELEASE},
-            {"while", TokenType.WHILE},
-            {"queueLength", TokenType.QUEUELENGTH},
-            {"maxQueue", TokenType.MAXQUEUE},//idk what this does; i'm going to assume its an attribute, but it can be replaced with max anyways
-            {"minQueue", TokenType.MINQUEUE},
-            {"min", TokenType.MIN},
-            {"max", TokenType.MAX},
-            {"not", TokenType.NOT},
-            {"shift", TokenType.SHIFT},
-            {"unshift", TokenType.UNSHIFT},
-            {"and", TokenType.AND},
-            {"repeat", TokenType.REPEAT},
-            {"round", TokenType.ROUND},
-            {"permanent", TokenType.PERMANENT},
-            {"or", TokenType.OR},
-            {"get", TokenType.GET},
-            {"case", TokenType.CASE},
-            {"break", TokenType.BREAK},
-            {"function", TokenType.FUNCTION},
-            {"comment", TokenType.COMMENT},
-            {"modify", TokenType.MODIFY}
-        };
         public static bool IsValidArgumentName(TokenType input){
             switch(input){
                 case TokenType.NATION:
@@ -125,6 +80,7 @@ namespace Tokens{
         }
     }
     public enum TokenType{
+        DEPENDANCY,
         GLOBAL,
         NEW,
         TIME,
@@ -194,7 +150,14 @@ namespace Tokens{
         MODIFY,
         IPARENT,
         MONTHTIME,
-        INTERPRETERNULL
+        INT,
+        STRINGVAR,
+        BOOL,
+        INTERPRETERNULL,
+        LEFTSQUAREBRACKET,
+        RIGHTSQUAREBRACKET,
+        COMPONENT,
+        ALIAS
     }
     //implement arguments, round(true, false);
     public class Token{

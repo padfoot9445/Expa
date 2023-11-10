@@ -4,7 +4,7 @@ namespace Commands{
     using Errors;
     using ExpaObjects;
     abstract public class Commands{
-        private int start;
+        public int start;
         public int current{get; set;}
         public Token[] code;
         public ExpaNameSpace parent;
