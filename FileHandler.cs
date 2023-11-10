@@ -47,10 +47,11 @@ namespace FileHandler{
 
 
         public readonly LoadObjects loader;
+        public readonly WriteObjects writer;
         public FileHandler(string filePath): base(filePath){
             loader = new(filePath);
 
-            // writer = new(filePath);
+            writer = new(filePath);
         }
         private readonly Dictionary<string, ExpaObject> cachedObjects = new();
         public ExpaObject GetObject(string identifier){
@@ -129,9 +130,11 @@ namespace FileHandler{
         public bool ItemExists(string key, string table, string column) => RSearchTable(key, table, column).HasRows;
     }
     
-    // public class WriteObjects: FileHandlerBase{
-    //     public WriteObjects
-    // }
+    public class WriteObjects: FileHandlerBase{
+        public WriteObjects(string filePath): base(filePath){
+
+        }
+    }
 }
 
 namespace StorageObjects{

@@ -12,13 +12,17 @@ namespace New{
     using System.Security.Principal;
 
     public class New: Commands{
-        public New(CodeParseTransferrer input): base(input){Parse();}
+        TokenType type;
+        public New(CodeParseTransferrer input): base(input){
+            current++;
+            type = code[current].tokenType;
+            Parse();
+        }
         public static readonly HashSet<string> identifiers = new();
         public override void Parse(){
             //new
             //parse all stuff before going into type-specific stuff
-            current++;
-            TokenType type = code[current].tokenType;
+            
             current++;
             if(code[current].tokenType != TokenType.IDENTIFIER){throw new ExpaSyntaxError(code[current].line,$"Expected identifier, got {code[current].tokenType}");}
             string identifier = code[current].lexeme;
@@ -41,14 +45,15 @@ namespace New{
             }
             switch(type){
                 case TokenType.TEMPLATE: Template(args, identifier, display, comment); break;
-                case TokenType.NATION: Nation(args, identifier, display, comment); break;
+                case TokenType.NATION: Nation(args, identifier, display, comment); break; 
                 case TokenType.AREA: Area(args, identifier, display, comment); break;
+                case TokenType.FUNCTION: Function(args, identifier, display, comment); break;
             }
             parent.AddChild(identifier);
             Parser.expaObjects[identifier].AddParent(parent.TokenIdentifier.lexeme);
             new ParseScope.ParseScope(Parser.unparsedScopes![identifier]);
         }
-        private void Template(ArgumentDict? args, string identifier, string display, string? comment){
+                private void Template(ArgumentDict? args, string identifier, string display, string? comment){
             if(args == null){
                 //backtrack. If at any point it is unclear, throw an error.
                 if(parent.children.Contains(identifier)){throw new ExpaReassignmentError(code[current].line);}
@@ -173,6 +178,17 @@ namespace New{
                 throw new ExpaSyntaxError(code[current].line, $"There was no definition for {identifier} found. Error occurred near");
             }
         }
+        
+        private void Function(ArgumentDict? args, string identifier, string display, string? comment){
+            try{
+                Parser.expaObjects[identifier] = new ExpaFunction((ICanBeParent<ExpaFunction>)parent, Parser.unparsedScopes[identifier], display, comment);
+                return;
+            } catch(InvalidCastException){
+                throw new ExpaArgumentError(code[current].line, "Invalid parent or nation; please specify a valid parent as per the docs or specify a valid nation parent. Near:");
+            } catch(KeyNotFoundException){
+                throw new ExpaArgumentError(code[current].line, $"Could not find a definition corresponding to the function {identifier}");
+            }            
+        }
         private static int IsValidSize(Token size){
             //if size is a number then parse and return else throw
             if(size.tokenType == TokenType.NUMBER){
@@ -196,6 +212,21 @@ namespace New{
                 current += 4;
             }
             return args;
+        }
+        private ArgumentDict ExtractArguments(ArgumentDict args){
+            List<Token[]> argList = new();
+            current++;
+            start = current;
+            while(code[current].tokenType!= TokenType.RIGHTPAREN){
+                if(code[current].tokenType == TokenType.SEMICOLON){
+                    argList.Add(code[start..(current+1)]);
+                    start = current;
+                }
+                current++;
+            }
+            foreach(Token[] argLine in argList){
+                if(argLine)
+            }
         }
         private ExpaNation GetNationParent(ExpaObject input){
             //input target object

@@ -13,6 +13,17 @@ namespace lexer{
         public Token[] GetTokens(){
             while(!isAtEnd()){
                 switch(code[current]){
+                    case '[':
+                        tokenList.Add(new(TokenType.LEFTSQUAREBRACKET, line, "[", null));
+                        current++;
+                        start = current;
+                        break;
+                    case ']':
+                        tokenList.Add(new(TokenType.RIGHTSQUAREBRACKET, line, "[", null));
+                        current++;
+                        start = current;
+                        break;
+ 
                     case '(':
                         tokenList.Add(new Token(TokenType.LEFTPAREN, line, "(", null));
                         current++;

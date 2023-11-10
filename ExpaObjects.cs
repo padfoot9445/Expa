@@ -64,7 +64,7 @@ namespace ExpaObjects{
 
     }
 
-    public class ExpaTemplate: ExpaNameSpace{
+    public class ExpaTemplate: ExpaNameSpace, IReusable{
         public ExpaNation nation;
         public bool equalize;
         static readonly HashSet<TokenType> allowedKw = new(){
@@ -76,9 +76,10 @@ namespace ExpaObjects{
             this.nation = nation;
             this.equalize = equalize;
         }
+        public void Reuse(){}
     }
 
-    public class ExpaNation: ExpaNameSpace, IHasTime, ICanBeParent<ExpaNation>, ICanBeParent<ExpaArea>, IHasMinMaxSize{
+    public class ExpaNation: ExpaNameSpace, IHasTime, ICanBeParent<ExpaNation>, ICanBeParent<ExpaArea>, ICanBeParent<ExpaFunction>, IHasMinMaxSize{
         public Time Time{get; private set;}
         public int MaxChildShipSize{get; set;}
         public int MinChildShipSize{get; set;}
@@ -101,7 +102,7 @@ namespace ExpaObjects{
             this.Time = time;
         }
     }
-    public class ExpaArea : ExpaNameSpace, ICanBeParent<ExpaArea>, IHasMinMaxSize{
+    public class ExpaArea : ExpaNameSpace, ICanBeParent<ExpaArea>,ICanBeParent<ExpaFunction>, IHasMinMaxSize{
         public ExpaNation mainNationParent;
         public int MinChildShipSize{get; set;}
         public int MaxChildShipSize{get; set;}
@@ -117,6 +118,16 @@ namespace ExpaObjects{
         public ExpaTime(ExpaNameSpace parent, Token identifier, Time time, string? display = null, string? comment = null) : base(parent, identifier, display, comment){
             Time = time;
         }
+    }
+    public class ExpaFunction: ExpaNameSpace, IReusable, ICanBeParent<ExpaFunction>{
+        private StaticCommands[] privateCommands = Array.Empty<StaticCommands>();
+        public StaticCommands[] commands{get => privateCommands; set{privateCommands = value;}}
+        public ExpaFunction(ICanBeParent<ExpaFunction> parent, Scope scope, string? display = null, string? comment = null) : base((ExpaNameSpace)parent, scope, display, comment){
+        }
+        public void Reuse(){
+            
+        }
+        
     }
 
         
@@ -228,4 +239,15 @@ namespace BackgroundObjects{
         public int MinChildShipSize{get; set;}
     }
     public interface IHasMinMaxSize: IHasMaxSize, IHasMinSize{}
+    public interface IReusable{
+        public void Reuse();
+    }
+    public class StaticCommands{
+        public void Execute(){
+            
+        }
+        public StaticCommands(){
+            throw new NotImplementedException();
+        }
+    }
 }
