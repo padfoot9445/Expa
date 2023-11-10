@@ -8,6 +8,7 @@ namespace New{
     using ArgumentDict = Dictionary<Tokens.TokenType, Tokens.Token>;
     using BackgroundObjects;
     using Helpers;
+    using System.Linq;
     using System.ComponentModel.DataAnnotations;
     using System.Security.Principal;
 
@@ -198,35 +199,27 @@ namespace New{
                 }
         }
         private ArgumentDict ExtractArguments(ArgumentDict args){
-            current++;
-            while(code[current].tokenType != TokenType.RIGHTPAREN){
-                if(!Keywords.IsValidArgumentName(code[current].tokenType)){
-                    throw new ExpaSyntaxError(code[current].line, $"Invalid argument type {code[current].lexeme}");
-                } else if(code[current + 1].tokenType != TokenType.COLON){
-                    throw new ExpaSyntaxError(code[current + 1].line, $"Invalid token(Expected ':', got {code[current+1].lexeme} instead)");
-                } else if(code[current + 3].tokenType != TokenType.SEMICOLON && code[current + 3].tokenType != TokenType.RIGHTPAREN){
-                    throw new ExpaSyntaxError(code[current + 3].line, $"Expected semicolon, got {code[current + 3].lexeme}");
-                }
-                args[code[current].tokenType] = code[current + 2];
-                if(code[current + 3].tokenType == TokenType.RIGHTPAREN){current += 4; break;}
-                current += 4;
-            }
-            return args;
-        }
-        private ArgumentDict ExtractArguments(ArgumentDict args){
             List<Token[]> argList = new();
             current++;
             start = current;
+            TokenType i;
             while(code[current].tokenType!= TokenType.RIGHTPAREN){
                 if(code[current].tokenType == TokenType.SEMICOLON){
-                    argList.Add(code[start..(current+1)]);
+                    argList.Add(code[start..current]);//no +1 on the current to skip the semicolon
                     start = current;
                 }
                 current++;
             }
             foreach(Token[] argLine in argList){
-                if(argLine)
+                if(argLine.Any(x => x.tokenType == TokenType.COLON)){
+                    args[Keywords.IsValidArgumentName(i = argLine[0].tokenType)? i: throw new ExpaArgumentError(code[current].line,$"Invalid argument type {code[current].lexeme}")] = argLine[2];
+                    //if there is a kwarg, but the kw is not valid, throw.
+                } else{
+                    args[(i = Converters.IntToTType(++current)) == TokenType.INTERPRETERNULL? throw new ExpaArgumentError(code[current].line, $"Max positional argument count exceeded(max: {current-1})"): i] = argLine[0];
+                    //if the conversion returns InterpreterNull, that means that the conversion failed, and thus also means that the positional argument limit was exceeded.
+                }
             }
+            return args;
         }
         private ExpaNation GetNationParent(ExpaObject input){
             //input target object

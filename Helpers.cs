@@ -78,6 +78,12 @@ namespace Helpers{
                 default: throw new KeyNotFoundException($"{input} not found in StringToType");
             }
         }
+        public static TokenType IntToTType(int input){
+            switch(input){
+                case 1: return TokenType.ONE;
+                default: return TokenType.INTERPRETERNULL;
+            }
+        }
     }
     public static class UID{
         private static readonly HashSet<double> existing = new();

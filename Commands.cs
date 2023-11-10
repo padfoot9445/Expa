@@ -5,7 +5,8 @@ namespace Commands{
     using ExpaObjects;
     abstract public class Commands{
         public int start;
-        public int current{get; set;}
+        public int current;
+        public int argNum = 0;
         public Token[] code;
         public ExpaNameSpace parent;
         public Commands(CodeParseTransferrer input){

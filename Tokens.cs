@@ -153,11 +153,13 @@ namespace Tokens{
         INT,
         STRINGVAR,
         BOOL,
-        INTERPRETERNULL,
         LEFTSQUAREBRACKET,
         RIGHTSQUAREBRACKET,
         COMPONENT,
-        ALIAS
+        ALIAS,
+        //Interpreter only Tokens:
+        INTERPRETERNULL,
+        ONE
     }
     //implement arguments, round(true, false);
     public class Token{
