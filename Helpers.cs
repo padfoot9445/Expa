@@ -20,7 +20,7 @@ namespace Helpers{
             Console.WriteLine($"Time: {input.Time}");
         }
         public static void PPrint(ExpaGlobal input){
-            PPrint((ExpaNameSpace)input);
+            PPrint((BaseNameSpace)input);
             PPrint((IHasTime)input);
         }
         public static void PPrint(IHasMinMaxSize input){
@@ -29,14 +29,14 @@ namespace Helpers{
         public static void PPrint(ExpaNation input, bool printScope = false){
             PPrint((IHasMinMaxSize)input);
             PPrint((IHasTime)input);
-            PPrint((ExpaNameSpace)input, printScope);
+            PPrint((BaseNameSpace)input, printScope);
         }
         public static void PPrint(ExpaArea input){
             Console.WriteLine($"MainNationParent: {input.mainNationParent}");
             PPrint((IHasMinMaxSize)input);
-            PPrint((ExpaNameSpace)input);
+            PPrint((BaseNameSpace)input);
         }
-        public static void PPrint(ExpaObject input){
+        public static void PPrint(BaseObject input){
             Console.WriteLine("identifier:");
             Console.WriteLine(input.TokenIdentifier);
             Console.WriteLine("Parents:");
@@ -46,13 +46,13 @@ namespace Helpers{
             Console.WriteLine("Comment:");
             Console.WriteLine(input.comment);
         }
-        public static void PPrint(ExpaNameSpace input, bool printScope=false){
+        public static void PPrint(BaseNameSpace input, bool printScope=false){
             if(printScope){
                 PPrint(input.scope);
             }
             Console.WriteLine("Children:");
             PPrint<string>(input.children);
-            PPrint((ExpaObject)input);
+            PPrint((BaseObject)input);
         }
         public static void PPrint(Structs.Scope input){
             Console.WriteLine($"***SCOPE***\n\tidentifier = {input.TokenIdentifier}\n\ttype={input.TType}\n\t"); 
@@ -74,7 +74,7 @@ namespace Helpers{
                 case "global": return typeof(ExpaGlobal);
                 case "nation": return typeof(ExpaNation);
                 case "template": return typeof(ExpaTemplate);
-                case "time": return typeof(BackgroundObjects.Time);
+                case "time": return typeof(BackgroundObjects.BackgroundTime);
                 default: throw new KeyNotFoundException($"{input} not found in StringToType");
             }
         }

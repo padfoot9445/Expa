@@ -8,7 +8,7 @@ namespace Commands{
         public int current;
         public int argNum = 0;
         public Token[] code;
-        public ExpaNameSpace parent;
+        public BaseNameSpace parent;
         public Commands(CodeParseTransferrer input){
             current = input.current;
             start = current;

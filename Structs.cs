@@ -36,21 +36,27 @@ namespace Structs{
     public readonly struct CodeParseTransferrer{
         public readonly int current;
         public readonly Token[] tokenList;
-        public readonly ExpaNameSpace parent;
-        public CodeParseTransferrer(int current, Token[] tokenList, ExpaNameSpace parent){
+        public readonly BaseNameSpace parent;
+        public CodeParseTransferrer(int current, Token[] tokenList, BaseNameSpace parent){
             this.current = current;
             this.tokenList = tokenList;
             this.parent = parent;
         }
     }
     public readonly struct Result{
-        public readonly ExpaObject expaObject;
+        public readonly BaseObject expaObject;
         public readonly string[] parentIdentifiers;
         public readonly string[]? childIdentifiers;
-        public Result(ExpaObject expaObject, string[] parentIdentifiers, string[] childIdentifiers){
+        public Result(BaseObject expaObject, string[] parentIdentifiers, string[] childIdentifiers){
             this.expaObject = expaObject;
             this.parentIdentifiers = parentIdentifiers;
             this.childIdentifiers = childIdentifiers;
         }
+    }
+    public readonly struct BackgroundArgument{
+       public readonly string name;
+       public readonly TokenType type;
+       public readonly int position;
+
     }
 }

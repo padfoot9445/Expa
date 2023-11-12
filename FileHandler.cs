@@ -26,7 +26,8 @@ namespace FileHandler{
                 "CREATE TABLE IF NOT EXISTS Objects (identifier string,  type string,  parents string, display string,  comment string,  children string)",
                 "CREATE TABLE IF NOT EXISTS Global (identifier string, time int)",
                 "CREATE TABLE IF NOT EXISTS Nation (identifier string, time int, minChildShipSize int, maxChildShipSize int)",
-                "CREATE TABLE IF NOT EXISTS Area (identifier string, minChildShipSize int, maxChildShipSize int)"
+                "CREATE TABLE IF NOT EXISTS Area (identifier string, minChildShipSize int, maxChildShipSize int)",
+                
             };
             foreach(var command in commands){
                 ExecuteNonQuery(command);
@@ -53,10 +54,10 @@ namespace FileHandler{
 
             writer = new(filePath);
         }
-        private readonly Dictionary<string, ExpaObject> cachedObjects = new();
-        public ExpaObject GetObject(string identifier){
+        private readonly Dictionary<string, BaseObject> cachedObjects = new();
+        public BaseObject GetObject(string identifier){
             Result searchResult = SearchDB(identifier);
-            ExpaObject AddParents(ExpaObject expaObject){
+            BaseObject AddParents(BaseObject expaObject){
                 if(searchResult.parentIdentifiers[0] != ""){
                     foreach(string parentIdentifier in searchResult.parentIdentifiers){
                         expaObject.AddParent(parentIdentifier);
@@ -67,7 +68,7 @@ namespace FileHandler{
             }
 
             if(searchResult.childIdentifiers != null && searchResult.childIdentifiers[0] != ""){
-                ExpaNameSpace expaObject = (ExpaNameSpace)searchResult.expaObject;
+                BaseNameSpace expaObject = (BaseNameSpace)searchResult.expaObject;
                 foreach(string childIdentifier in searchResult.childIdentifiers){
                     expaObject.AddChild(childIdentifier);
                     if(!cachedObjects.ContainsKey(childIdentifier)){cachedObjects[childIdentifier] = GetObject(childIdentifier);}
@@ -92,11 +93,12 @@ namespace FileHandler{
                 while(reader.Read()){
                     string[] parents = reader.GetString(PARENTSORDINAL).Split(',');
                     SqliteDataReader paramReader = IdentifierSearchTable(reader.GetString(IDENTIFIERORDINAL), reader.GetString(TYPEORDINAL));
-                    ExpaObject expaObject = reader.GetString(TYPEORDINAL) switch{
+                    BaseObject expaObject = reader.GetString(TYPEORDINAL) switch{
                         //if there is somehow an error here it has to be reported as a compiler error, not a user error
-                        "global" => new ExpaGlobal(Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], Time.ParseAcTime(paramReader["time"].ToString()!), reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
-                        "nation" => new ExpaNation((ICanBeParent<ExpaNation>)GetObject(parents[0]), Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)],(Time)paramReader["time"],(int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
-                        "area" => new ExpaArea((ICanBeParent<ExpaArea>)GetObject(parents[0]), (ExpaNation)GetObject(paramReader["nationParent"].ToString()!), (int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)), 
+                        "global" => new ExpaGlobal(Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], BackgroundTime.ParseAcTime(paramReader["time"].ToString()!), reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
+                        "nation" => new ExpaNation((ICanBeParent<ExpaNation>)GetObject(parents[0]), Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)],(BackgroundTime)paramReader["time"],(int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
+                        "area" => new ExpaArea((ICanBeParent<ExpaArea>)GetObject(parents[0]), (ExpaNation)GetObject(paramReader["nationParent"].ToString()!), (int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
+                        "function"
                         _ => throw new MainException("error while parsing db file")
                     };
                     rl.Add(new Result(expaObject, parents,reader["children"].ToString()!.Split(',')/*children*/));

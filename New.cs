@@ -9,6 +9,8 @@ namespace New{
     using BackgroundObjects;
     using Helpers;
     using System.Linq;
+    using Metadata;
+    using Interfaces;
     using System.ComponentModel.DataAnnotations;
     using System.Security.Principal;
 
@@ -54,7 +56,7 @@ namespace New{
             Parser.expaObjects[identifier].AddParent(parent.TokenIdentifier.lexeme);
             new ParseScope.ParseScope(Parser.unparsedScopes![identifier]);
         }
-                private void Template(ArgumentDict? args, string identifier, string display, string? comment){
+        private void Template(ArgumentDict? args, string identifier, string display, string? comment){
             if(args == null){
                 //backtrack. If at any point it is unclear, throw an error.
                 if(parent.children.Contains(identifier)){throw new ExpaReassignmentError(code[current].line);}
@@ -110,18 +112,18 @@ namespace New{
                 /* #region */
                     (
                         value.tokenType == TokenType.NUMBER?//is it a number-like token? if yes, then parse it as a decimal AC time.
-                        BackgroundObjects.Time.ParseAcTime(value.literal!):
+                        BackgroundObjects.BackgroundTime.ParseAcTime(value.literal!):
                         /* #region */
                         (
                             value.tokenType == TokenType.MONTHTIME?//if it is month-like, then parse it as a month-like token
-                            Time.ParseMonthTime(value.literal!)://if not,
+                            BackgroundTime.ParseMonthTime(value.literal!)://if not,
                             /*#region */
                             (
                                 /*#region*/
                                 (
                                     value.tokenType == TokenType.IDENTIFIER//if it is an identifier - it could possibly be a time reference
                                     &&
-                                    Parser.expaObjects.TryGetValue(value.lexeme, out ExpaObject? TValue)//and it actually is an identifier
+                                    Parser.expaObjects.TryGetValue(value.lexeme, out BaseObject? TValue)//and it actually is an identifier
                                     &&
                                     TValue is ExpaTime time//and the referenced object is a User-accessable time object
                                 )?/*#endregion*/
@@ -130,7 +132,7 @@ namespace New{
                             ) /*#endregion*/
                         )/*#endregion*/
                     ): /* #endregion */
-                ((BackgroundObjects.IHasTime)parent).Time, 
+                ((IHasTime)parent).Time, 
                 args.TryGetValue(TokenType.MINSIZE, out Token? minSizeV)? IsValidSize(minSizeV) : Defaults.MINCSS,
                 args.TryGetValue(TokenType.MAXSIZE, out Token? maxSizeV)? IsValidSize(maxSizeV): Defaults.MAXCSS, //IsValidSize returns int
                 args.TryGetValue(TokenType.DISPLAY, out Token? displayV)? displayV.literal! : null,
@@ -221,13 +223,13 @@ namespace New{
             }
             return args;
         }
-        private ExpaNation GetNationParent(ExpaObject input){
+        private ExpaNation GetNationParent(BaseObject input){
             //input target object
             ExpaNation? nation = null;
             ExpaNation? tempNation = null;
             //where there is a nation in the lineage, that is the nation. else, we keep going
             if(parent.parents.Contains("global")){throw new ExpaSyntaxError(code[current].line, $"Unable to backtrace valid nation origin, please explicitly declare the nation");}
-            ExpaObject value;
+            BaseObject value;
             foreach(string sv in input.parents){
                 value = Parser.expaObjects[sv];
                 if(value is ExpaNation){

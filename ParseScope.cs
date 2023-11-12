@@ -10,11 +10,11 @@ namespace ParseScope{
         private readonly Scope scope;
         private int current = 0;
         private readonly Token[] code;
-        private readonly ExpaNameSpace self;
+        private readonly BaseNameSpace self;
         public ParseScope(Scope aScope){
             scope = aScope;
             code = scope.Code;
-            self = (ExpaNameSpace)Parser.expaObjects[scope.TokenIdentifier.lexeme];
+            self = (BaseNameSpace)Parser.expaObjects[scope.TokenIdentifier.lexeme];
             Parser.unparsedScopes!.Remove(scope.TokenIdentifier.lexeme);
             if(scope.TType == TokenType.TEMPLATE){
                 ParseTemplate();

@@ -13,7 +13,7 @@ namespace Parser{
     public class Parser{
         public static Token[] tokens{get; private set;} = Array.Empty<Token>();
         public static Dictionary<string, Scope> unparsedScopes{get; private set;} = new();
-        public static readonly Dictionary<string, ExpaObject> expaObjects = new();
+        public static readonly Dictionary<string, BaseObject> expaObjects = new();
         public ExpaGlobal? expaGlobal;
         public static FileHandler? FileHandler{get; private set;}
         public static void SetParser(Token[] aTokens, FileHandler fileHandler){//due to fileHandler reasons, we extract the scopes before initializing the Parser object
@@ -30,7 +30,7 @@ namespace Parser{
             if(IdentifierSet.Contains("global")){
                 expaObjects["global"] = FileHandler.GetObject("global");
             } else{
-                expaObjects["global"] = new ExpaGlobal(unparsedScopes["global"], new Time(0,0));
+                expaObjects["global"] = new ExpaGlobal(unparsedScopes["global"], new BackgroundTime(0,0));
             }
             
         }
