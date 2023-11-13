@@ -82,6 +82,7 @@ namespace FileHandler{
         public Result SearchDB(string key)=>SearchTable(key, "Objects");
         public Result SearchTable(string key, string table)=>CSearchTable(key, table, "identifier")[0];
         public SqliteDataReader IdentifierSearchTable(string id, string table) => RSearchTable(id, table, "identifier");
+        //TODO: add capability to get structs from memory(for function arguments, etc)
         public Result[] CSearchTable(string key, string table, string column){
             //assume the caller knows the thing exists
             List<Result> rl = new();
