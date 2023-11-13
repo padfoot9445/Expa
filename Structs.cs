@@ -1,6 +1,6 @@
-namespace Structs{
+namespace Structs
+{
     using Tokens;
-    using ExpaObjects;
     using BackgroundObjects;
     public readonly struct Scope{
             public readonly Token __identifier;

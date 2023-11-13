@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-namespace interpreter{
+namespace interpreter
+{
 
     using lexer;
     using Helpers;
-	using Errors;
+    using Errors;
     using System.IO;
-    using BackgroundObjects;
     using Parser;
     using ExpaObjects;
 

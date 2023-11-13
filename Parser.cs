@@ -1,9 +1,6 @@
-using System;
-namespace Parser{
-    
-    using System.Data.Common;
+namespace Parser
+{
     using Helpers;
-	using Errors;
     using Tokens;
     using ExpaObjects;
     using Structs;

@@ -1,17 +1,11 @@
-using Errors;
-using Tokens;
-
-namespace ExpaObjects{
+namespace ExpaObjects
+{
     using Tokens;
     using Structs;
     using BackgroundObjects;
-    using System.Data.Common;
-    using System.Runtime.Serialization;
     using Helpers;
-    using Parser;
     using Metadata;
     using Interfaces;
-    using System.ComponentModel;
 
     //*Namespaces
     /*#region Namespaces*/

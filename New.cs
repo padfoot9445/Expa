@@ -1,4 +1,5 @@
-namespace New{
+namespace New
+{
     using Commands;
     using Structs;
     using Errors;
@@ -11,8 +12,6 @@ namespace New{
     using System.Linq;
     using Metadata;
     using Interfaces;
-    using System.ComponentModel.DataAnnotations;
-    using System.Security.Principal;
 
     public class New: Commands{
         TokenType type;
@@ -127,7 +126,7 @@ namespace New{
                                     &&
                                     TValue is ExpaTime time//and the referenced object is a User-accessable time object
                                 )?/*#endregion*/
-                                time.Time://if so, return it as a Background-Time object
+                                time.Value://if so, return it as a Background-Time object
                                 throw new ExpaArgumentError(value.line, "Invalid argument for `time`")//invalid because can't parse and isn't a identifier which is a time reference.
                             ) /*#endregion*/
                         )/*#endregion*/

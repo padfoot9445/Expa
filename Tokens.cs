@@ -1,5 +1,5 @@
-namespace Tokens{
-    using System.Collections.Generic;
+namespace Tokens
+{
     public static class Keywords{
         public static TokenType keywords(string input){
             switch(input){

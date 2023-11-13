@@ -1,6 +1,5 @@
-namespace Metadata{
-    using BackgroundObjects;
-    using Tokens;
+namespace Metadata
+{
     public interface ICanBeParent<T>{}
     public interface IDependee{}
     

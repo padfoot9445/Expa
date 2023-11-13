@@ -1,7 +1,7 @@
-namespace BackgroundObjects{
+namespace BackgroundObjects
+{
     using Errors;
     using Tokens;
-    using ExpaObjects;
     using Parser;
     using Structs;
     using Interfaces;

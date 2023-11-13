@@ -1,7 +1,7 @@
-namespace Interfaces{
+namespace Interfaces
+{
     using BackgroundObjects;
     using Metadata;
-    using Tokens;
     public interface IReusable{
         public void Reuse();
     }

@@ -1,11 +1,10 @@
-namespace ParseScope{
+namespace ParseScope
+{
     using Structs;
-    using ExpaObjects;
     using Parser;
     using Tokens;
-    using Helpers;
-	using Errors;
     using New;
+    using BackgroundObjects;
     public class ParseScope{
         private readonly Scope scope;
         private int current = 0;
@@ -25,7 +24,6 @@ namespace ParseScope{
         }
         
         private void Parse(){
-            int start = 0;
             int length = code.Length;
             while(current < length){
                 //for every token; 
