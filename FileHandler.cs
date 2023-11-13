@@ -5,6 +5,7 @@ namespace FileHandler{
     using BackgroundObjects;
     using Errors;
     using Parser;
+    using Metadata;
     public abstract class FileHandlerBase{
         public readonly string filePath;
         public SqliteConnection connection;
@@ -98,8 +99,8 @@ namespace FileHandler{
                         "global" => new ExpaGlobal(Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], BackgroundTime.ParseAcTime(paramReader["time"].ToString()!), reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
                         "nation" => new ExpaNation((ICanBeParent<ExpaNation>)GetObject(parents[0]), Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)],(BackgroundTime)paramReader["time"],(int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
                         "area" => new ExpaArea((ICanBeParent<ExpaArea>)GetObject(parents[0]), (ExpaNation)GetObject(paramReader["nationParent"].ToString()!), (int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
-                        "function"
                         _ => throw new MainException("error while parsing db file")
+                        //TODO: Add loading support for various objects
                     };
                     rl.Add(new Result(expaObject, parents,reader["children"].ToString()!.Split(',')/*children*/));
                 }

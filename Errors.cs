@@ -67,7 +67,7 @@ namespace Errors{
             System.Runtime.Serialization.StreamingContext context): base(info, context) { }
     }
     public class ExpaWarning{
-        static List<ExpaWarning> warnings = new List<ExpaWarning>();
+        static List<ExpaWarning> warnings = new();
         public ExpaWarning(){
             
         }

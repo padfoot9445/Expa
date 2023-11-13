@@ -31,7 +31,7 @@ namespace Interfaces{
     public interface IHasTime{
         public BackgroundTime Time{get;}
     }
-    public interface IExpaValue<T> where T : IBackgroundValue{
+    public interface IExpaValue<T> where T : IBackgroundValue {
         public T Value {get;}
     }
     /*#endregion*/
@@ -45,7 +45,7 @@ namespace Interfaces{
         /// </summary>
         /// <param name="other"></param>
         /// <returns>Bool | throws ExpaArgumentError</returns>
-        public bool Equals(object other);
+        public bool Equals(object? other);
         public string ToString();
     }
     

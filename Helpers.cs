@@ -3,6 +3,7 @@ using ExpaObjects;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Tokens;
+using Interfaces;
 namespace Helpers{
    
     public static class PPrinter{    
@@ -66,6 +67,7 @@ namespace Helpers{
             Array.Copy(array, start,result, 0, end - start);
             return result;
         }
+        public static string Truncate(this string value, int maxLength) => value.Length <= maxLength ? value : value[0..maxLength];
     }
 
     public static class Converters{

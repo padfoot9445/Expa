@@ -11,6 +11,8 @@ namespace ExpaObjects{
     using Parser;
     using Metadata;
     using Interfaces;
+    using System.ComponentModel;
+
     //*Namespaces
     /*#region Namespaces*/
     public class ExpaGlobal : BaseNameSpace, IHasTime, ICanBeParent<ExpaNation>{
@@ -75,27 +77,36 @@ namespace ExpaObjects{
     /*#endregion*/
     //*Values
     /*#region Values*/
-    public class ExpaTime: BaseObject,IHasTime{
-        public BackgroundTime Time{get; private set;}
+    public class ExpaTime: BaseObject, IExpaValue<BackgroundTime>{//not IHasTime because the time object itself does not have a time, and also it doesn't make sense programtically.
+        public BackgroundTime Value{get; private set;}
         public ExpaTime(BaseNameSpace parent, Token identifier, BackgroundTime time, string? display = null, string? comment = null) : base(parent, identifier, display, comment){
-            Time = time;
+            Value = time;
         }
     }
-    
-    public class ExpaNumber : BaseObject{
-        public readonly string value;
-        public readonly int wholeNumber;
-        public readonly int decimalNumber;
-        //<summary>Value should be in format [0-9]*.[0-9]* or [0-9]*</summary>
-        public ExpaNumber(BaseNameSpace parent,string value, Token identifier, string? display = null, string? comment = null) : base(parent, identifier, display, comment){
-            this.value = value;
-            string[] parts = value.Split('.');
-            if(parts.Length > 2){
-                throw new ExpaInterpreterError(-1, "Invalid number passed to number class - authenticate before construction.");
-            }
-        }
-
+        //*Primitives
+        /*#region Primitives*/
+    public class ExpaNumber : BaseObject, IExpaValue<BackgroundNumber>{
+        public BackgroundNumber Value{ get; private set; }
+        public ExpaNumber(BaseNameSpace parent, Token identifier, BackgroundNumber value, string? display = null, string? comment = null) : base(parent, identifier, display, comment) => this.Value = value;
+        public static double operator +(ExpaNumber self, object? other) => (double)(self.Value + other);
+        public static double operator -(ExpaNumber self, object? other) => (double)(self.Value - other);
+        public static double operator *(ExpaNumber self, object? other) => (double)(self.Value * other);
+        public static double operator /(ExpaNumber self, object? other) => (double)(self.Value / other);
+        public static bool operator ==(ExpaNumber self, object? other) => self.Value == other;
+        public static bool operator !=(ExpaNumber self, object? other) => !(self.Value == other);
+        public override bool Equals(object? other) => this == other;
+        public override int GetHashCode() => Value.GetHashCode();
     }
+    public class ExpaBool : BaseObject, IExpaValue<BackgroundBool>{
+        public BackgroundBool Value{ get; private set; }
+        public ExpaBool(BaseNameSpace parent, Token identifier, BackgroundBool value, string? display = null, string? comment = null) : base(parent, identifier, display, comment) => this.Value = value;       
+    }
+    public class ExpaString : BaseObject, IExpaValue<BackgroundString>{
+        public BackgroundString Value{ get; private set; }
+        public ExpaString(BaseNameSpace parent, Token identifier, BackgroundString value, string? display = null, string? comment = null) : base(parent, identifier, display, comment) => this.Value = value;
+        public static string operator +(ExpaString self, object? other) => (string)(self.Value + other);
+    }
+        /*#endregion*/
     /*#endregion*/
     //*Constructables
     /*#region*/
