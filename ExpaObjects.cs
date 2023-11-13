@@ -45,7 +45,8 @@ namespace ExpaObjects
     }
     public class ExpaFunction: BaseNameSpace, IReusable, ICanBeParent<ExpaFunction>{
         private StaticCommands[] privateCommands = Array.Empty<StaticCommands>();
-        public StaticCommands[] commands{get => privateCommands; set{privateCommands = value;}}
+        public StaticCommands[] Commands{get => privateCommands; set{privateCommands = value;}}
+        
         
         public ExpaFunction(ICanBeParent<ExpaFunction> parent, Scope scope, string? display = null, string? comment = null) : base((BaseNameSpace)parent, scope, display, comment){
         }
