@@ -10,6 +10,7 @@ namespace Parser
     public class Parser{
         public static Token[] tokens{get; private set;} = Array.Empty<Token>();
         public static Dictionary<string, Scope> unparsedScopes{get; private set;} = new();
+        public static Scope UnparsedScopes(string input, TokenType type) => unparsedScopes.TryGetValue(input,out Scope value)? value: new(new Token(TokenType.IDENTIFIER, -1, input, input), type, new Token[]{});
         public static readonly Dictionary<string, BaseObject> expaObjects = new();
         public ExpaGlobal? expaGlobal;
         public static FileHandler? FileHandler{get; private set;}

@@ -6,6 +6,7 @@ namespace FileHandler{
     using Errors;
     using Parser;
     using Metadata;
+    using Tokens;
     public abstract class FileHandlerBase{
         public readonly string filePath;
         public SqliteConnection connection;
@@ -28,6 +29,7 @@ namespace FileHandler{
                 "CREATE TABLE IF NOT EXISTS Global (identifier string, time int)",
                 "CREATE TABLE IF NOT EXISTS Nation (identifier string, time int, minChildShipSize int, maxChildShipSize int)",
                 "CREATE TABLE IF NOT EXISTS Area (identifier string, minChildShipSize int, maxChildShipSize int)",
+                "CREATE TABLE IF NOT EXISTS Funciton (identifier string, string posOne, string posTwo, string posThree, string posFour)"
                 
             };
             foreach(var command in commands){
@@ -82,7 +84,7 @@ namespace FileHandler{
         public Result SearchDB(string key)=>SearchTable(key, "Objects");
         public Result SearchTable(string key, string table)=>CSearchTable(key, table, "identifier")[0];
         public SqliteDataReader IdentifierSearchTable(string id, string table) => RSearchTable(id, table, "identifier");
-        //TODO: add capability to get structs from memory(for function arguments, etc)
+        //TODO: add capability to get structs from memory(for function arguments, etc) - V1
         public Result[] CSearchTable(string key, string table, string column){
             //assume the caller knows the thing exists
             List<Result> rl = new();
@@ -97,9 +99,10 @@ namespace FileHandler{
                     SqliteDataReader paramReader = IdentifierSearchTable(reader.GetString(IDENTIFIERORDINAL), reader.GetString(TYPEORDINAL));
                     BaseObject expaObject = reader.GetString(TYPEORDINAL) switch{
                         //if there is somehow an error here it has to be reported as a compiler error, not a user error
-                        "global" => new ExpaGlobal(Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], BackgroundTime.ParseAcTime(paramReader["time"].ToString()!), reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
-                        "nation" => new ExpaNation((ICanBeParent<ExpaNation>)GetObject(parents[0]), Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)],(BackgroundTime)paramReader["time"],(int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
+                        "global" => new ExpaGlobal(Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL),TokenType.GLOBAL), BackgroundTime.ParseAcTime(paramReader["time"].ToString()!), reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
+                        "nation" => new ExpaNation((ICanBeParent<ExpaNation>)GetObject(parents[0]), Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL), TokenType.NATION),(BackgroundTime)paramReader["time"],(int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
                         "area" => new ExpaArea((ICanBeParent<ExpaArea>)GetObject(parents[0]), (ExpaNation)GetObject(paramReader["nationParent"].ToString()!), (int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
+                        "function" => new ExpaFunction((ICanBeParent<ExpaFunction>)GetObject(parents[0]), Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL), TokenType.FUNCTION)),
                         _ => throw new MainException("error while parsing db file")
                         //TODO: Add loading support for various objects
                     };
