@@ -3,17 +3,17 @@ namespace ParseScope
     using Structs;
     using Parser;
     using Tokens;
+    using Interfaces;
     using New;
-    using BackgroundObjects;
     public class ParseScope{
         private readonly Scope scope;
         private int current = 0;
         private readonly Token[] code;
-        private readonly BaseNameSpace self;
+        private readonly INameSpace self;
         public ParseScope(Scope aScope){
             scope = aScope;
             code = scope.Code;
-            self = (BaseNameSpace)Parser.expaObjects[scope.TokenIdentifier.lexeme];
+            self = (INameSpace)Parser.expaObjects[scope.TokenIdentifier.lexeme];
             Parser.unparsedScopes!.Remove(scope.TokenIdentifier.lexeme);
             if(scope.TType == TokenType.TEMPLATE){
                 ParseTemplate();

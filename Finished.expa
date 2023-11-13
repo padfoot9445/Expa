@@ -1,0 +1,36 @@
+global{
+    nation Icarus = new([args]);
+    new nation Astela([args]);
+    nation myImaginaryThirdNation = new nation([args]);
+    num mynNm = 12;
+    time mytime = 12.1;
+    time mytime = myNum;
+}
+nation Astela{
+    string smth = "E";//does not collide
+    //MyFunc(1); does not work now
+    new function MyFunc(int, string: bool);//prefered for function declarations as it declares the function signature and does not require aliasing. Function overloading will be supported.
+    //but new function MyFunc; works as well
+    //aliasing functions: function MyAliasedFunc = MyFunc; aliases the entire function family
+    //function MyAliasedFunc = MyFunc(int, string: bool); aliases the specific function overload
+    //it is also possible to not declare rv when declaring functions
+    //new function MyFunc(int, string); but this is not reccomended at all
+    //function aliases 
+}
+nation Icarus{
+    string smth = "f"; // does not collide. 
+    new function MyFunc(int, string: bool);//does not collide; this is basically a fresh copy of the function.
+
+}
+function MyFunc(int value, string name: bool){//bool is the rv
+    if(name == smth){//if this function is declared in a scope that does not have smth declared, there will be an error
+        return true;
+    } else if(smth.Length = value){
+        return true;
+    }
+    return false;
+}
+//new stuff:
+//moveScope(object?, namespace); moves the scope
+//type identifier = link(namespace.object); copies by reference
+//type identifier = namespace.object;//copies by value

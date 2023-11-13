@@ -1,7 +1,9 @@
+using BackgroundObjects;
+using Metadata;
+using Structs;
+
 namespace Interfaces
 {
-    using BackgroundObjects;
-    using Metadata;
     public interface IReusable{
         public void Reuse();
     }
@@ -47,6 +49,18 @@ namespace Interfaces
         /// <returns>Bool | throws ExpaArgumentError</returns>
         public bool Equals(object? other);
         public string ToString();
+    }
+    public interface IExpaNonGlobalObject: IExpaObject{
+        public string ParentStringID{ get; init; }
+        public string Display{ get; set; }
+        public string Comment{ get; set; }
+        public string StringIdentifier{ get; }
+        public string StringID();
+
+    }
+    public interface INameSpace: IExpaNonGlobalObject{
+        public string[] ChildrenStringIDs{ get; }
+        public Scope Scope{ get; }
     }
     
 }

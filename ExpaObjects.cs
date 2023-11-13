@@ -1,12 +1,12 @@
+using Tokens;
+using Structs;
+using BackgroundObjects;
+using Helpers;
+using Metadata;
+using Interfaces;
+
 namespace ExpaObjects
 {
-    using Tokens;
-    using Structs;
-    using BackgroundObjects;
-    using Helpers;
-    using Metadata;
-    using Interfaces;
-
     //*Namespaces
     /*#region Namespaces*/
     public class ExpaGlobal : BaseNameSpace, IHasTime, ICanBeParent<ExpaNation>{
@@ -46,7 +46,7 @@ namespace ExpaObjects
     public class ExpaFunction: BaseNameSpace, IReusable, ICanBeParent<ExpaFunction>{
         private StaticCommands[] privateCommands = Array.Empty<StaticCommands>();
         public StaticCommands[] Commands{get => privateCommands; set{privateCommands = value;}}
-        
+
         
         public ExpaFunction(ICanBeParent<ExpaFunction> parent, Scope scope, string? display = null, string? comment = null) : base((BaseNameSpace)parent, scope, display, comment){
         }
@@ -68,11 +68,12 @@ namespace ExpaObjects
             this.equalize = equalize;
         }
         public void Reuse(){}
+        public int I(int e) => e + 1;
     }
     /*#endregion*/
     //*Values
     /*#region Values*/
-    public class ExpaTime: BaseObject, IExpaValue<BackgroundTime>{//not IHasTime because the time object itself does not have a time, and also it doesn't make sense programtically.
+    public class ExpaTime: IBaseObject, IExpaValue<BackgroundTime>{//not IHasTime because the time object itself does not have a time, and also it doesn't make sense programtically.
         public BackgroundTime Value{get; private set;}
         public ExpaTime(BaseNameSpace parent, Token identifier, BackgroundTime time, string? display = null, string? comment = null) : base(parent, identifier, display, comment){
             Value = time;
@@ -80,7 +81,7 @@ namespace ExpaObjects
     }
         //*Primitives
         /*#region Primitives*/
-    public class ExpaNumber : BaseObject, IExpaValue<BackgroundNumber>{
+    public class ExpaNumber : IBaseObject, IExpaValue<BackgroundNumber>{
         public BackgroundNumber Value{ get; private set; }
         public ExpaNumber(BaseNameSpace parent, Token identifier, BackgroundNumber value, string? display = null, string? comment = null) : base(parent, identifier, display, comment) => this.Value = value;
         public static double operator +(ExpaNumber self, object? other) => (double)(self.Value + other);
@@ -92,11 +93,11 @@ namespace ExpaObjects
         public override bool Equals(object? other) => this == other;
         public override int GetHashCode() => Value.GetHashCode();
     }
-    public class ExpaBool : BaseObject, IExpaValue<BackgroundBool>{
+    public class ExpaBool : IBaseObject, IExpaValue<BackgroundBool>{
         public BackgroundBool Value{ get; private set; }
         public ExpaBool(BaseNameSpace parent, Token identifier, BackgroundBool value, string? display = null, string? comment = null) : base(parent, identifier, display, comment) => this.Value = value;       
     }
-    public class ExpaString : BaseObject, IExpaValue<BackgroundString>{
+    public class ExpaString : IBaseObject, IExpaValue<BackgroundString>{
         public BackgroundString Value{ get; private set; }
         public ExpaString(BaseNameSpace parent, Token identifier, BackgroundString value, string? display = null, string? comment = null) : base(parent, identifier, display, comment) => this.Value = value;
         public static string operator +(ExpaString self, object? other) => (string)(self.Value + other);
@@ -105,7 +106,7 @@ namespace ExpaObjects
     /*#endregion*/
     //*Constructables
     /*#region*/
-    public class ExpaShipClass : BaseObject, IConstructable{
+    public class ExpaShipClass : IBaseObject, IConstructable{
         public int Count{get; set;}
         public BackgroundTime Duration{get; private set;}
         public ExpaShipClass(BaseNameSpace parent, Token identifier, BackgroundTime duration, string? display = null, string? comment = null) : base(parent, identifier, display, comment){
@@ -113,7 +114,7 @@ namespace ExpaObjects
             this.Count = 0;
         }
     }
-    public class ExpaComponent : BaseObject, IFastConstructable{
+    public class ExpaComponent : IBaseObject, IFastConstructable{
         public int Amount{get; private set;}
 
         public int Count {get; set;}

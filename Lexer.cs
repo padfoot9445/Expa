@@ -1,6 +1,7 @@
+using Errors;
+using Tokens;
+
 namespace lexer{
-    using Errors;
-    using Tokens;
     class Lexer{
         public string code;
         private int current = 0;

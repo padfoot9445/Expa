@@ -1,12 +1,14 @@
-namespace FileHandler{
-    using Microsoft.Data.Sqlite;
-    using ExpaObjects;
-    using Structs;
-    using BackgroundObjects;
-    using Errors;
-    using Parser;
-    using Metadata;
-    using Tokens;
+using Microsoft.Data.Sqlite;
+using ExpaObjects;
+using Structs;
+using BackgroundObjects;
+using Errors;
+using Metadata;
+using Tokens;
+using Interfaces;
+
+namespace FileHandler
+{
     public abstract class FileHandlerBase{
         public readonly string filePath;
         public SqliteConnection connection;
@@ -57,10 +59,10 @@ namespace FileHandler{
 
             writer = new(filePath);
         }
-        private readonly Dictionary<string, BaseObject> cachedObjects = new();
-        public BaseObject GetObject(string identifier){
+        private readonly Dictionary<string, IExpaNonGlobalObject> cachedObjects = new();
+        public IExpaNonGlobalObject GetObject(string identifier){
             Result searchResult = SearchDB(identifier);
-            BaseObject AddParents(BaseObject expaObject){
+            IExpaNonGlobalObject AddParents(IExpaNonGlobalObject expaObject){
                 if(searchResult.parentIdentifiers[0] != ""){
                     foreach(string parentIdentifier in searchResult.parentIdentifiers){
                         expaObject.AddParent(parentIdentifier);
@@ -97,7 +99,7 @@ namespace FileHandler{
                 while(reader.Read()){
                     string[] parents = reader.GetString(PARENTSORDINAL).Split(',');
                     SqliteDataReader paramReader = IdentifierSearchTable(reader.GetString(IDENTIFIERORDINAL), reader.GetString(TYPEORDINAL));
-                    BaseObject expaObject = reader.GetString(TYPEORDINAL) switch{
+                    IExpaNonGlobalObject expaObject = reader.GetString(TYPEORDINAL) switch{
                         //if there is somehow an error here it has to be reported as a compiler error, not a user error
                         "global" => new ExpaGlobal(Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL),TokenType.GLOBAL), BackgroundTime.ParseAcTime(paramReader["time"].ToString()!), reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
                         "nation" => new ExpaNation((ICanBeParent<ExpaNation>)GetObject(parents[0]), Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL), TokenType.NATION),(BackgroundTime)paramReader["time"],(int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
@@ -144,9 +146,8 @@ namespace FileHandler{
     }
 }
 
-namespace StorageObjects{
-    using ExpaObjects;
-    using System.Collections;
+namespace StorageObjects
+{
     static class Main{
         public static Dictionary<string, ExpaStorageObject> ObjFromClassName = new();
     }

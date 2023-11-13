@@ -1,15 +1,16 @@
+using Tokens;
+using Structs;
+using Errors;
+using Interfaces;
+
 namespace Commands
 {
-    using Tokens;
-    using Structs;
-    using Errors;
-    using BackgroundObjects;
     abstract public class Commands{
         public int start;
         public int current;
         public int argNum = 0;
         public Token[] code;
-        public BaseNameSpace parent;
+        public INameSpace parent;
         public Commands(CodeParseTransferrer input){
             current = input.current;
             start = current;

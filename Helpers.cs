@@ -1,4 +1,3 @@
-using BackgroundObjects;
 using ExpaObjects;
 using Tokens;
 using Interfaces;
@@ -20,7 +19,7 @@ namespace Helpers
             Console.WriteLine($"Time: {input.Time}");
         }
         public static void PPrint(ExpaGlobal input){
-            PPrint((BaseNameSpace)input);
+            PPrint((INameSpace)input);
             PPrint((IHasTime)input);
         }
         public static void PPrint(IHasMinMaxSize input){
@@ -29,14 +28,14 @@ namespace Helpers
         public static void PPrint(ExpaNation input, bool printScope = false){
             PPrint((IHasMinMaxSize)input);
             PPrint((IHasTime)input);
-            PPrint((BaseNameSpace)input, printScope);
+            PPrint((INameSpace)input, printScope);
         }
         public static void PPrint(ExpaArea input){
             Console.WriteLine($"MainNationParent: {input.mainNationParent}");
             PPrint((IHasMinMaxSize)input);
-            PPrint((BaseNameSpace)input);
+            PPrint((INameSpace)input);
         }
-        public static void PPrint(BaseObject input){
+        public static void PPrint(IBaseObject input){
             Console.WriteLine("identifier:");
             Console.WriteLine(input.TokenIdentifier);
             Console.WriteLine("Parents:");
@@ -46,13 +45,13 @@ namespace Helpers
             Console.WriteLine("Comment:");
             Console.WriteLine(input.comment);
         }
-        public static void PPrint(BaseNameSpace input, bool printScope=false){
+        public static void PPrint(INameSpace input, bool printScope=false){
             if(printScope){
-                PPrint(input.scope);
+                PPrint(input.Scope);
             }
             Console.WriteLine("Children:");
             PPrint<string>(input.children);
-            PPrint((BaseObject)input);
+            PPrint((IBaseObject)input);
         }
         public static void PPrint(Structs.Scope input){
             Console.WriteLine($"***SCOPE***\n\tidentifier = {input.TokenIdentifier}\n\ttype={input.TType}\n\t"); 

@@ -1,17 +1,16 @@
+using Helpers;
+using Tokens;
+using ExpaObjects;
+using Structs;
+using BackgroundObjects;
+
 namespace Parser
 {
-    using Helpers;
-    using Tokens;
-    using ExpaObjects;
-    using Structs;
-    using FileHandler;
-    using BackgroundObjects;
-
     public class Parser{
         public static Token[] tokens{get; private set;} = Array.Empty<Token>();
         public static Dictionary<string, Scope> unparsedScopes{get; private set;} = new();
         public static Scope UnparsedScopes(string input, TokenType type) => unparsedScopes.TryGetValue(input,out Scope value)? value: new(new Token(TokenType.IDENTIFIER, -1, input, input), type, new Token[]{});
-        public static readonly Dictionary<string, BaseObject> expaObjects = new();
+        public static readonly Dictionary<string, IBaseObject> expaObjects = new();
         public ExpaGlobal? expaGlobal;
         public static FileHandler? FileHandler{get; private set;}
         public static void SetParser(Token[] aTokens, FileHandler fileHandler){//due to fileHandler reasons, we extract the scopes before initializing the Parser object

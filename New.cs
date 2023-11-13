@@ -1,18 +1,17 @@
+
+using Structs;
+using Errors;
+using Tokens;
+using ExpaObjects;
+using ArgumentDict = System.Collections.Generic.Dictionary<Tokens.TokenType, Tokens.Token>;
+using BackgroundObjects;
+using Helpers;
+using Metadata;
+using Interfaces;
+
 namespace New
 {
     using Commands;
-    using Structs;
-    using Errors;
-    using Tokens;
-    using ExpaObjects;
-    using Parser;
-    using ArgumentDict = Dictionary<Tokens.TokenType, Tokens.Token>;
-    using BackgroundObjects;
-    using Helpers;
-    using System.Linq;
-    using Metadata;
-    using Interfaces;
-
     public class New: Commands{
         TokenType type;
         public New(CodeParseTransferrer input): base(input){
@@ -53,7 +52,14 @@ namespace New
             }
             parent.AddChild(identifier);
             Parser.expaObjects[identifier].AddParent(parent.TokenIdentifier.lexeme);
-            new ParseScope.ParseScope(Parser.unparsedScopes![identifier]);
+            switch(type){
+                case TokenType.TEMPLATE:
+                case TokenType.NATION:
+                case TokenType.AREA:
+                case TokenType.FUNCTION:
+                    new ParseScope.ParseScope(Parser.UnparsedScopes(identifier, type));
+                    break;
+            }
         }
         private void Template(ArgumentDict? args, string identifier, string display, string? comment){
             if(args == null){
@@ -122,7 +128,7 @@ namespace New
                                 (
                                     value.tokenType == TokenType.IDENTIFIER//if it is an identifier - it could possibly be a time reference
                                     &&
-                                    Parser.expaObjects.TryGetValue(value.lexeme, out BaseObject? TValue)//and it actually is an identifier
+                                    Parser.expaObjects.TryGetValue(value.lexeme, out IBaseObject? TValue)//and it actually is an identifier
                                     &&
                                     TValue is ExpaTime time//and the referenced object is a User-accessable time object
                                 )?/*#endregion*/
@@ -222,13 +228,13 @@ namespace New
             }
             return args;
         }
-        private ExpaNation GetNationParent(BaseObject input){
+        private ExpaNation GetNationParent(IBaseObject input){
             //input target object
             ExpaNation? nation = null;
             ExpaNation? tempNation = null;
             //where there is a nation in the lineage, that is the nation. else, we keep going
             if(parent.parents.Contains("global")){throw new ExpaSyntaxError(code[current].line, $"Unable to backtrace valid nation origin, please explicitly declare the nation");}
-            BaseObject value;
+            IBaseObject value;
             foreach(string sv in input.parents){
                 value = Parser.expaObjects[sv];
                 if(value is ExpaNation){

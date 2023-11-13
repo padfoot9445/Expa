@@ -1,13 +1,11 @@
+
+using lexer;
+using Helpers;
+using Errors;
+using ExpaObjects;
+
 namespace interpreter
 {
-
-    using lexer;
-    using Helpers;
-    using Errors;
-    using System.IO;
-    using Parser;
-    using ExpaObjects;
-
     public class Interpreter{
         private static (string, int, int, int) GetShebang(string code){
             int current = 0;

@@ -1,30 +1,10 @@
+
+
 namespace Structs
 {
     using Tokens;
-    using BackgroundObjects;
-    public readonly struct Scope{
-            public readonly Token __identifier;
-            public readonly TokenType __type;
-            public readonly Token[] __code;
-            public Scope(Token aIdentifier, TokenType aType, Token[] aCode){
-                __identifier = aIdentifier;
-                __type = aType;
-                __code = aCode;
-            }
-            public Token TokenIdentifier{
-                get{
-                    return __identifier;
-                }
-            }
-            public TokenType TType{
-                get{
-                    return __type;
-                }
-            }
-            public Token[] Code{
-                get{return __code;}
-            }
-        }
+    using Metadata;
+    using Interfaces;
     public readonly struct TypeAndIdentifier{
             public readonly TokenType type;
             public readonly Token identifier;
@@ -37,18 +17,18 @@ namespace Structs
     public readonly struct CodeParseTransferrer{
         public readonly int current;
         public readonly Token[] tokenList;
-        public readonly BaseNameSpace parent;
-        public CodeParseTransferrer(int current, Token[] tokenList, BaseNameSpace parent){
+        public readonly INameSpace parent;
+        public CodeParseTransferrer(int current, Token[] tokenList, INameSpace parent){
             this.current = current;
             this.tokenList = tokenList;
             this.parent = parent;
         }
     }
     public readonly struct Result{
-        public readonly BaseObject expaObject;
+        public readonly IExpaObject expaObject;
         public readonly string[] parentIdentifiers;
         public readonly string[]? childIdentifiers;
-        public Result(BaseObject expaObject, string[] parentIdentifiers, string[] childIdentifiers){
+        public Result(IExpaObject expaObject, string[] parentIdentifiers, string[] childIdentifiers){
             this.expaObject = expaObject;
             this.parentIdentifiers = parentIdentifiers;
             this.childIdentifiers = childIdentifiers;
@@ -60,4 +40,5 @@ namespace Structs
        public readonly int position;
 
     }
+
 }
