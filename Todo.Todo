@@ -1,1 +1,2 @@
 Add loading support for various objects @ FileHandler.cs 103
+Add support for namespaces without explicitly defined scope.
