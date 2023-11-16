@@ -59,7 +59,7 @@ namespace Interfaces
 
     }
     public interface INameSpace: IExpaNonGlobalObject{
-        public string[] ChildrenStringIDs{ get; }
+        public List<string> ChildrenStringIDs{ get; }
         public Scope Scope{ get; }
     }
     

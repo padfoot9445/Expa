@@ -62,26 +62,19 @@ namespace FileHandler
         private readonly Dictionary<string, IExpaNonGlobalObject> cachedObjects = new();
         public IExpaNonGlobalObject GetObject(string identifier){
             Result searchResult = SearchDB(identifier);
-            IExpaNonGlobalObject AddParents(IExpaNonGlobalObject expaObject){
-                if(searchResult.parentIdentifiers[0] != ""){
-                    foreach(string parentIdentifier in searchResult.parentIdentifiers){
-                        expaObject.AddParent(parentIdentifier);
-                        if(!cachedObjects.ContainsKey(parentIdentifier)){cachedObjects[parentIdentifier] = GetObject(parentIdentifier);}
-                    }
-                }
-                return expaObject;
-            }
-
-            if(searchResult.childIdentifiers != null && searchResult.childIdentifiers[0] != ""){
-                BaseNameSpace expaObject = (BaseNameSpace)searchResult.expaObject;
-                foreach(string childIdentifier in searchResult.childIdentifiers){
-                    expaObject.AddChild(childIdentifier);
+            if(searchResult.ChildStringIDs != Array.Empty<string>()){
+                INameSpace expaObject = (INameSpace)searchResult.expaObject;
+                foreach(string childIdentifier in searchResult.ChildStringIDs){
+                    expaObject.ChildrenStringIDs.Add(childIdentifier);
                     if(!cachedObjects.ContainsKey(childIdentifier)){cachedObjects[childIdentifier] = GetObject(childIdentifier);}
                 }
-                return AddParents(expaObject);
-            } else{
-                return AddParents(searchResult.expaObject);
             }
+            if(searchResult.ParentStringID != "" && !cachedObjects.ContainsKey(searchResult.ParentStringID)){
+                    cachedObjects[searchResult.ParentStringID] = GetObject(searchResult.ParentStringID);
+                    expaObject.ParentStringID = searchResult.ParentStringID;
+            }
+                }
+                
         }
         public Result SearchDB(string key)=>SearchTable(key, "Objects");
         public Result SearchTable(string key, string table)=>CSearchTable(key, table, "identifier")[0];
