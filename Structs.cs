@@ -26,12 +26,12 @@ namespace Structs
     }
     public readonly struct Result{
         public readonly IExpaObject expaObject;
-        public readonly string[] parentIdentifiers;
-        public readonly string[]? childIdentifiers;
-        public Result(IExpaObject expaObject, string[] parentIdentifiers, string[] childIdentifiers){
+        public readonly string ParentStringID;
+        public readonly string[] ChildStringIDs;
+        public Result(IExpaObject expaObject, string ParentStringID, string[] ChildStringIDs){
             this.expaObject = expaObject;
-            this.parentIdentifiers = parentIdentifiers;
-            this.childIdentifiers = childIdentifiers;
+            this.ParentStringID = ParentStringID;
+            this.ChildStringIDs = ChildStringIDs;
         }
     }
     public readonly struct BackgroundArgument{
