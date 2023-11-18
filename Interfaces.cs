@@ -54,5 +54,9 @@ namespace Interfaces
     public interface IHasStringID{
         public string StringID{ get; }
     }
+    public interface IExpaNameSpace{ 
+        public List<string> ChildrenStringIDs{ get;}
+        public Scope Scope{ get; }
+    }
     
 }
