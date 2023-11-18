@@ -51,11 +51,6 @@ namespace Interfaces
         public bool Equals(object? other);
         public string ToString();
     }
-    
-    
-    public interface IValidDBSearchResult{
-        public BaseExpaObject expaObject{ get; init; }
-    }
     public interface IHasStringID{
         public string StringID{ get; }
     }

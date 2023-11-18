@@ -1,14 +1,13 @@
-using Microsoft.Data.Sqlite;
-using ExpaObjects;
-using Structs;
-using BackgroundObjects;
-using Errors;
-using Metadata;
-using Tokens;
-using Interfaces;
-
-namespace FileHandler
-{
+namespace FileHandler{
+    using Microsoft.Data.Sqlite;
+    using ExpaObjects;
+    using Structs;
+    using BackgroundObjects;
+    using Errors;
+    using Markers;
+    using Tokens;
+    using Interfaces;
+    using Constants;
     public abstract class FileHandlerBase{
         public readonly string filePath;
         public SqliteConnection connection;
@@ -31,7 +30,7 @@ namespace FileHandler
                 "CREATE TABLE IF NOT EXISTS Global (identifier string, time int)",
                 "CREATE TABLE IF NOT EXISTS Nation (identifier string, time int, minChildShipSize int, maxChildShipSize int)",
                 "CREATE TABLE IF NOT EXISTS Area (identifier string, minChildShipSize int, maxChildShipSize int)",
-                "CREATE TABLE IF NOT EXISTS Funciton (identifier string, string posOne, string posTwo, string posThree, string posFour)"
+                "CREATE TABLE IF NOT EXISTS Funciton (identifier string, args string, returnType string)"//args: type1 name1, type2 name2...
                 
             };
             foreach(var command in commands){
@@ -59,30 +58,33 @@ namespace FileHandler
 
             writer = new(filePath);
         }
-        private readonly Dictionary<string, IExpaNonGlobalObject> cachedObjects = new();
-        public IExpaNonGlobalObject GetObject(string identifier){
-            Result searchResult = SearchDB(identifier);
-            if(searchResult.ChildStringIDs != Array.Empty<string>()){
-                INameSpace expaObject = (INameSpace)searchResult.expaObject;
+        public BaseExpaObject GetObject(string identifier){
+            Interfaces.Result TSearchResult = SearchDB(identifier);
+            if(TSearchResult is InitializedResult){ return TSearchResult.expaObject; }
+            Structs.Result searchResult = (Structs.Result)TSearchResult;
+            BaseExpaNonGlobalObject expaObject;
+            if(searchResult.expaObject.IsNameSpace){
+                BaseExpaNameSpace expaNameSpace = (BaseExpaNameSpace)searchResult.expaObject;
                 foreach(string childIdentifier in searchResult.ChildStringIDs){
-                    expaObject.ChildrenStringIDs.Add(childIdentifier);
-                    if(!cachedObjects.ContainsKey(childIdentifier)){cachedObjects[childIdentifier] = GetObject(childIdentifier);}
+                    expaNameSpace.ChildrenStringIDs.Add(childIdentifier);
                 }
-            }
-            if(searchResult.ParentStringID != "" && !cachedObjects.ContainsKey(searchResult.ParentStringID)){
-                    cachedObjects[searchResult.ParentStringID] = GetObject(searchResult.ParentStringID);
-                    expaObject.ParentStringID = searchResult.ParentStringID;
-            }
+                if(searchResult.expaObject.Type == TokenType.GLOBAL){
+                    return expaNameSpace;
                 }
-                
+                expaObject = expaNameSpace;
+            } else{
+                expaObject = (BaseExpaNonGlobalObject)searchResult.expaObject;
+            }
+            expaObject.ParentStringID = searchResult.ParentStringID;//we know this is not global because we returned before
+            return expaObject;
         }
-        public Result SearchDB(string key)=>SearchTable(key, "Objects");
-        public Result SearchTable(string key, string table)=>CSearchTable(key, table, "identifier")[0];
+        private Interfaces.Result SearchDB(string key)=>SearchTable(key, "Objects");
+        private Interfaces.Result SearchTable(string key, string table)=>CSearchTable(key, table, "identifier")[0];
         public SqliteDataReader IdentifierSearchTable(string id, string table) => RSearchTable(id, table, "identifier");
-        //TODO: add capability to get structs from memory(for function arguments, etc) - V1
-        public Result[] CSearchTable(string key, string table, string column){
+        //TODO: Refactor all hardcoded values to Constants.cs
+        public Interfaces.Result[] CSearchTable(string key, string table, string column){
             //assume the caller knows the thing exists
-            List<Result> rl = new();
+            List<Interfaces.Result> rl = new();
             using(var reader = RSearchTable(key, table, column) ){
                 int TYPEORDINAL = reader.GetOrdinal("type"); //string, 2
                 int IDENTIFIERORDINAL = reader.GetOrdinal("identifier");//string, 1
@@ -92,16 +94,16 @@ namespace FileHandler
                 while(reader.Read()){
                     string[] parents = reader.GetString(PARENTSORDINAL).Split(',');
                     SqliteDataReader paramReader = IdentifierSearchTable(reader.GetString(IDENTIFIERORDINAL), reader.GetString(TYPEORDINAL));
-                    IExpaNonGlobalObject expaObject = reader.GetString(TYPEORDINAL) switch{
+                    BaseExpaNonGlobalObject expaObject = reader.GetString(TYPEORDINAL) switch{
                         //if there is somehow an error here it has to be reported as a compiler error, not a user error
                         "global" => new ExpaGlobal(Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL),TokenType.GLOBAL), BackgroundTime.ParseAcTime(paramReader["time"].ToString()!), reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
-                        "nation" => new ExpaNation((ICanBeParent<ExpaNation>)GetObject(parents[0]), Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL), TokenType.NATION),(BackgroundTime)paramReader["time"],(int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
-                        "area" => new ExpaArea((ICanBeParent<ExpaArea>)GetObject(parents[0]), (ExpaNation)GetObject(paramReader["nationParent"].ToString()!), (int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
-                        "function" => new ExpaFunction((ICanBeParent<ExpaFunction>)GetObject(parents[0]), Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL), TokenType.FUNCTION)),
+                        "nation" => new ExpaNation((IMCanBeParent<ExpaNation>)GetObject(parents[0]), Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL), TokenType.NATION),(BackgroundTime)paramReader["time"],(int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
+                        "area" => new ExpaArea((IMCanBeParent<ExpaArea>)GetObject(parents[0]), (ExpaNation)GetObject(paramReader["nationParent"].ToString()!), (int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
+                        "function" => new ExpaFunction((IMCanBeParent<ExpaFunction>)GetObject(parents[0]), Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL), TokenType.FUNCTION)),
                         _ => throw new MainException("error while parsing db file")
                         //TODO: Add loading support for various objects
                     };
-                    rl.Add(new Result(expaObject, parents,reader["children"].ToString()!.Split(',')/*children*/));
+                    rl.Add(new Structs.Result(expaObject, parents, reader["children"].ToString()!.Split(',')/*children*/));
                 }
             }
             return rl.ToArray();
