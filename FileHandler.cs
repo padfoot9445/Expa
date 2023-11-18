@@ -52,7 +52,7 @@ namespace FileHandler{
             writer = new(filePath);
         }
         public BaseExpaObject GetObject(string identifier){
-            Result TSearchResult = SearchDB(identifier);
+            Result TSearchResult = SearchObject(identifier);
             Structs.Result searchResult = (Structs.Result)TSearchResult;
             BaseExpaNonGlobalObject expaObject;
             if(searchResult.ExpaObject.IsNameSpace){
@@ -67,17 +67,16 @@ namespace FileHandler{
             } else{
                 expaObject = (BaseExpaNonGlobalObject)searchResult.ExpaObject;
             }
-            expaObject.ParentStringID = searchResult.ParentStringID;//we know this is not global because we returned before
+            expaObject.ParentStringID = searchResult.ParentStringID!;//we know this is not global because we returned before
             return expaObject;
         }
-        private Result SearchDB(string key)=>SearchTable(key, "Objects");
-        private Result SearchTable(string key, string table)=>CSearchTable(key, table, "identifier")[0];
+        private Result SearchObject(string key)=>SearchObjects(key, "identifier")[0];
         public SqliteDataReader IdentifierSearchTable(string id, string table) => RSearchTable(id, table, "identifier");
         //TODO: Refactor all hardcoded values to Constants.cs
-        public Result[] CSearchTable(string key, string table, string column){
+        public Result[] SearchObjects(string key, string column){
             //assume the caller knows the thing exists
             List<Result> rl = new();
-            using(var reader = RSearchTable(key, table, column) ){
+            using(var reader = RSearchTable(key, "Objects", column) ){
                 int TYPE_ORDINAL = reader.GetOrdinal("type"); //string, 2
                 int IDENTIFIER_ORDINAL = reader.GetOrdinal("identifier");//string, 1
                 int PARENT_ORDINAL = reader.GetOrdinal("parent");//string, 2
