@@ -1,4 +1,6 @@
 Add loading support for various objects @ FileHandler.cs 103
 Add support for namespaces without explicitly defined scope.
 
-V1: revamp syntax. Just make something functioning in V0.
+revamp syntax.
+Add support for custom default display values.
+refactor for internal where possible
