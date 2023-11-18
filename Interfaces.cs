@@ -1,6 +1,7 @@
 using BackgroundObjects;
 using Metadata;
 using Structs;
+using Tokens;
 
 namespace Interfaces
 {
@@ -50,8 +51,11 @@ namespace Interfaces
         public bool Equals(object? other);
         public string ToString();
     }
+    public interface IExpaObject: IExpaRelatedObject{
+        public static readonly TokenType Type;
+    }
     public interface IExpaNonGlobalObject: IExpaObject{
-        public string ParentStringID{ get; init; }
+        public string ParentStringID{ get; set; }
         public string Display{ get; set; }
         public string Comment{ get; set; }
         public string StringIdentifier{ get; }
