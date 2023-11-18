@@ -20,7 +20,7 @@ namespace Tokens
                 case "berths": return TokenType.BERTHS;
                 case "maxsize": case "maxSize": return TokenType.MAXSIZE;
                 case "minsize": case "minSize": return TokenType.MINSIZE;
-                case "ship": return TokenType.SHIP;
+                case "shipclass": return TokenType.SHIPCLASS;
                 case "template": return TokenType.TEMPLATE;
                 case "true": return TokenType.TRUE;
                 case "false": return TokenType.FALSE;
@@ -108,7 +108,7 @@ namespace Tokens
         BERTHS,
         MAXSIZE,
         MINSIZE,
-        SHIP,
+        SHIPCLASS,
         COLON,
         TEMPLATE,
         TRUE,
