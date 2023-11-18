@@ -24,27 +24,29 @@ namespace BackgroundObjects
         public abstract TokenType Type{ get; }
         public virtual bool IsNameSpace => false;
         public string Display{ get; internal set; }
-        public string Comment{ get; internal set; }
-        protected BaseExpaObject(string display, string comment){
+        public string? Comment{ get; internal set; }
+        protected BaseExpaObject(string display, string? comment){
             this.Display = display;
             this.Comment = comment;
         }
     }
     public abstract class BaseExpaNonGlobalObject: BaseExpaObject{
-        protected BaseExpaNonGlobalObject(string display, string comment) : base(display, comment){}
-        public abstract string ParentStringID{ get; internal set; }
-        public abstract string StringIdentifier{ get; init; }
+        protected BaseExpaNonGlobalObject(string parentStringID, string stringIdentifier, string? display=null, string? comment=null) : base(display is null? stringIdentifier : display, comment){
+            this.StringIdentifier = stringIdentifier;
+            this.ParentStringID = parentStringID;
+        }
+        public string ParentStringID{ get; internal set; }
+        public string StringIdentifier{ get; init; }
         public string StringID => ParentStringID + Constants.ExpaObjectConstants.OBJECTIDSEPERATOR + StringIdentifier;
-
     }
-    public abstract class BaseExpaNameSpace: BaseExpaNonGlobalObject{
+    public abstract class BaseExpaNameSpace: BaseExpaNonGlobalObject, IExpaNameSpace{
         public override bool IsNameSpace => true;
         public List<string> ChildrenStringIDs{ get;}
         public Scope Scope{ get; }
-        protected BaseExpaNameSpace(string display, string comment, List<string> childrenStringIDs) : base(display, comment){
+        protected BaseExpaNameSpace(string parentStringID, string stringIdentifier, string display, string comment, List<string> childrenStringIDs) : base(parentStringID, stringIdentifier, display, comment){
             this.ChildrenStringIDs = childrenStringIDs;
         }
-        protected BaseExpaNameSpace(string display, string comment, string[] childrenStringIDs) : base(display, comment){
+        protected BaseExpaNameSpace(string parentStringID, string stringIdentifier, string display, string comment, string[] childrenStringIDs) : base(parentStringID, stringIdentifier, display, comment){
             this.ChildrenStringIDs = childrenStringIDs.ToList();
         }
 
