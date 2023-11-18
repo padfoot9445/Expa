@@ -25,15 +25,7 @@ namespace FileHandler{
             MakeTables();
         }
         private void MakeTables(){
-            string[] commands = {
-                "CREATE TABLE IF NOT EXISTS Objects (identifier string,  type string,  parents string, display string,  comment string,  children string)",
-                "CREATE TABLE IF NOT EXISTS Global (identifier string, time int)",
-                "CREATE TABLE IF NOT EXISTS Nation (identifier string, time int, minChildShipSize int, maxChildShipSize int)",
-                "CREATE TABLE IF NOT EXISTS Area (identifier string, minChildShipSize int, maxChildShipSize int)",
-                "CREATE TABLE IF NOT EXISTS Funciton (identifier string, args string, returnType string)"//args: type1 name1, type2 name2...
-                
-            };
-            foreach(var command in commands){
+            foreach(var command in DBAccessConstants.MAKE_TABLES_IF_NOT_EXISTS){
                 ExecuteNonQuery(command);
             }
 
@@ -59,32 +51,31 @@ namespace FileHandler{
             writer = new(filePath);
         }
         public BaseExpaObject GetObject(string identifier){
-            Interfaces.Result TSearchResult = SearchDB(identifier);
-            if(TSearchResult is InitializedResult){ return TSearchResult.expaObject; }
+            Result TSearchResult = SearchDB(identifier);
             Structs.Result searchResult = (Structs.Result)TSearchResult;
             BaseExpaNonGlobalObject expaObject;
-            if(searchResult.expaObject.IsNameSpace){
-                BaseExpaNameSpace expaNameSpace = (BaseExpaNameSpace)searchResult.expaObject;
+            if(searchResult.ExpaObject.IsNameSpace){
+                BaseExpaNameSpace expaNameSpace = (BaseExpaNameSpace)searchResult.ExpaObject;
                 foreach(string childIdentifier in searchResult.ChildStringIDs){
                     expaNameSpace.ChildrenStringIDs.Add(childIdentifier);
                 }
-                if(searchResult.expaObject.Type == TokenType.GLOBAL){
+                if(searchResult.ExpaObject.Type == TokenType.GLOBAL){
                     return expaNameSpace;
                 }
                 expaObject = expaNameSpace;
             } else{
-                expaObject = (BaseExpaNonGlobalObject)searchResult.expaObject;
+                expaObject = (BaseExpaNonGlobalObject)searchResult.ExpaObject;
             }
             expaObject.ParentStringID = searchResult.ParentStringID;//we know this is not global because we returned before
             return expaObject;
         }
-        private Interfaces.Result SearchDB(string key)=>SearchTable(key, "Objects");
-        private Interfaces.Result SearchTable(string key, string table)=>CSearchTable(key, table, "identifier")[0];
+        private Result SearchDB(string key)=>SearchTable(key, "Objects");
+        private Result SearchTable(string key, string table)=>CSearchTable(key, table, "identifier")[0];
         public SqliteDataReader IdentifierSearchTable(string id, string table) => RSearchTable(id, table, "identifier");
         //TODO: Refactor all hardcoded values to Constants.cs
-        public Interfaces.Result[] CSearchTable(string key, string table, string column){
+        public Result[] CSearchTable(string key, string table, string column){
             //assume the caller knows the thing exists
-            List<Interfaces.Result> rl = new();
+            List<Result> rl = new();
             using(var reader = RSearchTable(key, table, column) ){
                 int TYPEORDINAL = reader.GetOrdinal("type"); //string, 2
                 int IDENTIFIERORDINAL = reader.GetOrdinal("identifier");//string, 1
