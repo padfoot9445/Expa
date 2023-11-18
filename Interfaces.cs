@@ -1,5 +1,5 @@
 using BackgroundObjects;
-using Metadata;
+using Markers;
 using Structs;
 using Tokens;
 
@@ -39,7 +39,7 @@ namespace Interfaces
     }
     /*#endregion*/
     public interface IDepender{
-        public List<IDependee> Dependees{get; set;}
+        public List<IMDependee> Dependees{get; set;}
     }
     public interface IBackgroundValue{
         public bool ToBool();
@@ -51,20 +51,13 @@ namespace Interfaces
         public bool Equals(object? other);
         public string ToString();
     }
-    public interface IExpaObject: IExpaRelatedObject{
-        public static readonly TokenType Type;
+    
+    
+    public interface IValidDBSearchResult{
+        public BaseExpaObject expaObject{ get; init; }
     }
-    public interface IExpaNonGlobalObject: IExpaObject{
-        public string ParentStringID{ get; set; }
-        public string Display{ get; set; }
-        public string Comment{ get; set; }
-        public string StringIdentifier{ get; }
-        public string StringID();
-
-    }
-    public interface INameSpace: IExpaNonGlobalObject{
-        public List<string> ChildrenStringIDs{ get; }
-        public Scope Scope{ get; }
+    public interface IHasStringID{
+        public string StringID{ get; }
     }
     
 }
