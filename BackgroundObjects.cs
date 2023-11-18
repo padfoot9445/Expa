@@ -5,11 +5,11 @@ namespace BackgroundObjects
     using Structs;
     using Markers;
     using Tokens;
-    public class StaticCommands{
+    public class StaticCommand{
         public void Execute(){
             
         }
-        public StaticCommands(){
+        public StaticCommand(){
             throw new NotImplementedException();
         }
     }
@@ -37,17 +37,15 @@ namespace BackgroundObjects
         }
         public string ParentStringID{ get; internal set; }
         public string StringIdentifier{ get; init; }
-        public string StringID => ParentStringID + Constants.ExpaObjectConstants.OBJECTIDSEPERATOR + StringIdentifier;
+        public string StringID => ParentStringID + Constants.ExpaObjectConstants.OBJECT_ID_SEPERATOR + StringIdentifier;
     }
     public abstract class BaseExpaNameSpace: BaseExpaNonGlobalObject, IExpaNameSpace{
         public override bool IsNameSpace => true;
         public List<string> ChildrenStringIDs{ get;}
         public Scope Scope{ get; }
-        protected BaseExpaNameSpace(string parentStringID, string stringIdentifier, string display, string comment, List<string> childrenStringIDs) : base(parentStringID, stringIdentifier, display, comment){
+        protected BaseExpaNameSpace(string parentStringID, string stringIdentifier, Scope scope, List<string> childrenStringIDs, string? display, string? comment) : base(parentStringID, stringIdentifier, display, comment){
             this.ChildrenStringIDs = childrenStringIDs;
-        }
-        protected BaseExpaNameSpace(string parentStringID, string stringIdentifier, string display, string comment, string[] childrenStringIDs) : base(parentStringID, stringIdentifier, display, comment){
-            this.ChildrenStringIDs = childrenStringIDs.ToList();
+            Scope = scope;
         }
 
     }
