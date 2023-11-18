@@ -25,19 +25,15 @@ namespace Structs
             this.parent = parent;
         }
     }
-    public readonly struct Result: Interfaces.Result{
-        public BaseExpaObject expaObject{ get; init; }
+    internal readonly struct Result{
+        public BaseExpaObject ExpaObject{ get; init; }
         public readonly string ParentStringID;
         public readonly string[] ChildStringIDs;
-        public Result(BaseExpaObject expaObject, string ParentStringID, string[] ChildStringIDs, string type){
-            this.expaObject = expaObject;
+        public Result(BaseExpaObject expaObject, string ParentStringID, string[] ChildStringIDs){
+            this.ExpaObject = expaObject;
             this.ParentStringID = ParentStringID;
             this.ChildStringIDs = ChildStringIDs;
         }
-    }
-    public readonly struct InitializedResult: Interfaces.Result{
-        public BaseExpaObject expaObject{ get; init; }
-        public InitializedResult(BaseExpaObject expaObject) => this.expaObject = expaObject;
     }
     public readonly struct BackgroundArgument{
        public readonly string name;
