@@ -8,7 +8,8 @@ namespace FileHandler{
     using Tokens;
     using Interfaces;
     using Constants;
-    public abstract class FileHandlerBase{
+    using Parser;
+    internal abstract class FileHandlerBase{
         public readonly string filePath;
         public SqliteConnection connection;
         public FileHandlerBase(string filePath){
@@ -19,7 +20,7 @@ namespace FileHandler{
         public void Close() => connection.Close();
     }
 
-    public class LoadObjects: FileHandlerBase{
+    internal class LoadObjects: FileHandlerBase{
         //store a csv of parent IDs rather than parent
         public LoadObjects(string filePath): base(filePath){
             MakeTables();
@@ -40,7 +41,7 @@ namespace FileHandler{
             if(File.Exists(filePath)){return true;} return false;
         }
     }
-    public class FileHandler: FileHandlerBase{
+    internal class FileHandler: FileHandlerBase{
 
 
         public readonly LoadObjects loader;
@@ -77,24 +78,59 @@ namespace FileHandler{
             //assume the caller knows the thing exists
             List<Result> rl = new();
             using(var reader = RSearchTable(key, table, column) ){
-                int TYPEORDINAL = reader.GetOrdinal("type"); //string, 2
-                int IDENTIFIERORDINAL = reader.GetOrdinal("identifier");//string, 1
-                int PARENTSORDINAL = reader.GetOrdinal("parents");//string, csv, 2
-                int DISPLAYORDINAL = reader.GetOrdinal("display");//string, 3
-                int COMMENTORDINAL = reader.GetOrdinal("comment");//string, 4
+                int TYPE_ORDINAL = reader.GetOrdinal("type"); //string, 2
+                int IDENTIFIER_ORDINAL = reader.GetOrdinal("identifier");//string, 1
+                int PARENT_ORDINAL = reader.GetOrdinal("parent");//string, 2
+                int DISPLAY_ORDINAL = reader.GetOrdinal("display");//string, 3
+                int COMMENT_ORDINAL = reader.GetOrdinal("comment");//string, 4
+                int ID_ORDINAL = reader.GetOrdinal("id");//string, 5
+
                 while(reader.Read()){
-                    string[] parents = reader.GetString(PARENTSORDINAL).Split(',');
-                    SqliteDataReader paramReader = IdentifierSearchTable(reader.GetString(IDENTIFIERORDINAL), reader.GetString(TYPEORDINAL));
-                    BaseExpaNonGlobalObject expaObject = reader.GetString(TYPEORDINAL) switch{
+                    SqliteDataReader paramReader = IdentifierSearchTable(reader.GetString(IDENTIFIER_ORDINAL), reader.GetString(TYPE_ORDINAL));
+                    string objectTypeString = reader.GetString(TYPE_ORDINAL);
+                    string? objectParentID = reader.GetString(PARENT_ORDINAL);
+                    string identifier = reader.GetString(IDENTIFIER_ORDINAL);
+                    string display = reader.GetString(DISPLAY_ORDINAL);
+                    string comment = reader.GetString(COMMENT_ORDINAL);
+                    string id = reader.GetString(ID_ORDINAL);
+                    BaseExpaObject expaObject = objectTypeString switch{
                         //if there is somehow an error here it has to be reported as a compiler error, not a user error
-                        "global" => new ExpaGlobal(Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL),TokenType.GLOBAL), BackgroundTime.ParseAcTime(paramReader["time"].ToString()!), reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
-                        "nation" => new ExpaNation((IMCanBeParent<ExpaNation>)GetObject(parents[0]), Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL), TokenType.NATION),(BackgroundTime)paramReader["time"],(int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
-                        "area" => new ExpaArea((IMCanBeParent<ExpaArea>)GetObject(parents[0]), (ExpaNation)GetObject(paramReader["nationParent"].ToString()!), (int)paramReader["minChildShipSize"], (int)paramReader["maxChildShipSize"], Parser.unparsedScopes[reader.GetString(IDENTIFIERORDINAL)], reader.GetString(DISPLAYORDINAL), reader.GetString(COMMENTORDINAL)),
-                        "function" => new ExpaFunction((IMCanBeParent<ExpaFunction>)GetObject(parents[0]), Parser.UnparsedScopes(reader.GetString(IDENTIFIERORDINAL), TokenType.FUNCTION)),
+                        "global" => new ExpaGlobal(
+                            scope: Parser.UnparsedScopes(id, TokenType.GLOBAL),
+                            time: BackgroundTime.ParseAcTime(paramReader["time"].ToString()!),
+                            display: display,
+                            comment: comment
+                        ),
+                        "nation" => new ExpaNation(
+                            parentStringID: objectParentID!,
+                            identifier: identifier,
+                            scope: Parser.UnparsedScopes(id, TokenType.NATION),
+                            time: BackgroundTime.ParseAcTime(paramReader["time"].ToString()!),
+                            MaxChildShipSize: (int)paramReader["minChildShipSize"],
+                            MinChildShipSize: (int)paramReader["maxChildShipSize"], 
+                            display: display, 
+                            comment: comment
+                        ),
+                        "area" => new ExpaArea(
+                            parentStringID: objectParentID, 
+                            identifier: identifier,
+                            aScope: Parser.UnparsedScopes(id, TokenType.AREA),
+                            minCSS: (int)paramReader["minChildShipSize"], 
+                            maxCSS: (int)paramReader["maxChildShipSize"], 
+                            display: display, 
+                            comment: comment
+                        ),
+                        "function" => new ExpaFunction(
+                            parentStringID: objectParentID, 
+                            identifier: identifier,
+                            scope: Parser.UnparsedScopes(id, TokenType.FUNCTION),
+                            display: display,
+                            comment: comment
+                            ),
                         _ => throw new MainException("error while parsing db file")
                         //TODO: Add loading support for various objects
                     };
-                    rl.Add(new Structs.Result(expaObject, parents, reader["children"].ToString()!.Split(',')/*children*/));
+                    rl.Add(new Result(expaObject, objectParentID, reader["children"].ToString()!.Split(',')/*children*/));
                 }
             }
             return rl.ToArray();
@@ -125,7 +161,7 @@ namespace FileHandler{
         public bool ItemExists(string key, string table, string column) => RSearchTable(key, table, column).HasRows;
     }
     
-    public class WriteObjects: FileHandlerBase{
+    internal class WriteObjects: FileHandlerBase{
         public WriteObjects(string filePath): base(filePath){
 
         }
