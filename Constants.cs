@@ -150,52 +150,11 @@ namespace Constants{
             public const char DOUBLE_QUOTE = '"';
             public const char EQUAL_SIGN = '=';
             public const char COMMA = ',';
+            public const char UNDERSCORE = '_';
             #endregion
         }
         #endregion
-        public static class IsValid{
-                public static bool NumberOrMonthChar(char input){
-                    switch(input){
-                        #region numbers
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '4':
-                        case '5':
-                        case '6':
-                        case '7':
-                        case '8':
-                        case '9':
-                        case '0':
-                        #endregion
-                        case Chars.DOT:
-                        case Chars.SPACE:
-                        case Chars.COMMA:
-                        case '-':
-                        case '/':
-                            return true;
-                        default: return false;
-
-                    }
-                }
-                public static bool ArgumentName(TokenType input){
-                    switch(input){
-                        case TokenType.NATION:
-                        case TokenType.SPEED:
-                        case TokenType.TIME:
-                        case TokenType.DISPLAY:
-                        case TokenType.BERTHS:
-                        case TokenType.MAXSIZE:
-                        case TokenType.MINSIZE:
-                        case TokenType.EQUALIZE:
-                        case TokenType.MAX:
-                        case TokenType.COMMENT:
-                            return true;
-                        default:
-                            return false;
-                    }
-        }
-            }
+        
         
     }
 }

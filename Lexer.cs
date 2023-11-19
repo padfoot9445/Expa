@@ -1,6 +1,7 @@
 using Errors;
 using Tokens;
 using Constants;
+using Helpers;
 
 namespace lexer{
     class Lexer{
@@ -130,24 +131,24 @@ namespace lexer{
                         start = current;
                         //numbers
                         if(Char.IsDigit(code[current])){
-                            while(!isAtEnd() && LexerConstants.IsValid.NumberOrMonthChar(code[current])){
+                            while(!isAtEnd() && IsValid.NumberOrMonthChar(code[current])){
                                 current++;
                             }
                             string extract = code[start..current];
                             tokenList.Add(
-                                extract.Contains('/')?
+                                extract.Contains(LexerConstants.Chars.SLASH)?
                                 new Token(TokenType.MONTHTIME, line, extract, extract):
                                 new Token(TokenType.NUMBER, line, extract, extract)
                             );
-                            if(extract.Count(c=>c=='.') > 1){
+                            if(extract.Count(c=>c==LexerConstants.Chars.DOT) > 1){
                                 throw new ExpaSyntaxError(line, "Number must not contain more than one decimal point");
-                            } else if(extract.Count(c=>c=='/') > 1){
-                                throw new ExpaSyntaxError(line, "Month must not contain more than one slash");
+                            } else if(extract.Count(c=>c==LexerConstants.Chars.SLASH) > 1){
+                                throw new ExpaSyntaxError(line, "MonthTime must not contain more than one slash");
                             }
                             break;
-                        } else if (Char.IsLetter(code[current]) || code[current] == '_'){
+                        } else if (IsValid.IdentifierStartChar(code[current])){
                             //identifiers and keywords
-                            while(!isAtEnd() && code[current] != ' ' && code[current] != '\t' && code[current] != LexerConstants.Chars.NEWLINE && char.IsLetterOrDigit(code[current])){
+                            while(!isAtEnd() && IsValid.IdentifierChar(code[current])){
                                 current++;
                             }
                             if(Keywords.KeyWords(code[start..current]) != TokenType.INTERPRETERNULL){

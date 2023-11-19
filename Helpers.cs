@@ -4,6 +4,7 @@ namespace Helpers
     using Tokens;
     using Interfaces;
     using BackgroundObjects;
+    using Constants;
 
     internal static class PPrinter{    
         internal static void PPrint(object? input){
@@ -78,5 +79,49 @@ namespace Helpers
             }
         }
     }
-    
+internal static class IsValid{
+            public static bool NumberOrMonthChar(char input){
+                switch(input){
+                    #region numbers
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                    case '0':
+                    #endregion
+                    case LexerConstants.Chars.DOT:
+                    case LexerConstants.Chars.SPACE:
+                    case LexerConstants.Chars.COMMA:
+                    case '-':
+                    case '/':
+                        return true;
+                    default: return false;
+
+                }
+            }
+            public static bool ArgumentName(TokenType input){
+                switch(input){
+                    case TokenType.NATION:
+                    case TokenType.SPEED:
+                    case TokenType.TIME:
+                    case TokenType.DISPLAY:
+                    case TokenType.BERTHS:
+                    case TokenType.MAXSIZE:
+                    case TokenType.MINSIZE:
+                    case TokenType.EQUALIZE:
+                    case TokenType.MAX:
+                    case TokenType.COMMENT:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        public static bool IdentifierStartChar(char input) => char.IsLetter(input) || input == LexerConstants.Chars.UNDERSCORE;
+        public static bool IdentifierChar(char input) => input != LexerConstants.Chars.SPACE && input != LexerConstants.Chars.TAB && input != LexerConstants.Chars.NEWLINE && (char.IsLetterOrDigit(input) | input == LexerConstants.Chars.UNDERSCORE);
+    }
 }
