@@ -10,17 +10,17 @@ namespace FileHandler{
     using Constants;
     using Parser;
     internal abstract class FileHandlerBase{
-        public readonly string filePath;
-        public SqliteConnection connection;
+        protected readonly string filePath;
+        protected SqliteConnection connection;
         #region Ordinals
-        public int TypeOrdinal{get; }
-        public int IdentifierOrdinal{get; }
-        public int ParentOrdinal{get; }
-        public int DisplayOrdinal{get; }
-        public int CommentOrdinal{get; }
-        public int IDOrdinal{get; }
+        protected int TypeOrdinal{get; }
+        protected int IdentifierOrdinal{get; }
+        protected int ParentOrdinal{get; }
+        protected int DisplayOrdinal{get; }
+        protected int CommentOrdinal{get; }
+        protected int IDOrdinal{get; }
         #endregion
-        public FileHandlerBase(string filePath){
+        protected FileHandlerBase(string filePath){
             this.filePath = filePath;
             connection = new SqliteConnection($"Data Source={filePath}");
             connection.Open();
@@ -34,7 +34,7 @@ namespace FileHandler{
                 IDOrdinal = reader.GetOrdinal(DBAccessConstants.ColumnNames.ID);//string, 5
             }
         }
-        public void Close() => connection.Close();
+        protected void Close() => connection.Close();
         protected void ExecuteNonQuery(string command){
             using(var myCommand = new SqliteCommand(command, connection)){
                 myCommand.ExecuteNonQuery();
@@ -45,7 +45,7 @@ namespace FileHandler{
 
     internal class LoadObjects: FileHandlerBase{
         //store a csv of parent IDs rather than parent
-        public LoadObjects(string filePath): base(filePath){
+        internal LoadObjects(string filePath): base(filePath){
             MakeTables();
         }
         private void MakeTables(){
@@ -60,13 +60,13 @@ namespace FileHandler{
         }
     }
     internal class FileHandler: FileHandlerBase{
-        public readonly LoadObjects loader;
-        public readonly WriteObjects writer;
-        public FileHandler(string filePath): base(filePath){
+        private readonly LoadObjects loader;
+        private readonly WriteObjects writer;
+        internal FileHandler(string filePath): base(filePath){
             loader = new(filePath);
             writer = new(filePath);
         }
-        public BaseExpaObject GetObject(string identifier){
+        internal BaseExpaObject GetObject(string identifier){
             Result TSearchResult = SearchObject(identifier);
             Structs.Result searchResult = (Structs.Result)TSearchResult;
             BaseExpaNonGlobalObject expaObject;
@@ -86,8 +86,8 @@ namespace FileHandler{
             return expaObject;
         }
         private Result SearchObject(string key)=>SearchObjects(key, DBAccessConstants.ColumnNames.IDENTIFIER)[0];
-        public SqliteDataReader IDSearchTable(string id, string table) => RSearchTable(id, table, DBAccessConstants.ColumnNames.ID);
-        public Result[] SearchObjects(string key, string column){
+        private SqliteDataReader IDSearchTable(string id, string table) => RSearchTable(id, table, DBAccessConstants.ColumnNames.ID);
+        private Result[] SearchObjects(string key, string column){
             //assume the caller knows the thing exists
             List<Result> rl = new();
             using(var reader = RSearchTable(key, DBAccessConstants.TableNames.MAIN_TABLE_NAME, column) ){
@@ -141,7 +141,7 @@ namespace FileHandler{
             }
             return rl.ToArray();
         }
-        public SqliteDataReader RSearchTable(string key, string table, string column){
+        private SqliteDataReader RSearchTable(string key, string table, string column){
                 var command = connection.CreateCommand();
                 command.CommandText = 
                 @$"SELECT * FROM {table} WHERE {column} = {key}
@@ -164,20 +164,12 @@ namespace FileHandler{
         //         return rv;
         //     }
         // }
-        public bool ItemExists(string key, string table, string column) => RSearchTable(key, table, column).HasRows;
+        internal bool ItemExists(string key, string table, string column) => RSearchTable(key, table, column).HasRows;
     }
     
     internal class WriteObjects: FileHandlerBase{
-        public WriteObjects(string filePath): base(filePath){
+        internal WriteObjects(string filePath): base(filePath){
 
         }
     }
-}
-
-namespace StorageObjects
-{
-    static class Main{
-        public static Dictionary<string, ExpaStorageObject> ObjFromClassName = new();
-    }
-    public class ExpaStorageObject{}
 }

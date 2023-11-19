@@ -13,7 +13,7 @@ namespace ExpaObjects
     using ChildrenIDList = List<string>;
 
     #region Namespaces
-    public class ExpaGlobal : BaseExpaObject, IExpaNameSpace, IHasTime, IMCanBeParent<ExpaNation>{
+    internal class ExpaGlobal : BaseExpaObject, IExpaNameSpace, IHasTime, IMCanBeParent<ExpaNation>{
         public BackgroundTime Time{ get; private set; }
         public override TokenType Type => TokenType.GLOBAL;
         public override bool IsNameSpace => true;
@@ -47,7 +47,7 @@ namespace ExpaObjects
             this.Scope = scope;
         }
     }
-    public class ExpaNation: BaseExpaNameSpace, IExpaNameSpace, IHasTime, IMCanBeParent<ExpaNation>, IMCanBeParent<ExpaArea>, IMCanBeParent<ExpaFunction>, IMCanBeParent<ExpaTemplate>, IHasMinMaxSize{
+    internal class ExpaNation: BaseExpaNameSpace, IExpaNameSpace, IHasTime, IMCanBeParent<ExpaNation>, IMCanBeParent<ExpaArea>, IMCanBeParent<ExpaFunction>, IMCanBeParent<ExpaTemplate>, IHasMinMaxSize{
         public BackgroundTime Time{get; private set;}
         public int MaxChildShipSize{get; set;}
         public int MinChildShipSize{get; set;}
@@ -77,7 +77,7 @@ namespace ExpaObjects
         }
         #endregion
     }
-    public class ExpaArea : BaseExpaNameSpace, IExpaNameSpace, IMCanBeParent<ExpaArea>,IMCanBeParent<ExpaFunction>, IHasMinMaxSize{
+    internal class ExpaArea : BaseExpaNameSpace, IExpaNameSpace, IMCanBeParent<ExpaArea>,IMCanBeParent<ExpaFunction>, IHasMinMaxSize{
         public int MinChildShipSize{get; set;}
         public int MaxChildShipSize{get; set;}
         public override TokenType Type => TokenType.AREA;
@@ -104,7 +104,7 @@ namespace ExpaObjects
         }
         #endregion
     }
-    public class ExpaFunction: BaseExpaNameSpace, IExpaNameSpace, IReusable, IMCanBeParent<ExpaFunction>{
+    internal class ExpaFunction: BaseExpaNameSpace, IExpaNameSpace, IReusable, IMCanBeParent<ExpaFunction>{
         public StaticCommand[] Commands{ get; set; }
         public override TokenType Type => TokenType.FUNCTION;
         #region constructor
@@ -131,7 +131,7 @@ namespace ExpaObjects
         }
         
     }
-    public class ExpaTemplate: BaseExpaNameSpace, IReusable{
+    internal class ExpaTemplate: BaseExpaNameSpace, IReusable{
         public bool Equalize{ get; set; }
         public override TokenType Type => TokenType.TEMPLATE;
         #region Constructor
@@ -160,7 +160,7 @@ namespace ExpaObjects
     
     #region Values
         #region NonPrimitiveValues
-    public class ExpaTime: BaseExpaNonGlobalObject, IExpaValue<BackgroundTime>{//not IHasTime because the time object itself does not have a time, and also it doesn't make sense programtically.
+    internal class ExpaTime: BaseExpaNonGlobalObject, IExpaValue<BackgroundTime>{//not IHasTime because the time object itself does not have a time, and also it doesn't make sense programtically.
         public BackgroundTime Value{get; private set;}
 
         public override TokenType Type => TokenType.TIME;
@@ -183,7 +183,7 @@ namespace ExpaObjects
         #endregion
         
         #region Primitives
-    public class ExpaNumber : BaseExpaNonGlobalObject, IExpaValue<BackgroundNumber>{
+    internal class ExpaNumber : BaseExpaNonGlobalObject, IExpaValue<BackgroundNumber>{
         public BackgroundNumber Value{ get; private set; }
 
         public override TokenType Type => TokenType.NUMBER;
@@ -202,7 +202,7 @@ namespace ExpaObjects
         #endregion
         public override int GetHashCode() => Value.GetHashCode();
     }
-    public class ExpaBool : BaseExpaNonGlobalObject, IExpaValue<BackgroundBool>{
+    internal class ExpaBool : BaseExpaNonGlobalObject, IExpaValue<BackgroundBool>{
         public BackgroundBool Value{ get; private set; }
 
         public override TokenType Type => TokenType.BOOL;
@@ -220,7 +220,7 @@ namespace ExpaObjects
             comment
         ) => this.Value = value;       
     }
-    public class ExpaString : BaseExpaNonGlobalObject, IExpaValue<BackgroundString>{
+    internal class ExpaString : BaseExpaNonGlobalObject, IExpaValue<BackgroundString>{
         public BackgroundString Value{ get; private set; }
         public override TokenType Type => TokenType.STRING;
 
@@ -242,7 +242,7 @@ namespace ExpaObjects
         #endregion
     #endregion
     #region Constructables
-    public class ExpaShipClass : BaseExpaNonGlobalObject, IConstructable{
+    internal class ExpaShipClass : BaseExpaNonGlobalObject, IConstructable{
         public int Count{get; set;}
         public BackgroundTime Duration{get; private set;}
 
@@ -264,7 +264,7 @@ namespace ExpaObjects
             this.Count = 0;
         }
     }
-    public class ExpaComponent : BaseExpaNonGlobalObject, IFastConstructable{
+    internal class ExpaComponent : BaseExpaNonGlobalObject, IFastConstructable{
         public int Amount{get; private set;}
 
         public int Count {get; set;}

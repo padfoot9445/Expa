@@ -10,7 +10,7 @@ namespace Commands
         public int current;
         public int argNum = 0;
         public Token[] code;
-        public INameSpace parent;
+        public BaseExpaNameSpace parent;
         public Commands(CodeParseTransferrer input){
             current = input.current;
             start = current;

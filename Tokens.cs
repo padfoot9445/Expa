@@ -1,6 +1,6 @@
 namespace Tokens
 {
-    public static class Keywords{
+    internal static class Keywords{
         public static TokenType keywords(string input){
             switch(input){
                 case "global": return TokenType.GLOBAL;
@@ -79,7 +79,7 @@ namespace Tokens
             }
         }
     }
-    public enum TokenType{
+    internal enum TokenType{
         DEPENDANCY,
         GLOBAL,
         NEW,
@@ -162,7 +162,7 @@ namespace Tokens
         ONE
     }
     //implement arguments, round(true, false);
-    public class Token{
+    internal class Token{
         public TokenType tokenType;
         public int line;
         public string lexeme;

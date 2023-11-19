@@ -1,6 +1,6 @@
 namespace Markers
 {
-    public interface IMCanBeParent<T>{}
-    public interface IMDependee{}
-    public interface IMExpaRelatedObject { }    
+    internal interface IMCanBeParent<T>{}
+    internal interface IMDependee{}
+    internal interface IMExpaRelatedObject { }    
 }

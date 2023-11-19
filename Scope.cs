@@ -3,7 +3,7 @@ using Tokens;
 
 namespace Structs
 {
-    public readonly struct Scope
+    internal readonly struct Scope
     {
         public readonly Token TokenIdentifier { get; init; }
         public readonly TokenType TType { get; init; }
@@ -16,7 +16,7 @@ namespace Structs
             TType = aType;
         }
     }
-    public struct Argument
+    internal struct Argument
     {
         public TokenType ArgType { get; init; }
         public string ArgIdentifier { get; init; }

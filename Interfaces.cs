@@ -5,43 +5,43 @@ using Tokens;
 
 namespace Interfaces
 {
-    public interface IReusable{
+    internal interface IReusable{
         public void Reuse();
     }
     //*MinSize | MaxSize | Both
     /*#region minSize | maxSize*/
-    public interface IHasMaxSize{
+    internal interface IHasMaxSize{
         public int MaxChildShipSize{get; set;}
     }
-    public interface IHasMinSize{
+    internal interface IHasMinSize{
         public int MinChildShipSize{get; set;}
     }
-    public interface IHasMinMaxSize: IHasMaxSize, IHasMinSize{}
+    internal interface IHasMinMaxSize: IHasMaxSize, IHasMinSize{}
     /*#endregion*/
     //*Constructables
     /*#region Constructables*/
-    public interface IConstructable{
+    internal interface IConstructable{
         public int Count{get; set;}
         public BackgroundTime Duration{get;}
     }
-    public interface IFastConstructable: IConstructable{
+    internal interface IFastConstructable: IConstructable{
         public int Amount{get;}
     }
     /*#endregion*/
     
     //*Background-Foreground interfaces
     /*#region Background-Foreground interfaces*/
-    public interface IHasTime{
+    internal interface IHasTime{
         public BackgroundTime Time{get;}
     }
-    public interface IExpaValue<T> where T : IBackgroundValue {
+    internal interface IExpaValue<T> where T : IBackgroundValue {
         public T Value {get;}
     }
     /*#endregion*/
-    public interface IDepender{
-        public List<IMDependee> Dependees{get; set;}
+    internal interface IDepender{
+        public List<IMDependee> Dependees{get; init;}
     }
-    public interface IBackgroundValue{
+    internal interface IBackgroundValue{
         public bool ToBool();
         /// <summary>
         /// 
@@ -51,12 +51,12 @@ namespace Interfaces
         public bool Equals(object? other);
         public string ToString();
     }
-    public interface IHasStringID{
+    internal interface IHasStringID{
         public string StringID{ get; }
     }
-    public interface IExpaNameSpace{ 
-        public List<string> ChildrenStringIDs{ get;}
-        public Scope Scope{ get; }
+    internal interface IExpaNameSpace{ 
+        public List<string> ChildrenStringIDs{ get; init; }
+        public Scope Scope{ get; init; }
     }
     
 }
