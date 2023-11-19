@@ -26,7 +26,11 @@ namespace lexer{
                         current++;
                         start = current;
                         break;
- 
+                    case LexerConstants.Chars.COMMA:
+                        tokenList.Add(new(TokenType.COMMA, line, LexerConstants.Literals.COMMA, null));
+                        current++;
+                        start = current;
+                        break;
                     case LexerConstants.Chars.LEFTPAREN:
                         tokenList.Add(new Token(TokenType.LEFTPAREN, line, LexerConstants.Literals.LEFTPAREN, null));
                         current++;

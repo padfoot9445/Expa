@@ -126,6 +126,7 @@ namespace Constants{
             public const string PERCENT = "%";
             public const string DOUBLEEQUALS = "==";
             public const string EQUALS = "=";
+            public const string COMMA = ",";
         }
         public static class Chars{
             #region constant chars

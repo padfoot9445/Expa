@@ -142,9 +142,9 @@ namespace Tokens
         RIGHTSQUAREBRACKET,
         COMPONENT,
         ALIAS,
+        COMMA,
         //Interpreter only Tokens:
         INTERPRETERNULL,
-        ONE
     }
     //implement arguments, round(true, false);
     internal class Token{
