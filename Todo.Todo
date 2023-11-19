@@ -3,7 +3,6 @@ Add support for namespaces without explicitly defined scope.
 
 revamp syntax.
 Immediate:
-rewrite Lexer.cs
 rewrite ParseScope.cs
 rewrite New.cs
 rewrite Program.cs
