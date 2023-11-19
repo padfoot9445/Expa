@@ -2,5 +2,11 @@ Add loading support for various objects @ FileHandler.cs 103
 Add support for namespaces without explicitly defined scope.
 
 revamp syntax.
+Immediate:
+rewrite Lexer.cs
+rewrite ParseScope.cs
+rewrite New.cs
+rewrite Program.cs
+rollback database to last stable version if an expasyntaxerror is thrown.
 Add support for custom default display values.
 refactor for internal where possible

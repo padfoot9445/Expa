@@ -32,5 +32,8 @@ function MyFunc(int value, string name: bool){//bool is the rv
 }
 //new stuff:
 //moveScope(object?, namespace); moves the scope
-//type identifier = link(namespace.object); copies by reference
+//type identifier = link namespace.object ; copies by reference
 //type identifier = namespace.object;//copies by value
+//using namespace; //copies all objects by value
+//using link namespace; //copies all objects by reference
+//throw error if name collisions happen
