@@ -1,8 +1,9 @@
-using ExpaObjects;
-using Tokens;
-using Interfaces;
 namespace Helpers
 {
+    using ExpaObjects;
+    using Tokens;
+    using Interfaces;
+    using BackgroundObjects;
 
     public static class PPrinter{    
         public static void PPrint(object? input){
@@ -12,6 +13,7 @@ namespace Helpers
             Console.WriteLine("[{0}]", string.Join(" , ", array));
             return;
         }
+        public static void PPrint<T>(List<T> list) => PPrint(list.ToArray());
         public static void PPrint<T>(HashSet<T> set){
             Console.WriteLine("{{{0}}}", string.Join(" , ", set));
         }
@@ -19,8 +21,9 @@ namespace Helpers
             Console.WriteLine($"Time: {input.Time}");
         }
         public static void PPrint(ExpaGlobal input){
-            PPrint((INameSpace)input);
+            PPrint((BaseExpaObject)input);
             PPrint((IHasTime)input);
+            Console.WriteLine("PPrint of ExpaGlobal is WIP");
         }
         public static void PPrint(IHasMinMaxSize input){
             Console.WriteLine($"MinChildShipSize: {input.MinChildShipSize}\n MaxChildShipSize: {input.MaxChildShipSize}");
@@ -28,30 +31,29 @@ namespace Helpers
         public static void PPrint(ExpaNation input, bool printScope = false){
             PPrint((IHasMinMaxSize)input);
             PPrint((IHasTime)input);
-            PPrint((INameSpace)input, printScope);
+            PPrint((BaseExpaNameSpace)input, printScope);
         }
         public static void PPrint(ExpaArea input){
-            Console.WriteLine($"MainNationParent: {input.mainNationParent}");
             PPrint((IHasMinMaxSize)input);
-            PPrint((INameSpace)input);
+            PPrint((BaseExpaNameSpace)input);
         }
-        public static void PPrint(IBaseObject input){
-            Console.WriteLine("identifier:");
-            Console.WriteLine(input.TokenIdentifier);
-            Console.WriteLine("Parents:");
-            PPrint<string>(input.parents);
-            Console.WriteLine("Display:");
-            Console.WriteLine(input.display);
-            Console.WriteLine("Comment:");
-            Console.WriteLine(input.comment);
+        public static void PPrint(BaseExpaObject input){
+            Console.WriteLine($"Type: {input.Type}");
+            Console.WriteLine($"Display: {input.Display}");
+            Console.WriteLine($"Comment: {input.Comment}");
         }
-        public static void PPrint(INameSpace input, bool printScope=false){
+        public static void PPrint(BaseExpaNameSpace input, bool printScope=false){
+            PPrint((BaseExpaNonGlobalObject)input);
             if(printScope){
                 PPrint(input.Scope);
             }
             Console.WriteLine("Children:");
-            PPrint<string>(input.children);
-            PPrint((IBaseObject)input);
+            PPrint<string>(input.ChildrenStringIDs);
+        }
+        public static void PPrint(BaseExpaNonGlobalObject input){
+            Console.WriteLine($"Parent: {input.ParentStringID}");
+            Console.WriteLine($"Identifier: {input.StringIdentifier}");
+            Console.WriteLine($"ID: {input.StringID}");
         }
         public static void PPrint(Structs.Scope input){
             Console.WriteLine($"***SCOPE***\n\tidentifier = {input.TokenIdentifier}\n\ttype={input.TType}\n\t"); 
@@ -96,10 +98,5 @@ namespace Helpers
             }
             return tempCode;
         }
-    }
-    public static class Defaults{
-        public const int MINCSS = -1;
-        public const int MAXCSS = 10000;
-        public static readonly string[] VALIDDBFILEEXTENSIONS = {".sqlite", ". db", ".db3"};
     }
 }
