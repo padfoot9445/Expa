@@ -6,7 +6,7 @@ using ExpaObjects;
 using ArgumentDict = System.Collections.Generic.Dictionary<Tokens.TokenType, Tokens.Token>;
 using BackgroundObjects;
 using Helpers;
-using Metadata;
+using Markers;
 using Interfaces;
 
 namespace New
@@ -89,7 +89,7 @@ namespace New
 
         private void Nation(ArgumentDict? args, string identifier, string display, string? comment){
             if(args == null){
-                if(parent is not ICanBeParent<ExpaNation> newParent){
+                if(parent is not IMCanBeParent<ExpaNation> newParent){
                 throw new ExpaArgumentError(code[current].line, "Nation can only be a child of `global` or `nation` || Unable to determine exact error location, error occured around: ");
                 }
                 Parser.expaObjects[identifier] = new ExpaNation(
@@ -101,9 +101,9 @@ namespace New
                 );
                 return;
             }
-            ICanBeParent<ExpaNation> lParent;
+            IMCanBeParent<ExpaNation> lParent;
             try{
-                 lParent = (ICanBeParent<ExpaNation>)(args!.TryGetValue(TokenType.IPARENT, out Token? pValue)? Parser.expaObjects[pValue!.lexeme]:parent  );
+                 lParent = (IMCanBeParent<ExpaNation>)(args!.TryGetValue(TokenType.IPARENT, out Token? pValue)? Parser.expaObjects[pValue!.lexeme]:parent  );
             } catch(KeyNotFoundException){
                 throw new ExpaSyntaxError(args[TokenType.IPARENT].line, "Parent referenced has not been instantiated or is an invalid token");
             } catch(InvalidCastException){
@@ -149,7 +149,7 @@ namespace New
         private void Area(ArgumentDict? args, string identifier, string display, string? comment){
             if(args == null){
                 try{
-                    Parser.expaObjects[identifier] = new ExpaArea((ICanBeParent<ExpaArea>)parent, (ExpaNation)parent, Defaults.MINCSS, Defaults.MAXCSS, Parser.unparsedScopes[identifier], display, comment);
+                    Parser.expaObjects[identifier] = new ExpaArea((IMCanBeParent<ExpaArea>)parent, (ExpaNation)parent, Defaults.MINCSS, Defaults.MAXCSS, Parser.unparsedScopes[identifier], display, comment);
                     return;
                 } catch(InvalidCastException){
                     throw new ExpaArgumentError(code[current].line, "Invalid parent or nation; please specify a valid parent as per the docs or specify a valid nation parent. Near");
@@ -164,9 +164,9 @@ namespace New
             } catch(KeyNotFoundException){
                 throw new ExpaArgumentError(args![TokenType.NATION].line, "Invalid identifier");
             }
-            ICanBeParent<ExpaArea> parentV; //find normal parent
+            IMCanBeParent<ExpaArea> parentV; //find normal parent
             try{
-                parentV = args.TryGetValue(TokenType.IPARENT, out Token? IParentV)? (ICanBeParent<ExpaArea>)Parser.expaObjects[IParentV.lexeme] : (ICanBeParent<ExpaArea>)parent;
+                parentV = args.TryGetValue(TokenType.IPARENT, out Token? IParentV)? (IMCanBeParent<ExpaArea>)Parser.expaObjects[IParentV.lexeme] : (IMCanBeParent<ExpaArea>)parent;
             } catch(KeyNotFoundException){
                 throw new ExpaArgumentError(args[TokenType.IPARENT].line, "Invalid identifier - please instantiate before usage");
             } catch(InvalidCastException){
@@ -189,7 +189,7 @@ namespace New
         
         private void Function(ArgumentDict? args, string identifier, string display, string? comment){
             try{
-                Parser.expaObjects[identifier] = new ExpaFunction((ICanBeParent<ExpaFunction>)parent, Parser.unparsedScopes[identifier], display, comment);
+                Parser.expaObjects[identifier] = new ExpaFunction((IMCanBeParent<ExpaFunction>)parent, Parser.unparsedScopes[identifier], display, comment);
                 return;
             } catch(InvalidCastException){
                 throw new ExpaArgumentError(code[current].line, "Invalid parent or nation; please specify a valid parent as per the docs or specify a valid nation parent. Near:");
