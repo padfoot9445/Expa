@@ -57,8 +57,8 @@ namespace Helpers
             Console.WriteLine($"ID: {input.StringID}");
         }
         internal static void PPrint(Structs.Scope input){
-            Console.WriteLine($"***SCOPE***\n\tidentifier = {input.TokenIdentifier}\n\ttype={input.TType}\n\t"); 
-            PPrint<Token>(input.Code);
+            Console.WriteLine($"***SCOPE***\n\tidentifier = {input.Identifier}\n\ttype={input.TType}\n\t"); 
+            PPrint(input.Code);
             Console.WriteLine("***ENDOFSCOPE***");
         }
     }
@@ -74,7 +74,6 @@ namespace Helpers
     internal static class Converters{
         internal static TokenType IntToTType(int input){
             switch(input){
-                case 1: return TokenType.ONE;
                 default: return TokenType.INTERPRETERNULL;
             }
         }
