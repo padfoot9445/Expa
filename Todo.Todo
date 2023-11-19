@@ -9,3 +9,4 @@ rewrite Program.cs
 rollback database to last stable version if an expasyntaxerror is thrown.
 Add support for custom default display values.
 refactor for internal where possible
+remove alt spellings for keywords
