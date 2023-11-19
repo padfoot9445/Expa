@@ -23,12 +23,12 @@ namespace Commands
         public abstract void Parse();
         public bool HasArgument(){
             current++;
-            if(code[current].tokenType == TokenType.LEFTPAREN){
+            if(code[current].Type == TokenType.LEFTPAREN){
                 return true;
-            } else if(code[current].tokenType == TokenType.SEMICOLON){
+            } else if(code[current].Type == TokenType.SEMICOLON){
                 return false;
             } else{
-                throw new ExpaSyntaxError(code[current].line, $"Expected parenthesis or semicolon, got {code[current].tokenType}");
+                throw new ExpaSyntaxError(code[current].Line, $"Expected parenthesis or semicolon, got {code[current].Type}");
             }
         }
         public int Increment() => current - start;

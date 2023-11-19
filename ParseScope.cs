@@ -5,35 +5,29 @@ namespace ParseScope
     using Tokens;
     using Interfaces;
     using New;
-    public class ParseScope{
-        private readonly Scope scope;
-        private int current = 0;
-        private readonly Token[] code;
-        private readonly BaseExpaNameSpace self;
-        public ParseScope(Scope aScope){
-            scope = aScope;
-            code = scope.Code;
-            self = (BaseExpaNameSpace)Parser.expaObjects[scope.TokenIdentifier.lexeme];
-            Parser.unparsedScopes!.Remove(scope.TokenIdentifier.lexeme);
-            if(scope.TType == TokenType.TEMPLATE){
-                ParseTemplate();
-            } else{
-                Parse();    
+    using ExpaObjects;
+
+    internal class ParseScope{
+        private Scope Scope{ get; init; }
+        private int Current { get; set; } = 0;
+        private Token[] Code{ get; init; }
+        private IExpaNameSpace Self{ get; init; }
+        private bool IsGlobal { get; init; } = false;
+        private string ID{ get; init; }//id of the scope we are parsing now
+        private TokenType Type{ get; init; }
+        internal ParseScope(Scope Scope, string currentScopeID){
+            this.Scope = Scope;
+            this.Code = Scope.Code;
+            this.ID = currentScopeID;
+            this.Self = (IExpaNameSpace)Parser.expaObjects[ID];
+            this.Type = Scope.TType;
+            if(Self is ExpaGlobal){
+                IsGlobal = true;
             }
             //Parser for the unparsed scopes; 
         }
         
-        private void Parse(){
-            int length = code.Length;
-            while(current < length){
-                //for every token; 
-                switch(code[current].tokenType){
-                    //switch
-                    case TokenType.NEW:current += ParseNewExpr(); break;
-                }
-                current++;
-            }
-        }
+        
         private void ParseTemplate(){
             Console.WriteLine("Parsing template...");
             return;

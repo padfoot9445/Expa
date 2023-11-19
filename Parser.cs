@@ -39,23 +39,23 @@ namespace Parser
             int current = 0;
             int start = 0;
             Dictionary<string, Scope> returnDict = new();
-            while(aTokens[current].tokenType != TokenType.EOF){
+            while(aTokens[current].Type != TokenType.EOF){
                 current++;
-                if(aTokens[current].tokenType == TokenType.LEFTBRACE){
+                if(aTokens[current].Type == TokenType.LEFTBRACE){
                     start = current;			
                     int braceCount = 1;
                     while(braceCount != 0){
                         current++;
-                        if(aTokens[current].tokenType == TokenType.RIGHTBRACE){
+                        if(aTokens[current].Type == TokenType.RIGHTBRACE){
                             braceCount--;
-                        } else if(aTokens[current].tokenType == TokenType.LEFTBRACE){
+                        } else if(aTokens[current].Type == TokenType.LEFTBRACE){
                             braceCount++;
                         }
                     }
-                    if(aTokens[start - 1].tokenType == TokenType.GLOBAL){
-                        returnDict[aTokens[start-1].lexeme] = new Scope(aTokens[start-1], aTokens[start-1].tokenType, aTokens.SubArray(start + 1, current));
+                    if(aTokens[start - 1].Type == TokenType.GLOBAL){
+                        returnDict[aTokens[start-1].Lexeme] = new Scope(aTokens[start-1], aTokens[start-1].Type, aTokens.SubArray(start + 1, current));
                     } else{
-                        returnDict[aTokens[start - 1].lexeme] = new Scope(aTokens[start - 1], aTokens[start - 2].tokenType, aTokens.SubArray(start + 1, current));
+                        returnDict[aTokens[start - 1].Lexeme] = new Scope(aTokens[start - 1], aTokens[start - 2].Type, aTokens.SubArray(start + 1, current));
                         /*switch(aTokens[start - 2].tokenType){//to account for the identifier
                             case TokenType.FUNCTION:
                                 break;
