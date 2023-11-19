@@ -1,4 +1,5 @@
 namespace Constants{
+    using Tokens;
     internal static class DBAccessConstants{
         public static readonly string[] MAKE_TABLES_IF_NOT_EXISTS = {
                 $"CREATE TABLE IF NOT EXISTS {TableNames.MAIN_TABLE_NAME} ({ColumnNames.ID} string, {ColumnNames.IDENTIFIER} string, {ColumnNames.TYPE} string,  {ColumnNames.PARENT} string, {ColumnNames.DISPLAY} string,  {ColumnNames.COMMENT} string, {ColumnNames.CHILDREN} string)",
@@ -105,5 +106,96 @@ namespace Constants{
         public const string QUEUELENGTH_ALT_SPELLING = "queueLength"; 
         public const string MAXQUEUE_ALT_SPELLING = "maxQueue"; 
         public const string MINQUEUE_ALT_SPELLING = "minQueue"; 
+    }
+    internal static class LexerConstants{
+        #region literals
+        public static class Literals{
+            public const string LEFTSQUAREBRACKET = "[";
+            public const string RIGHTSQUAREBRACKET = "[";
+            public const string LEFTPAREN = "(";
+            public const string RIGHTPAREN = ")";
+            public const string LEFTBRACE = "{";
+            public const string RIGHTBRACE = "}";
+            public const string SEMICOLON = ";";
+            public const string DOT = ".";
+            public const string COLON = ":";
+            public const string PLUS = "+";
+            public const string MINUS = "-";
+            public const string STAR = "*";
+            public const string SLASH = "/";
+            public const string PERCENT = "%";
+            public const string DOUBLEEQUALS = "==";
+            public const string EQUALS = "=";
+        }
+        public static class Chars{
+            #region constant chars
+            public const char LEFTSQUAREBRACKET = '[';
+            public const char RIGHTSQUAREBRACKET = ']';
+            public const char LEFTPAREN = '(';
+            public const char RIGHTPAREN = ')';
+            public const char LEFTBRACE = '{';
+            public const char RIGHTBRACE = '}';
+            public const char SEMICOLON = ';';
+            public const char DOT = '.';
+            public const char COLON = ':';
+            public const char PLUS = '+';
+            public const char MINUS = '-';
+            public const char STAR = '*';
+            public const char PERCENT = '%';
+            public const char SPACE = ' ';
+            public const char RETURN = '\r';
+            public const char TAB = '\t';
+            public const char NEWLINE = '\n';
+            public const char SLASH = '/';
+            public const char DOUBLE_QUOTE = '"';
+            public const char EQUAL_SIGN = '=';
+            public const char COMMA = ',';
+            #endregion
+        }
+        #endregion
+        public static class IsValid{
+                public static bool NumberOrMonthChar(char input){
+                    switch(input){
+                        #region numbers
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                        case '0':
+                        #endregion
+                        case Chars.DOT:
+                        case Chars.SPACE:
+                        case Chars.COMMA:
+                        case '-':
+                        case '/':
+                            return true;
+                        default: return false;
+
+                    }
+                }
+                public static bool ArgumentName(TokenType input){
+                    switch(input){
+                        case TokenType.NATION:
+                        case TokenType.SPEED:
+                        case TokenType.TIME:
+                        case TokenType.DISPLAY:
+                        case TokenType.BERTHS:
+                        case TokenType.MAXSIZE:
+                        case TokenType.MINSIZE:
+                        case TokenType.EQUALIZE:
+                        case TokenType.MAX:
+                        case TokenType.COMMENT:
+                            return true;
+                        default:
+                            return false;
+                    }
+        }
+            }
+        
     }
 }

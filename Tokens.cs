@@ -62,23 +62,7 @@ namespace Tokens
 
             }
         }
-        public static bool IsValidArgumentName(TokenType input){
-            switch(input){
-               case TokenType.NATION:
-               case TokenType.SPEED:
-               case TokenType.TIME:
-               case TokenType.DISPLAY:
-               case TokenType.BERTHS:
-               case TokenType.MAXSIZE:
-               case TokenType.MINSIZE:
-               case TokenType.EQUALIZE:
-               case TokenType.MAX:
-               case TokenType.COMMENT:
-                    return true;
-                default:
-                    return false;
-            }
-        }
+        
     }
     internal enum TokenType{
         DEPENDANCY,
