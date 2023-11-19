@@ -87,7 +87,6 @@ namespace FileHandler{
         }
         private Result SearchObject(string key)=>SearchObjects(key, DBAccessConstants.ColumnNames.IDENTIFIER)[0];
         public SqliteDataReader IDSearchTable(string id, string table) => RSearchTable(id, table, DBAccessConstants.ColumnNames.ID);
-        //TODO: Refactor all hardcoded values to Constants.cs
         public Result[] SearchObjects(string key, string column){
             //assume the caller knows the thing exists
             List<Result> rl = new();
