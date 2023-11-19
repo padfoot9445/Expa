@@ -106,6 +106,13 @@ namespace Constants{
         public const string QUEUELENGTH_ALT_SPELLING = "queueLength"; 
         public const string MAXQUEUE_ALT_SPELLING = "maxQueue"; 
         public const string MINQUEUE_ALT_SPELLING = "minQueue"; 
+        public const string OBJECT_TIME = "objectTime";
+        public const string IF = "if";
+        public const string FOR = "for";
+        public const string FOREACH = "foreach";
+        public const string IN = "in";
+        public const string QUEUE = "queue";
+
     }
     internal static class LexerConstants{
         #region literals
@@ -127,6 +134,10 @@ namespace Constants{
             public const string DOUBLEEQUALS = "==";
             public const string EQUALS = "=";
             public const string COMMA = ",";
+            
+            public const string DOUBLE_MINUS = "--";
+            public const string DOUBLE_PLUS = "++";
+            public const string DOUBLE_STAR = "**";
         }
         public static class Chars{
             #region constant chars

@@ -1,8 +1,10 @@
 namespace Tokens
 {
     using Constants;
+    using Errors;
+
     internal static class Keywords{
-        public static TokenType KeyWords(string input){
+        public static TokenType StrKWToTType(string input){
             switch(input){
                 case KeywordStringConstants.GLOBAL: return TokenType.GLOBAL;
                 case KeywordStringConstants.NEW: return TokenType.NEW;
@@ -13,7 +15,6 @@ namespace Tokens
                 case KeywordStringConstants.AREA: return TokenType.AREA;
                 case KeywordStringConstants.VIEW: return TokenType.VIEW;
                 case KeywordStringConstants.INFORMATION: return TokenType.INFORMATION;
-                case KeywordStringConstants.PROGRAM: return TokenType.PROGRAM;
                 case KeywordStringConstants.ALL: return TokenType.ALL;
                 case KeywordStringConstants.USING: return TokenType.USING;
                 case KeywordStringConstants.FROM: return TokenType.FROM;
@@ -34,7 +35,7 @@ namespace Tokens
                 case KeywordStringConstants.RELEASE: return TokenType.RELEASE;
                 case KeywordStringConstants.WHILE: return TokenType.WHILE;
                 case KeywordStringConstants.QUEUELENGTH_ALT_SPELLING: case KeywordStringConstants.QUEUELENGTH:  return TokenType.QUEUELENGTH;
-                case KeywordStringConstants.MAXQUEUE_ALT_SPELLING: case KeywordStringConstants.MAXQUEUE:  return TokenType.MAXQUEUE;//idk what this does; i'm going to assume its an attribute: but it can be replaced with max anyways
+                case KeywordStringConstants.MAXQUEUE_ALT_SPELLING: case KeywordStringConstants.MAXQUEUE:  return TokenType.MAXQUEUE;//seek to maintain minqueue, force maintain maxqueue.
                 case KeywordStringConstants.MINQUEUE_ALT_SPELLING: case KeywordStringConstants.MINQUEUE:  return TokenType.MINQUEUE;
                 case KeywordStringConstants.MIN: return TokenType.MIN;
                 case KeywordStringConstants.MAX: return TokenType.MAX;
@@ -42,7 +43,6 @@ namespace Tokens
                 case KeywordStringConstants.SHIFT: return TokenType.SHIFT;
                 case KeywordStringConstants.UNSHIFT: return TokenType.UNSHIFT;
                 case KeywordStringConstants.AND: return TokenType.AND;
-                case KeywordStringConstants.REPEAT: return TokenType.REPEAT;
                 case KeywordStringConstants.ROUND: return TokenType.ROUND;
                 case KeywordStringConstants.PERMANENT: return TokenType.PERMANENT;
                 case KeywordStringConstants.OR: return TokenType.OR;
@@ -52,14 +52,80 @@ namespace Tokens
                 case KeywordStringConstants.FUNCTION: return TokenType.FUNCTION;
                 case KeywordStringConstants.COMMENT: return TokenType.COMMENT;
                 case KeywordStringConstants.MODIFY: return TokenType.MODIFY;
-                case KeywordStringConstants.IPARENT: return TokenType.IPARENT;
                 case KeywordStringConstants.INT: return TokenType.INT;
                 case KeywordStringConstants.STRING: return TokenType.STRING;
                 case KeywordStringConstants.COMPONENT: return TokenType.COMPONENT;
                 case KeywordStringConstants.ALIAS: return TokenType.ALIAS;
                 case KeywordStringConstants.DEPENDANCY: return TokenType.DEPENDANCY;
+                case KeywordStringConstants.OBJECT_TIME: return TokenType.OBJECT_TIME;
+                case KeywordStringConstants.IF: return TokenType.IF;
+                case KeywordStringConstants.FOR: return TokenType.FOR;
+                case KeywordStringConstants.FOREACH: return TokenType.FOREACH;
+                case KeywordStringConstants.IN: return TokenType.IN;
+                case KeywordStringConstants.QUEUE: return TokenType.QUEUE;
                 default: return TokenType.INTERPRETERNULL;
 
+            }
+        }
+        public static TokenTypeType IdentifierToTTypeType(string input){
+            switch(input){
+                case KeywordStringConstants.GLOBAL: return TokenTypeType.NAMESPACETYPE;
+                case KeywordStringConstants.NEW: return TokenTypeType.NAMESPACETYPE;
+                case KeywordStringConstants.TIME: return TokenTypeType.VALUETYPE;
+                case KeywordStringConstants.NATION: return TokenTypeType.NAMESPACETYPE;
+                case KeywordStringConstants.SPEED: return TokenTypeType.PARAMETER;
+                case KeywordStringConstants.DISPLAY: return TokenTypeType.PARAMETER;
+                case KeywordStringConstants.AREA: return TokenTypeType.NAMESPACETYPE;
+                case KeywordStringConstants.VIEW: return TokenTypeType.COMMAND;
+                case KeywordStringConstants.INFORMATION: return TokenTypeType.SWITCH;
+                case KeywordStringConstants.ALL: return TokenTypeType.SWITCH;
+                case KeywordStringConstants.USING: return TokenTypeType.COMMAND;
+                case KeywordStringConstants.FROM: return TokenTypeType.SWITCH;
+                case KeywordStringConstants.SHIPYARD: return TokenTypeType.VALUETYPE;
+                case KeywordStringConstants.BERTHS: return TokenTypeType.VALUETYPE;
+                case KeywordStringConstants.MAXSIZE_ALT_SPELLING: case KeywordStringConstants.MAXSIZE:  return TokenTypeType.PARAMETER;
+                case KeywordStringConstants.MINSIZE_ALT_SPELLING: case KeywordStringConstants.MINSIZE:  return TokenTypeType.PARAMETER;
+                case KeywordStringConstants.SHIPCLASS: return TokenTypeType.VALUETYPE;
+                case KeywordStringConstants.TEMPLATE: return TokenTypeType.NAMESPACETYPE;
+                case KeywordStringConstants.TRUE: return TokenTypeType.VALUE;
+                case KeywordStringConstants.FALSE: return TokenTypeType.VALUE;
+                case KeywordStringConstants.EQUALIZE: return TokenTypeType.PARAMETER;
+                case KeywordStringConstants.SWITCH: return TokenTypeType.CTRL;//replaces if
+                case KeywordStringConstants.ELSE: return TokenTypeType.CTRL;
+                case KeywordStringConstants.ADD: return TokenTypeType.FUNCTION;
+                case KeywordStringConstants.REMOVE: return TokenTypeType.FUNCTION;
+                case KeywordStringConstants.HOLDQUEUE_ALT_SPELLING: case KeywordStringConstants.HOLDQUEUE:  return TokenTypeType.FUNCTION;
+                case KeywordStringConstants.RELEASE: return TokenTypeType.FUNCTION;
+                case KeywordStringConstants.WHILE: return TokenTypeType.CTRL;
+                case KeywordStringConstants.QUEUELENGTH_ALT_SPELLING: case KeywordStringConstants.QUEUELENGTH:  return TokenTypeType.ATTRIBUTE;
+                case KeywordStringConstants.MAXQUEUE_ALT_SPELLING: case KeywordStringConstants.MAXQUEUE:  return TokenTypeType.PARAMETER;
+                case KeywordStringConstants.MINQUEUE_ALT_SPELLING: case KeywordStringConstants.MINQUEUE:  return TokenTypeType.PARAMETER;
+                case KeywordStringConstants.MIN: return TokenTypeType.FUNCTION;
+                case KeywordStringConstants.MAX: return TokenTypeType.FUNCTION;
+                case KeywordStringConstants.NOT: return TokenTypeType.CTRL_OPERATOR;
+                case KeywordStringConstants.SHIFT: return TokenTypeType.FUNCTION;
+                case KeywordStringConstants.UNSHIFT: return TokenTypeType.FUNCTION;
+                case KeywordStringConstants.AND: return TokenTypeType.CTRL_OPERATOR;
+                case KeywordStringConstants.ROUND: return TokenTypeType.FUNCTION;
+                case KeywordStringConstants.PERMANENT: return TokenTypeType.COMMAND;
+                case KeywordStringConstants.OR: return TokenTypeType.CTRL_OPERATOR;
+                case KeywordStringConstants.GET: return TokenTypeType.FUNCTION;
+                case KeywordStringConstants.CASE: return TokenTypeType.CTRL;
+                case KeywordStringConstants.BREAK: return TokenTypeType.COMMAND;
+                case KeywordStringConstants.FUNCTION: return TokenTypeType.NAMESPACETYPE;
+                case KeywordStringConstants.COMMENT: return TokenTypeType.PARAMETER;
+                case KeywordStringConstants.MODIFY: return TokenTypeType.COMMAND;
+                case KeywordStringConstants.INT: return TokenTypeType.VALUETYPE;
+                case KeywordStringConstants.STRING: return TokenTypeType.VALUETYPE;
+                case KeywordStringConstants.COMPONENT: return TokenTypeType.VALUETYPE;
+                case KeywordStringConstants.ALIAS: return TokenTypeType.VALUE;
+                case KeywordStringConstants.DEPENDANCY: return TokenTypeType.PARAMETER;
+                case KeywordStringConstants.IF: return TokenTypeType.CTRL;
+                case KeywordStringConstants.FOR: return TokenTypeType.COMMAND;
+                case KeywordStringConstants.FOREACH: return TokenTypeType.COMMAND;
+                case KeywordStringConstants.IN: return TokenTypeType.COMMAND;
+                case KeywordStringConstants.QUEUE: return TokenTypeType.ATTRIBUTE;
+                default: throw new ExpaInterpreterError(-1, "Reached default case in IdentifierToTypeType conversion.");
             }
         }
         
@@ -143,23 +209,49 @@ namespace Tokens
         COMPONENT,
         ALIAS,
         COMMA,
+        OBJECT_TIME,
+        FOR,
+        FOREACH,
+        IN,
+        DOUBLE_PLUS,
+        DOUBLE_MINUS,
+        DOUBLE_STAR,
+        QUEUE,//optinal qualifier for accessing queue.
         //Interpreter only Tokens:
         INTERPRETERNULL,
     }
     //implement arguments, round(true, false);
-    internal class Token{
-        public TokenType tokenType;
-        public int line;
-        public string lexeme;
-        public string? literal;
-        public Token(TokenType aTokenType, int aLine, string aLexeme, string? aLiteral){
-            line = aLine;
-            lexeme = aLexeme;
-            literal = aLiteral;
-            tokenType = aTokenType;
+    internal enum TokenTypeType{//type of TokenType
+        FUNCTION,
+        SYMBOL,
+        VALUETYPE,
+        NAMESPACETYPE,
+        VALUE,
+        COMMAND,
+        PARAMETER,
+        IDENTIFIER,
+        SWITCH,
+        CTRL,
+        ATTRIBUTE,
+        CTRL_OPERATOR,
+        OPERATOR,
+        INTERPRETERNULL
+    }
+    internal readonly struct Token{
+        public TokenType Type{ get; init; }
+        public int Line{ get; init; }
+        public string Lexeme{ get; init; }
+        public string? Literal{ get; init; }
+        public TokenTypeType TypeOfTType{ get; init; }
+        public Token(TokenType aTokenType, TokenTypeType tokenTypeType, int aLine, string aLexeme, string? aLiteral){
+            Line = aLine;
+            Lexeme = aLexeme;
+            Literal = aLiteral;
+            Type = aTokenType;
+            TypeOfTType = tokenTypeType;
         }
         public override string ToString(){
-            return lexeme;
+            return Lexeme;
         }
     }
 }
