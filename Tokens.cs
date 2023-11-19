@@ -1,78 +1,79 @@
 namespace Tokens
 {
+    using Constants;
     internal static class Keywords{
-        public static TokenType keywords(string input){
+        public static TokenType KeyWords(string input){
             switch(input){
-                case "global": return TokenType.GLOBAL;
-                case "new": return TokenType.NEW;
-                case "time": return TokenType.TIME;
-                case "nation": return TokenType.NATION;
-                case "speed": return TokenType.SPEED;
-                case "display": return TokenType.DISPLAY;
-                case "area": return TokenType.AREA;
-                case "view": return TokenType.VIEW;
-                case "information": return TokenType.INFORMATION;
-                case "program": return TokenType.PROGRAM;
-                case "all": return TokenType.ALL;
-                case "using": return TokenType.USING;
-                case "from": return TokenType.FROM;
-                case "shipyard": return TokenType.SHIPYARD;
-                case "berths": return TokenType.BERTHS;
-                case "maxsize": case "maxSize": return TokenType.MAXSIZE;
-                case "minsize": case "minSize": return TokenType.MINSIZE;
-                case "shipclass": return TokenType.SHIPCLASS;
-                case "template": return TokenType.TEMPLATE;
-                case "true": return TokenType.TRUE;
-                case "false": return TokenType.FALSE;
-                case "equalize": return TokenType.EQUALIZE;
-                case "switch": return TokenType.SWITCH;//replaces if
-                case "else": return TokenType.ELSE;
-                case "add": return TokenType.ADD;
-                case "remove": return TokenType.REMOVE;
-                case "holdQueue": case "holdqueue": return TokenType.HOLDQUEUE;
-                case "release": return TokenType.RELEASE;
-                case "while": return TokenType.WHILE;
-                case "queueLength": case "queuelength": return TokenType.QUEUELENGTH;
-                case "maxQueue": case "maxqueue": return TokenType.MAXQUEUE;//idk what this does; i'm going to assume its an attribute: but it can be replaced with max anyways
-                case "minQueue": case "minqueue": return TokenType.MINQUEUE;
-                case "min": return TokenType.MIN;
-                case "max": return TokenType.MAX;
-                case "not": return TokenType.NOT;
-                case "shift": return TokenType.SHIFT;
-                case "unshift": return TokenType.UNSHIFT;
-                case "and": return TokenType.AND;
-                case "repeat": return TokenType.REPEAT;
-                case "round": return TokenType.ROUND;
-                case "permanent": return TokenType.PERMANENT;
-                case "or": return TokenType.OR;
-                case "get": return TokenType.GET;
-                case "case": return TokenType.CASE;
-                case "break": return TokenType.BREAK;
-                case "function": return TokenType.FUNCTION;
-                case "comment": return TokenType.COMMENT;
-                case "modify": return TokenType.MODIFY;
-                case "iParent": return TokenType.IPARENT;
-                case "int": return TokenType.INT;
-                case "string": return TokenType.STRING;
-                case "component": return TokenType.COMPONENT;
-                case "alias": return TokenType.ALIAS;
-                case "dependancy": return TokenType.DEPENDANCY;
+                case KeywordStringConstants.GLOBAL: return TokenType.GLOBAL;
+                case KeywordStringConstants.NEW: return TokenType.NEW;
+                case KeywordStringConstants.TIME: return TokenType.TIME;
+                case KeywordStringConstants.NATION: return TokenType.NATION;
+                case KeywordStringConstants.SPEED: return TokenType.SPEED;
+                case KeywordStringConstants.DISPLAY: return TokenType.DISPLAY;
+                case KeywordStringConstants.AREA: return TokenType.AREA;
+                case KeywordStringConstants.VIEW: return TokenType.VIEW;
+                case KeywordStringConstants.INFORMATION: return TokenType.INFORMATION;
+                case KeywordStringConstants.PROGRAM: return TokenType.PROGRAM;
+                case KeywordStringConstants.ALL: return TokenType.ALL;
+                case KeywordStringConstants.USING: return TokenType.USING;
+                case KeywordStringConstants.FROM: return TokenType.FROM;
+                case KeywordStringConstants.SHIPYARD: return TokenType.SHIPYARD;
+                case KeywordStringConstants.BERTHS: return TokenType.BERTHS;
+                case KeywordStringConstants.MAXSIZE_ALT_SPELLING: case KeywordStringConstants.MAXSIZE:  return TokenType.MAXSIZE;
+                case KeywordStringConstants.MINSIZE_ALT_SPELLING: case KeywordStringConstants.MINSIZE:  return TokenType.MINSIZE;
+                case KeywordStringConstants.SHIPCLASS: return TokenType.SHIPCLASS;
+                case KeywordStringConstants.TEMPLATE: return TokenType.TEMPLATE;
+                case KeywordStringConstants.TRUE: return TokenType.TRUE;
+                case KeywordStringConstants.FALSE: return TokenType.FALSE;
+                case KeywordStringConstants.EQUALIZE: return TokenType.EQUALIZE;
+                case KeywordStringConstants.SWITCH: return TokenType.SWITCH;//replaces if
+                case KeywordStringConstants.ELSE: return TokenType.ELSE;
+                case KeywordStringConstants.ADD: return TokenType.ADD;
+                case KeywordStringConstants.REMOVE: return TokenType.REMOVE;
+                case KeywordStringConstants.HOLDQUEUE_ALT_SPELLING: case KeywordStringConstants.HOLDQUEUE:  return TokenType.HOLDQUEUE;
+                case KeywordStringConstants.RELEASE: return TokenType.RELEASE;
+                case KeywordStringConstants.WHILE: return TokenType.WHILE;
+                case KeywordStringConstants.QUEUELENGTH_ALT_SPELLING: case KeywordStringConstants.QUEUELENGTH:  return TokenType.QUEUELENGTH;
+                case KeywordStringConstants.MAXQUEUE_ALT_SPELLING: case KeywordStringConstants.MAXQUEUE:  return TokenType.MAXQUEUE;//idk what this does; i'm going to assume its an attribute: but it can be replaced with max anyways
+                case KeywordStringConstants.MINQUEUE_ALT_SPELLING: case KeywordStringConstants.MINQUEUE:  return TokenType.MINQUEUE;
+                case KeywordStringConstants.MIN: return TokenType.MIN;
+                case KeywordStringConstants.MAX: return TokenType.MAX;
+                case KeywordStringConstants.NOT: return TokenType.NOT;
+                case KeywordStringConstants.SHIFT: return TokenType.SHIFT;
+                case KeywordStringConstants.UNSHIFT: return TokenType.UNSHIFT;
+                case KeywordStringConstants.AND: return TokenType.AND;
+                case KeywordStringConstants.REPEAT: return TokenType.REPEAT;
+                case KeywordStringConstants.ROUND: return TokenType.ROUND;
+                case KeywordStringConstants.PERMANENT: return TokenType.PERMANENT;
+                case KeywordStringConstants.OR: return TokenType.OR;
+                case KeywordStringConstants.GET: return TokenType.GET;
+                case KeywordStringConstants.CASE: return TokenType.CASE;
+                case KeywordStringConstants.BREAK: return TokenType.BREAK;
+                case KeywordStringConstants.FUNCTION: return TokenType.FUNCTION;
+                case KeywordStringConstants.COMMENT: return TokenType.COMMENT;
+                case KeywordStringConstants.MODIFY: return TokenType.MODIFY;
+                case KeywordStringConstants.IPARENT: return TokenType.IPARENT;
+                case KeywordStringConstants.INT: return TokenType.INT;
+                case KeywordStringConstants.STRING: return TokenType.STRING;
+                case KeywordStringConstants.COMPONENT: return TokenType.COMPONENT;
+                case KeywordStringConstants.ALIAS: return TokenType.ALIAS;
+                case KeywordStringConstants.DEPENDANCY: return TokenType.DEPENDANCY;
                 default: return TokenType.INTERPRETERNULL;
 
             }
         }
         public static bool IsValidArgumentName(TokenType input){
             switch(input){
-                case TokenType.NATION:
-                case TokenType.SPEED:
-                case TokenType.TIME:
-                case TokenType.DISPLAY:
-                case TokenType.BERTHS:
-                case TokenType.MAXSIZE:
-                case TokenType.MINSIZE:
-                case TokenType.EQUALIZE:
-                case TokenType.MAX:
-                case TokenType.COMMENT:
+               case TokenType.NATION:
+               case TokenType.SPEED:
+               case TokenType.TIME:
+               case TokenType.DISPLAY:
+               case TokenType.BERTHS:
+               case TokenType.MAXSIZE:
+               case TokenType.MINSIZE:
+               case TokenType.EQUALIZE:
+               case TokenType.MAX:
+               case TokenType.COMMENT:
                     return true;
                 default:
                     return false;
