@@ -172,6 +172,7 @@ namespace Tokens
                 case TokenType.UNSHIFT:
                 case TokenType.ROUND:
                 case TokenType.GET:
+                case TokenType.LENGTH:
                     return true;
                 default: return false;
             }
@@ -180,6 +181,7 @@ namespace Tokens
             switch(input){
                 case TokenType.QUEUE:
                 case TokenType.QUEUELENGTH:
+                case TokenType.TYPE:
                     return true;
                 default: return false;
             }

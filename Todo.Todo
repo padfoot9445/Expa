@@ -6,13 +6,14 @@ features to be added:
 
 revamp syntax.
 Immediate:
-add len function
-Type attribute
-add <> symbols
 rewrite ParseScope.cs
+
+
 rewrite New.cs
 rewrite Program.cs
 Add support for namespaces without explicitly defined scope.
+add <> symbols
+readonly keyword
 rollback database to last stable version if an expasyntaxerror is thrown.
 Add support for custom default display values.
 refactor for internal where possible
