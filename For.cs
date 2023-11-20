@@ -3,8 +3,10 @@ using Tokens;
 namespace Commands{
     internal class For : Command
     {
-        public For(Token[] codeSection, string parentStringID) : base(codeSection, parentStringID)
+        private Token[] Condition{ get; init; }
+        public For(Token[] condition, Token[] codeSection, string parentStringID) : base(codeSection, parentStringID)
         {
+            Condition = condition;
         }
 
         internal override void Execute()
