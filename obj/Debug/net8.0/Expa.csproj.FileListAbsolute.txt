@@ -1,0 +1,6 @@
+D:\coding\c#\expa\Expa\Expa\obj\Debug\net8.0\Expa.csproj.AssemblyReference.cache
+D:\coding\c#\expa\Expa\Expa\obj\Debug\net8.0\Expa.GeneratedMSBuildEditorConfig.editorconfig
+D:\coding\c#\expa\Expa\Expa\obj\Debug\net8.0\Expa.AssemblyInfoInputs.cache
+D:\coding\c#\expa\Expa\Expa\obj\Debug\net8.0\Expa.AssemblyInfo.cs
+D:\coding\c#\expa\Expa\Expa\obj\Debug\net8.0\Expa.csproj.CoreCompileInputs.cache
+D:\coding\c#\expa\Expa\Expa\obj\Debug\net8.0\Expa.sourcelink.json
