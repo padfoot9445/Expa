@@ -25,19 +25,22 @@ namespace BackgroundObjects
         public virtual bool IsNameSpace => false;
         public string Display{ get; internal set; }
         public string? Comment{ get; internal set; }
-        protected BaseExpaObject(string display, string? comment){
+        public string StringIdentifier{ get; init; }
+        public virtual string StringID =>StringIdentifier;
+        protected BaseExpaObject(string stringIdentifier, string display, string? comment){
+            StringIdentifier = stringIdentifier;
             this.Display = display;
             this.Comment = comment;
         }
     }
     internal abstract class BaseExpaNonGlobalObject: BaseExpaObject, IHasStringID{
-        protected BaseExpaNonGlobalObject(string parentStringID, string stringIdentifier, string? display=null, string? comment=null) : base(display is null? stringIdentifier : display, comment){
+        protected BaseExpaNonGlobalObject(string parentStringID, string stringIdentifier, string? display=null, string? comment=null) : base(stringIdentifier, display is null? stringIdentifier : display, comment){
+            
             this.StringIdentifier = stringIdentifier;
             this.ParentStringID = parentStringID;
         }
         public string ParentStringID{ get; internal set; }
-        public string StringIdentifier{ get; init; }
-        public string StringID => ParentStringID + Constants.ExpaObjectConstants.OBJECT_ID_SEPERATOR + StringIdentifier;
+        public override string StringID => ParentStringID + Constants.ExpaObjectConstants.OBJECT_ID_SEPERATOR + StringIdentifier;
     }
     internal abstract class BaseExpaNameSpace: BaseExpaNonGlobalObject, IExpaNameSpace{
         public override bool IsNameSpace => true;
