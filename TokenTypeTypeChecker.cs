@@ -1,5 +1,5 @@
 namespace Tokens{
-    internal static class Is{
+    internal static class TokenTypeTypeChecker{
         public static bool IsSwitch(this Token input){
             switch(input.Type){
                 case TokenType.INFORMATION: 
