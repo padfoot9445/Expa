@@ -112,7 +112,8 @@ namespace Constants{
         public const string FOREACH = "foreach";
         public const string IN = "in";
         public const string QUEUE = "queue";
-
+        public const string VOID = "void";
+        public const string NAMESPACE = "namespace";
     }
     internal static class LexerConstants{
         #region literals

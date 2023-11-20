@@ -63,68 +63,72 @@ namespace Tokens
                 case KeywordStringConstants.FOREACH: return TokenType.FOREACH;
                 case KeywordStringConstants.IN: return TokenType.IN;
                 case KeywordStringConstants.QUEUE: return TokenType.QUEUE;
+                case KeywordStringConstants.VOID: return TokenType.VOID;
+                case KeywordStringConstants.NAMESPACE: return TokenType.NAMESPACE;
                 default: return TokenType.INTERPRETERNULL;
 
             }
         }
-        public static TokenTypeType IdentifierToTTypeType(string input){
+        public static TokenTypeType[] IdentifierToTTypeType(string input){
             switch(input){
-                case KeywordStringConstants.GLOBAL: return TokenTypeType.NAMESPACETYPE;
-                case KeywordStringConstants.NEW: return TokenTypeType.NAMESPACETYPE;
-                case KeywordStringConstants.TIME: return TokenTypeType.VALUETYPE;
-                case KeywordStringConstants.NATION: return TokenTypeType.NAMESPACETYPE;
-                case KeywordStringConstants.SPEED: return TokenTypeType.PARAMETER;
-                case KeywordStringConstants.DISPLAY: return TokenTypeType.PARAMETER;
-                case KeywordStringConstants.AREA: return TokenTypeType.NAMESPACETYPE;
-                case KeywordStringConstants.VIEW: return TokenTypeType.COMMAND;
-                case KeywordStringConstants.INFORMATION: return TokenTypeType.SWITCH;
-                case KeywordStringConstants.ALL: return TokenTypeType.SWITCH;
-                case KeywordStringConstants.USING: return TokenTypeType.COMMAND;
-                case KeywordStringConstants.FROM: return TokenTypeType.SWITCH;
-                case KeywordStringConstants.SHIPYARD: return TokenTypeType.VALUETYPE;
-                case KeywordStringConstants.BERTHS: return TokenTypeType.VALUETYPE;
-                case KeywordStringConstants.MAXSIZE_ALT_SPELLING: case KeywordStringConstants.MAXSIZE:  return TokenTypeType.PARAMETER;
-                case KeywordStringConstants.MINSIZE_ALT_SPELLING: case KeywordStringConstants.MINSIZE:  return TokenTypeType.PARAMETER;
-                case KeywordStringConstants.SHIPCLASS: return TokenTypeType.VALUETYPE;
-                case KeywordStringConstants.TEMPLATE: return TokenTypeType.NAMESPACETYPE;
-                case KeywordStringConstants.TRUE: return TokenTypeType.VALUE;
-                case KeywordStringConstants.FALSE: return TokenTypeType.VALUE;
-                case KeywordStringConstants.EQUALIZE: return TokenTypeType.PARAMETER;
-                case KeywordStringConstants.SWITCH: return TokenTypeType.CTRL;//replaces if
-                case KeywordStringConstants.ELSE: return TokenTypeType.CTRL;
-                case KeywordStringConstants.ADD: return TokenTypeType.FUNCTION;
-                case KeywordStringConstants.REMOVE: return TokenTypeType.FUNCTION;
-                case KeywordStringConstants.HOLDQUEUE_ALT_SPELLING: case KeywordStringConstants.HOLDQUEUE:  return TokenTypeType.FUNCTION;
-                case KeywordStringConstants.RELEASE: return TokenTypeType.FUNCTION;
-                case KeywordStringConstants.WHILE: return TokenTypeType.CTRL;
-                case KeywordStringConstants.QUEUELENGTH_ALT_SPELLING: case KeywordStringConstants.QUEUELENGTH:  return TokenTypeType.ATTRIBUTE;
-                case KeywordStringConstants.MAXQUEUE_ALT_SPELLING: case KeywordStringConstants.MAXQUEUE:  return TokenTypeType.PARAMETER;
-                case KeywordStringConstants.MINQUEUE_ALT_SPELLING: case KeywordStringConstants.MINQUEUE:  return TokenTypeType.PARAMETER;
-                case KeywordStringConstants.MIN: return TokenTypeType.FUNCTION;
-                case KeywordStringConstants.MAX: return TokenTypeType.FUNCTION;
-                case KeywordStringConstants.NOT: return TokenTypeType.CTRL_OPERATOR;
-                case KeywordStringConstants.SHIFT: return TokenTypeType.FUNCTION;
-                case KeywordStringConstants.UNSHIFT: return TokenTypeType.FUNCTION;
-                case KeywordStringConstants.AND: return TokenTypeType.CTRL_OPERATOR;
-                case KeywordStringConstants.ROUND: return TokenTypeType.FUNCTION;
-                case KeywordStringConstants.PERMANENT: return TokenTypeType.COMMAND;
-                case KeywordStringConstants.OR: return TokenTypeType.CTRL_OPERATOR;
-                case KeywordStringConstants.GET: return TokenTypeType.FUNCTION;
-                case KeywordStringConstants.CASE: return TokenTypeType.CTRL;
-                case KeywordStringConstants.BREAK: return TokenTypeType.COMMAND;
-                case KeywordStringConstants.FUNCTION: return TokenTypeType.NAMESPACETYPE;
-                case KeywordStringConstants.COMMENT: return TokenTypeType.PARAMETER;
-                case KeywordStringConstants.MODIFY: return TokenTypeType.COMMAND;
-                case KeywordStringConstants.INT: return TokenTypeType.VALUETYPE;
-                case KeywordStringConstants.STRING: return TokenTypeType.VALUETYPE;
-                case KeywordStringConstants.COMPONENT: return TokenTypeType.VALUETYPE;
-                case KeywordStringConstants.ALIAS: return TokenTypeType.VALUE;
-                case KeywordStringConstants.DEPENDANCY: return TokenTypeType.PARAMETER;
-                case KeywordStringConstants.IF: return TokenTypeType.CTRL;
-                case KeywordStringConstants.FOR: return TokenTypeType.COMMAND;
-                case KeywordStringConstants.FOREACH: return TokenTypeType.COMMAND;
-                case KeywordStringConstants.IN: return TokenTypeType.COMMAND;
-                case KeywordStringConstants.QUEUE: return TokenTypeType.ATTRIBUTE;
+                case KeywordStringConstants.GLOBAL: return new TokenTypeType[]{TokenTypeType.NAMESPACETYPE, TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.NEW: return new TokenTypeType[]{TokenTypeType.COMMAND};
+                case KeywordStringConstants.TIME: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.NATION: return new TokenTypeType[]{TokenTypeType.NAMESPACETYPE, TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.SPEED: return new TokenTypeType[]{TokenTypeType.PARAMETER};
+                case KeywordStringConstants.DISPLAY: return new TokenTypeType[]{TokenTypeType.PARAMETER};
+                case KeywordStringConstants.AREA: return new TokenTypeType[]{TokenTypeType.NAMESPACETYPE, TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.VIEW: return new TokenTypeType[]{TokenTypeType.COMMAND};
+                case KeywordStringConstants.INFORMATION: return new TokenTypeType[]{TokenTypeType.SWITCH};
+                case KeywordStringConstants.ALL: return new TokenTypeType[]{TokenTypeType.SWITCH};
+                case KeywordStringConstants.USING: return new TokenTypeType[]{TokenTypeType.COMMAND};
+                case KeywordStringConstants.FROM: return new TokenTypeType[]{TokenTypeType.SWITCH};
+                case KeywordStringConstants.SHIPYARD: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.BERTHS: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.MAXSIZE_ALT_SPELLING: case KeywordStringConstants.MAXSIZE:  return new TokenTypeType[]{TokenTypeType.PARAMETER};
+                case KeywordStringConstants.MINSIZE_ALT_SPELLING: case KeywordStringConstants.MINSIZE:  return new TokenTypeType[]{TokenTypeType.PARAMETER};
+                case KeywordStringConstants.SHIPCLASS: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.TEMPLATE: return new TokenTypeType[]{TokenTypeType.NAMESPACETYPE, TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.TRUE: return new TokenTypeType[]{TokenTypeType.VALUE};
+                case KeywordStringConstants.FALSE: return new TokenTypeType[]{TokenTypeType.VALUE};
+                case KeywordStringConstants.EQUALIZE: return new TokenTypeType[]{TokenTypeType.PARAMETER};
+                case KeywordStringConstants.SWITCH: return new TokenTypeType[]{TokenTypeType.CTRL};//replaces if
+                case KeywordStringConstants.ELSE: return new TokenTypeType[]{TokenTypeType.CTRL};
+                case KeywordStringConstants.ADD: return new TokenTypeType[]{TokenTypeType.FUNCTION};
+                case KeywordStringConstants.REMOVE: return new TokenTypeType[]{TokenTypeType.FUNCTION};
+                case KeywordStringConstants.HOLDQUEUE_ALT_SPELLING: case KeywordStringConstants.HOLDQUEUE:  return new TokenTypeType[]{TokenTypeType.FUNCTION};
+                case KeywordStringConstants.RELEASE: return new TokenTypeType[]{TokenTypeType.FUNCTION};
+                case KeywordStringConstants.WHILE: return new TokenTypeType[]{TokenTypeType.CTRL};
+                case KeywordStringConstants.QUEUELENGTH_ALT_SPELLING: case KeywordStringConstants.QUEUELENGTH:  return new TokenTypeType[]{TokenTypeType.ATTRIBUTE};
+                case KeywordStringConstants.MAXQUEUE_ALT_SPELLING: case KeywordStringConstants.MAXQUEUE:  return new TokenTypeType[]{TokenTypeType.PARAMETER};
+                case KeywordStringConstants.MINQUEUE_ALT_SPELLING: case KeywordStringConstants.MINQUEUE:  return new TokenTypeType[]{TokenTypeType.PARAMETER};
+                case KeywordStringConstants.MIN: return new TokenTypeType[]{TokenTypeType.FUNCTION};
+                case KeywordStringConstants.MAX: return new TokenTypeType[]{TokenTypeType.FUNCTION};
+                case KeywordStringConstants.NOT: return new TokenTypeType[]{TokenTypeType.CTRL_OPERATOR};
+                case KeywordStringConstants.SHIFT: return new TokenTypeType[]{TokenTypeType.FUNCTION};
+                case KeywordStringConstants.UNSHIFT: return new TokenTypeType[]{TokenTypeType.FUNCTION};
+                case KeywordStringConstants.AND: return new TokenTypeType[]{TokenTypeType.CTRL_OPERATOR};
+                case KeywordStringConstants.ROUND: return new TokenTypeType[]{TokenTypeType.FUNCTION};
+                case KeywordStringConstants.PERMANENT: return new TokenTypeType[]{TokenTypeType.COMMAND};
+                case KeywordStringConstants.OR: return new TokenTypeType[]{TokenTypeType.CTRL_OPERATOR};
+                case KeywordStringConstants.GET: return new TokenTypeType[]{TokenTypeType.FUNCTION};
+                case KeywordStringConstants.CASE: return new TokenTypeType[]{TokenTypeType.CTRL};
+                case KeywordStringConstants.BREAK: return new TokenTypeType[]{TokenTypeType.COMMAND};
+                case KeywordStringConstants.FUNCTION: return new TokenTypeType[]{TokenTypeType.NAMESPACETYPE, TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.COMMENT: return new TokenTypeType[]{TokenTypeType.PARAMETER};
+                case KeywordStringConstants.MODIFY: return new TokenTypeType[]{TokenTypeType.COMMAND};
+                case KeywordStringConstants.INT: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.STRING: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.COMPONENT: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.ALIAS: return new TokenTypeType[]{TokenTypeType.VALUE};
+                case KeywordStringConstants.DEPENDANCY: return new TokenTypeType[]{TokenTypeType.PARAMETER};
+                case KeywordStringConstants.IF: return new TokenTypeType[]{TokenTypeType.CTRL};
+                case KeywordStringConstants.FOR: return new TokenTypeType[]{TokenTypeType.COMMAND};
+                case KeywordStringConstants.FOREACH: return new TokenTypeType[]{TokenTypeType.COMMAND};
+                case KeywordStringConstants.IN: return new TokenTypeType[]{TokenTypeType.COMMAND};
+                case KeywordStringConstants.QUEUE: return new TokenTypeType[]{TokenTypeType.ATTRIBUTE};
+                case KeywordStringConstants.VOID: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.NAMESPACE: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
                 default: throw new ExpaInterpreterError(-1, "Reached default case in IdentifierToTypeType conversion.");
             }
         }
@@ -217,6 +221,8 @@ namespace Tokens
         DOUBLE_MINUS,
         DOUBLE_STAR,
         QUEUE,//optinal qualifier for accessing queue.
+        VOID,
+        NAMESPACE,
         //Interpreter only Tokens:
         INTERPRETERNULL,
     }
@@ -242,13 +248,13 @@ namespace Tokens
         public int Line{ get; init; }
         public string Lexeme{ get; init; }
         public string? Literal{ get; init; }
-        public TokenTypeType TypeOfTType{ get; init; }
-        public Token(TokenType aTokenType, TokenTypeType tokenTypeType, int aLine, string aLexeme, string? aLiteral){
+        public TokenTypeType[] TypesOfTType{ get; init; }
+        public Token(TokenType aTokenType, TokenTypeType[] tokenTypeType, int aLine, string aLexeme, string? aLiteral){
             Line = aLine;
             Lexeme = aLexeme;
             Literal = aLiteral;
             Type = aTokenType;
-            TypeOfTType = tokenTypeType;
+            TypesOfTType = tokenTypeType;
         }
         public override string ToString(){
             return Lexeme;
