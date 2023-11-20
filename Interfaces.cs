@@ -54,7 +54,18 @@ namespace Interfaces
     internal interface IHasStringID{
         public string StringID{ get; }
     }
-    internal interface IExpaNameSpace{ 
+    internal interface IExpaObject{
+        public TokenType Type{ get; }
+        public bool IsNameSpace => false;
+        public string Display{ get; internal set; }
+        public string? Comment{ get; internal set; }
+        public string StringIdentifier{ get; init; }
+        public string StringID => StringIdentifier;
+    }
+    internal interface IExpaNonGlobalObject : IExpaObject{
+        public string ParentStringID{ get; internal set; }
+    }
+    internal interface IExpaNameSpace: IExpaObject{ 
         public List<string> ChildrenStringIDs{ get; init; }
         public Scope Scope{ get; init; }
     }
