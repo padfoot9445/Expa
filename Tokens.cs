@@ -71,13 +71,13 @@ namespace Tokens
         }
         public static TokenTypeType[] IdentifierToTTypeType(string input){
             switch(input){
-                case KeywordStringConstants.GLOBAL: return new TokenTypeType[]{TokenTypeType.NAMESPACETYPE, TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.GLOBAL: return new TokenTypeType[]{TokenTypeType.VALUETYPE, TokenTypeType.NAMESPACETYPE};
                 case KeywordStringConstants.NEW: return new TokenTypeType[]{TokenTypeType.COMMAND};
                 case KeywordStringConstants.TIME: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
-                case KeywordStringConstants.NATION: return new TokenTypeType[]{TokenTypeType.NAMESPACETYPE, TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.NATION: return new TokenTypeType[]{TokenTypeType.VALUETYPE, TokenTypeType.NAMESPACETYPE};
                 case KeywordStringConstants.SPEED: return new TokenTypeType[]{TokenTypeType.PARAMETER};
                 case KeywordStringConstants.DISPLAY: return new TokenTypeType[]{TokenTypeType.PARAMETER};
-                case KeywordStringConstants.AREA: return new TokenTypeType[]{TokenTypeType.NAMESPACETYPE, TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.AREA: return new TokenTypeType[]{TokenTypeType.VALUETYPE, TokenTypeType.NAMESPACETYPE};
                 case KeywordStringConstants.VIEW: return new TokenTypeType[]{TokenTypeType.COMMAND};
                 case KeywordStringConstants.INFORMATION: return new TokenTypeType[]{TokenTypeType.SWITCH};
                 case KeywordStringConstants.ALL: return new TokenTypeType[]{TokenTypeType.SWITCH};
@@ -88,7 +88,7 @@ namespace Tokens
                 case KeywordStringConstants.MAXSIZE_ALT_SPELLING: case KeywordStringConstants.MAXSIZE:  return new TokenTypeType[]{TokenTypeType.PARAMETER};
                 case KeywordStringConstants.MINSIZE_ALT_SPELLING: case KeywordStringConstants.MINSIZE:  return new TokenTypeType[]{TokenTypeType.PARAMETER};
                 case KeywordStringConstants.SHIPCLASS: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
-                case KeywordStringConstants.TEMPLATE: return new TokenTypeType[]{TokenTypeType.NAMESPACETYPE, TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.TEMPLATE: return new TokenTypeType[]{TokenTypeType.VALUETYPE, TokenTypeType.NAMESPACETYPE};
                 case KeywordStringConstants.TRUE: return new TokenTypeType[]{TokenTypeType.VALUE};
                 case KeywordStringConstants.FALSE: return new TokenTypeType[]{TokenTypeType.VALUE};
                 case KeywordStringConstants.EQUALIZE: return new TokenTypeType[]{TokenTypeType.PARAMETER};
@@ -114,7 +114,7 @@ namespace Tokens
                 case KeywordStringConstants.GET: return new TokenTypeType[]{TokenTypeType.FUNCTION};
                 case KeywordStringConstants.CASE: return new TokenTypeType[]{TokenTypeType.CTRL};
                 case KeywordStringConstants.BREAK: return new TokenTypeType[]{TokenTypeType.COMMAND};
-                case KeywordStringConstants.FUNCTION: return new TokenTypeType[]{TokenTypeType.NAMESPACETYPE, TokenTypeType.VALUETYPE};
+                case KeywordStringConstants.FUNCTION: return new TokenTypeType[]{TokenTypeType.VALUETYPE, TokenTypeType.NAMESPACETYPE};
                 case KeywordStringConstants.COMMENT: return new TokenTypeType[]{TokenTypeType.PARAMETER};
                 case KeywordStringConstants.MODIFY: return new TokenTypeType[]{TokenTypeType.COMMAND};
                 case KeywordStringConstants.INT: return new TokenTypeType[]{TokenTypeType.VALUETYPE};
