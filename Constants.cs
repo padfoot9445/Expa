@@ -99,7 +99,7 @@ namespace Constants{
         public const string INT = "int";
         public const string STRING = "string";
         public const string COMPONENT = "component";
-        public const string ALIAS = "alias";
+        public const string BUNDLE = "bundle";
         public const string DEPENDANCY = "dependancy";
         public const string MAXSIZE_ALT_SPELLING = "maxsize"; 
         public const string MINSIZE_ALT_SPELLING = "minsize"; 
@@ -117,6 +117,7 @@ namespace Constants{
         public const string NAMESPACE = "namespace";
         public const string LENGTH = "length";
         public const string TYPE = "type";
+        public const string AS = "as";
     }
     internal static class LexerConstants{
         #region literals

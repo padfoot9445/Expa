@@ -55,7 +55,7 @@ namespace Tokens
                 case KwStrConsts.INT: return TokenType.INT;
                 case KwStrConsts.STRING: return TokenType.STRING;
                 case KwStrConsts.COMPONENT: return TokenType.COMPONENT;
-                case KwStrConsts.ALIAS: return TokenType.ALIAS;
+                case KwStrConsts.BUNDLE: return TokenType.BUNDLE;
                 case KwStrConsts.DEPENDANCY: return TokenType.DEPENDANCY;
                 case KwStrConsts.OBJECT_TIME: return TokenType.OBJECT_TIME;
                 case KwStrConsts.IF: return TokenType.IF;
@@ -67,6 +67,7 @@ namespace Tokens
                 case KwStrConsts.NAMESPACE: return TokenType.NAMESPACE;
                 case KwStrConsts.LENGTH: return TokenType.LENGTH;
                 case KwStrConsts.TYPE: return TokenType.TYPE;
+                case KwStrConsts.AS: return TokenType.AS;
                 default: return TokenType.INTERPRETERNULL;
 
             }
@@ -82,6 +83,7 @@ namespace Tokens
                 case TokenType.ALL:
                 case TokenType.FROM:
                 case TokenType.IN:
+                case TokenType.AS:
                     return true;
                 default: return false;
             }
@@ -102,6 +104,7 @@ namespace Tokens
                 case TokenType.COMPONENT:
                 case TokenType.VOID:
                 case TokenType.NAMESPACE:
+                case TokenType.BUNDLE:
                     return true;
                 default: return false;
             }
@@ -197,6 +200,7 @@ namespace Tokens
         }
     }
     internal enum TokenType{
+        AS,
         DEPENDANCY,
         GLOBAL,
         NEW,
@@ -273,7 +277,7 @@ namespace Tokens
         LEFTSQUAREBRACKET,
         RIGHTSQUAREBRACKET,
         COMPONENT,
-        ALIAS,
+        BUNDLE,
         COMMA,
         OBJECT_TIME,
         FOR,
@@ -292,6 +296,7 @@ namespace Tokens
     }
     //implement arguments, round(true, false);
     internal enum TokenTypeType{//type of TokenType
+        
         FUNCTION,
         SYMBOL,
         VALUETYPE,
