@@ -43,7 +43,8 @@ namespace Constants{
     }
     internal static class ExpaObjectConstants{
         public const string OBJECT_ID_SEPERATOR = ".";
-        public const string GLOBAL_DEFAULT_DISPLAY = "global";
+        public const string GLOBAL_IDENTIFIER = "global";
+        public const string GLOBAL_DEFAULT_DISPLAY = GLOBAL_IDENTIFIER;
     }
     internal static class KwStrConsts{
         public const string GLOBAL = "global";

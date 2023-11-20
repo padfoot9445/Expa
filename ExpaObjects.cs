@@ -21,6 +21,7 @@ namespace ExpaObjects
         public ChildrenIDList ChildrenStringIDs { get; init; }
 
         public Scope Scope { get; init; }
+        public
 
         public ExpaGlobal(
             Scope scope,
@@ -36,9 +37,11 @@ namespace ExpaObjects
         }
         public ExpaGlobal(
             Scope scope, 
-            BackgroundTime time, string display=ExpaObjectConstants.GLOBAL_DEFAULT_DISPLAY,
+            BackgroundTime time, 
+            string display = ExpaObjectConstants.GLOBAL_DEFAULT_DISPLAY,
             string? comment = null
         ): base(
+            ExpaObjectConstants.GLOBAL_IDENTIFIER,
             display,
             comment
         ){
