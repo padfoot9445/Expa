@@ -3,6 +3,7 @@ Add support for namespaces without explicitly defined scope.
 
 revamp syntax.
 Immediate:
+rewrite Tokens.cs.Is functions to account for *all* TokenTypes(missing some now)
 rewrite ParseScope.cs
 rewrite New.cs
 rewrite Program.cs

@@ -1,5 +1,6 @@
 namespace ParseScope
 {
+    using System;
     using Structs;
     using Parser;
     using Tokens;
@@ -38,7 +39,7 @@ namespace ParseScope
         
         private void Parse(){
             while(Current < Length){
-                
+                if(Array.BinarySearch(Code[Current].TTT, TokenTypeType.))
             }
 
         }

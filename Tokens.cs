@@ -134,6 +134,119 @@ namespace Tokens
         }
         
     }
+    internal static class Is{
+        public static bool Switch(TokenType input){
+            switch(input){
+                case TokenType.INFORMATION: 
+                case TokenType.ALL:
+                case TokenType.FROM:
+                    return true;
+                default: return false;
+            }
+        }
+        public static bool ValueType(TokenType input){
+            switch(input){
+                case TokenType.GLOBAL:
+                case TokenType.TIME:
+                case TokenType.NATION:
+                case TokenType.AREA:
+                case TokenType.SHIPYARD:
+                case TokenType.BERTHS:
+                case TokenType.SHIPCLASS:
+                case TokenType.TEMPLATE:
+                case TokenType.FUNCTION:
+                case TokenType.INT:
+                case TokenType.STRING:
+                case TokenType.COMPONENT:
+                case TokenType.VOID:
+                case TokenType.NAMESPACE:
+                    return true;
+                default: return false;
+            }
+        }
+        public static bool NameSpaceType(TokenType input){
+            switch(input){
+                case TokenType.GLOBAL:
+                case TokenType.NATION:
+                case TokenType.AREA:
+                case TokenType.TEMPLATE:
+                case TokenType.FUNCTION:
+                    return true;
+                default: return false;
+            }
+        }
+        public static bool Command(TokenType input){
+            switch(input){
+                case TokenType.NEW:
+                case TokenType.VIEW:
+                case TokenType.USING:
+                case TokenType.PERMANENT:
+                case TokenType.BREAK:
+                case TokenType.MODIFY:
+                case TokenType.FOR:
+                case TokenType.FOREACH:
+                case TokenType.IN:
+                    return true;
+                default: return false;
+            }
+        }
+        public static bool Parameter(TokenType input){
+            switch(input){
+                case TokenType.SPEED:
+                case TokenType.DISPLAY:
+                case TokenType.EQUALIZE:
+                case TokenType.COMMENT:
+                case TokenType.DEPENDANCY:
+                    return true;
+                default: return false;
+            }
+        }
+        public static bool Ctrl(TokenType input){
+            switch(input){
+                case TokenType.SWITCH:
+                case TokenType.ELSE:
+                case TokenType.WHILE:
+                case TokenType.NOT:
+                case TokenType.AND:
+                case TokenType.OR:
+                case TokenType.CASE:
+                case TokenType.IF:
+                    return true;
+                default: return false;
+            }
+        }
+        public static bool Function(TokenType input){
+            switch(input){
+                case TokenType.ADD:
+                case TokenType.REMOVE:
+                case TokenType.RELEASE:
+                case TokenType.MIN:
+                case TokenType.MAX:
+                case TokenType.SHIFT:
+                case TokenType.UNSHIFT:
+                case TokenType.ROUND:
+                case TokenType.GET:
+                    return true;
+                default: return false;
+            }
+        }
+        public static bool Attribute(TokenType input){
+            switch(input){
+                case TokenType.QUEUE:
+                    return true;
+                default: return false;
+            }
+        }
+        public static bool CtrlOperator(TokenType input){
+            switch(input){
+                case TokenType.NOT:
+                case TokenType.AND:
+                case TokenType.OR:
+                    return true;
+                default: return false;
+            }
+        }
+    }
     internal enum TokenType{
         DEPENDANCY,
         GLOBAL,
@@ -248,13 +361,11 @@ namespace Tokens
         public int Line{ get; init; }
         public string Lexeme{ get; init; }
         public string? Literal{ get; init; }
-        public TokenTypeType[] TypesOfTType{ get; init; }
-        public Token(TokenType aTokenType, TokenTypeType[] tokenTypeType, int aLine, string aLexeme, string? aLiteral){
+        public Token(TokenType aTokenType, int aLine, string aLexeme, string? aLiteral){
             Line = aLine;
             Lexeme = aLexeme;
             Literal = aLiteral;
             Type = aTokenType;
-            TypesOfTType = tokenTypeType;
         }
         public override string ToString(){
             return Lexeme;
