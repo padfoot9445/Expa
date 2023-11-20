@@ -3,8 +3,10 @@ using Tokens;
 namespace Commands.Ctrl;
 internal class ExpaIf : Command
 {
-    public ExpaIf(Token[] codeSection, string parentStringID) : base(codeSection, parentStringID)
+    private Token[] Condition{ get; init; }
+    public ExpaIf(Token[] condition, Token[] codeSection, string parentStringID) : base(codeSection, parentStringID)
     {
+        Condition = condition;
     }
 
     internal override void Execute()
