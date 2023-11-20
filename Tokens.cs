@@ -140,6 +140,7 @@ namespace Tokens
                 case TokenType.INFORMATION: 
                 case TokenType.ALL:
                 case TokenType.FROM:
+                case TokenType.IN:
                     return true;
                 default: return false;
             }
@@ -185,13 +186,16 @@ namespace Tokens
                 case TokenType.MODIFY:
                 case TokenType.FOR:
                 case TokenType.FOREACH:
-                case TokenType.IN:
                     return true;
                 default: return false;
             }
         }
         public static bool Parameter(TokenType input){
             switch(input){
+                case TokenType.MAXQUEUE:
+                case TokenType.MINQUEUE:
+                case TokenType.MAXSIZE:
+                case TokenType.MINSIZE:
                 case TokenType.SPEED:
                 case TokenType.DISPLAY:
                 case TokenType.EQUALIZE:
@@ -220,6 +224,7 @@ namespace Tokens
                 case TokenType.ADD:
                 case TokenType.REMOVE:
                 case TokenType.RELEASE:
+                case TokenType.HOLDQUEUE:
                 case TokenType.MIN:
                 case TokenType.MAX:
                 case TokenType.SHIFT:
@@ -233,6 +238,7 @@ namespace Tokens
         public static bool Attribute(TokenType input){
             switch(input){
                 case TokenType.QUEUE:
+                case TokenType.QUEUELENGTH:
                     return true;
                 default: return false;
             }
