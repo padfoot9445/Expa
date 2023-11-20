@@ -76,8 +76,8 @@ namespace Tokens
         
     
     internal static class Is{
-        public static bool Switch(TokenType input){
-            switch(input){
+        public static bool IsSwitch(this Token input){
+            switch(input.Type){
                 case TokenType.INFORMATION: 
                 case TokenType.ALL:
                 case TokenType.FROM:
@@ -86,8 +86,8 @@ namespace Tokens
                 default: return false;
             }
         }
-        public static bool ValueType(TokenType input){
-            switch(input){
+        public static bool IsValueType(this Token input){
+            switch(input.Type){
                 case TokenType.GLOBAL:
                 case TokenType.TIME:
                 case TokenType.NATION:
@@ -106,8 +106,8 @@ namespace Tokens
                 default: return false;
             }
         }
-        public static bool NameSpaceType(TokenType input){
-            switch(input){
+        public static bool IsNameSpaceType(this Token input){
+            switch(input.Type){
                 case TokenType.GLOBAL:
                 case TokenType.NATION:
                 case TokenType.AREA:
@@ -117,8 +117,8 @@ namespace Tokens
                 default: return false;
             }
         }
-        public static bool Command(TokenType input){
-            switch(input){
+        public static bool IsCommand(this Token input){
+            switch(input.Type){
                 case TokenType.NEW:
                 case TokenType.VIEW:
                 case TokenType.USING:
@@ -131,8 +131,8 @@ namespace Tokens
                 default: return false;
             }
         }
-        public static bool Parameter(TokenType input){
-            switch(input){
+        public static bool IsParameter(this Token input){
+            switch(input.Type){
                 case TokenType.MAXQUEUE:
                 case TokenType.MINQUEUE:
                 case TokenType.MAXSIZE:
@@ -146,8 +146,8 @@ namespace Tokens
                 default: return false;
             }
         }
-        public static bool Ctrl(TokenType input){
-            switch(input){
+        public static bool IsCtrl(this Token input){
+            switch(input.Type){
                 case TokenType.SWITCH:
                 case TokenType.ELSE:
                 case TokenType.WHILE:
@@ -160,8 +160,8 @@ namespace Tokens
                 default: return false;
             }
         }
-        public static bool Function(TokenType input){
-            switch(input){
+        public static bool IsFunction(this Token input){
+            switch(input.Type){
                 case TokenType.ADD:
                 case TokenType.REMOVE:
                 case TokenType.RELEASE:
@@ -177,8 +177,8 @@ namespace Tokens
                 default: return false;
             }
         }
-        public static bool Attribute(TokenType input){
-            switch(input){
+        public static bool IsAttribute(this Token input){
+            switch(input.Type){
                 case TokenType.QUEUE:
                 case TokenType.QUEUELENGTH:
                 case TokenType.TYPE:
@@ -186,8 +186,8 @@ namespace Tokens
                 default: return false;
             }
         }
-        public static bool CtrlOperator(TokenType input){
-            switch(input){
+        public static bool IsCtrlOperator(this Token input){
+            switch(input.Type){
                 case TokenType.NOT:
                 case TokenType.AND:
                 case TokenType.OR:
