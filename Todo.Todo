@@ -1,15 +1,18 @@
 codeAdd loading support for various objects @ FileHandler.cs 103
-Add support for namespaces without explicitly defined scope.
+DP: add attributes and functions as we go; it shouldn't be that difficult
+
 features to be added:
     lambdas
 
 revamp syntax.
 Immediate:
 add len function
+Type attribute
 add <> symbols
 rewrite ParseScope.cs
 rewrite New.cs
 rewrite Program.cs
+Add support for namespaces without explicitly defined scope.
 rollback database to last stable version if an expasyntaxerror is thrown.
 Add support for custom default display values.
 refactor for internal where possible
