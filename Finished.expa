@@ -14,7 +14,7 @@ nation Astela{
     //aliasing functions: function MyAliasedFunc = MyFunc; aliases the entire function family
     //function MyAliasedFunc = MyFunc(int, string: bool); aliases the specific function overload
     //it is also possible to not declare rv when declaring functions
-    //new function MyFunc(int, string); but this is not reccomended at all
+    //new function MyFunc(num, string); but this is not reccomended at all
     //function aliases 
 }
 nation Icarus{

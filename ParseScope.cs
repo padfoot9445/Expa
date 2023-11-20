@@ -15,19 +15,33 @@ namespace ParseScope
         private bool IsGlobal { get; init; } = false;
         private string ID{ get; init; }//id of the scope we are parsing now
         private TokenType Type{ get; init; }
+        private int Length{get; init;}
         internal ParseScope(Scope Scope, string currentScopeID){
             this.Scope = Scope;
             this.Code = Scope.Code;
             this.ID = currentScopeID;
             this.Self = (IExpaNameSpace)Parser.expaObjects[ID];
             this.Type = Scope.TType;
+            this.Length = Code.Length;
             if(Self is ExpaGlobal){
                 IsGlobal = true;
+            }
+            switch(this.Type){
+                case TokenType.GLOBAL:
+                case TokenType.NATION:
+                case TokenType.AREA:
+                    Parse();
+                    break;
             }
             //Parser for the unparsed scopes; 
         }
         
-        
+        private void Parse(){
+            while(Current < Length){
+                
+            }
+
+        }
         private void ParseTemplate(){
             Console.WriteLine("Parsing template...");
             return;
