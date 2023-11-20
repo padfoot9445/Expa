@@ -6,7 +6,7 @@ using Tokens;
 namespace Interfaces
 {
     internal interface IReusable{
-        public void Reuse();
+        public BaseExpaNonGlobalObject Reuse();
     }
     //*MinSize | MaxSize | Both
     /*#region minSize | maxSize*/
