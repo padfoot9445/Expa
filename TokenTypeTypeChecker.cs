@@ -7,6 +7,9 @@ namespace Tokens{
                 case TokenType.FROM:
                 case TokenType.IN:
                 case TokenType.AS:
+                case TokenType.BREAK:
+                case TokenType.CASE:
+                case TokenType.ELSE:
                     return true;
                 default: return false;
             }
@@ -48,11 +51,11 @@ namespace Tokens{
                 case TokenType.NEW:
                 case TokenType.VIEW:
                 case TokenType.USING:
-                case TokenType.PERMANENT:
-                case TokenType.BREAK:
                 case TokenType.MODIFY:
                 case TokenType.FOR:
                 case TokenType.FOREACH:
+                case TokenType.PERMANENT:
+                case TokenType.WHILE:
                     return true;
                 default: return false;
             }
@@ -75,12 +78,6 @@ namespace Tokens{
         public static bool IsCtrl(this Token input){
             switch(input.Type){
                 case TokenType.SWITCH:
-                case TokenType.ELSE:
-                case TokenType.WHILE:
-                case TokenType.NOT:
-                case TokenType.AND:
-                case TokenType.OR:
-                case TokenType.CASE:
                 case TokenType.IF:
                     return true;
                 default: return false;
