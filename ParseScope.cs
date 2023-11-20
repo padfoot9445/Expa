@@ -8,6 +8,7 @@ namespace ParseScope
     using ExpaObjects;
     using Errors;
     using Commands;
+    using Commands.Ctrl;
 
     internal class ParseScope{
         private Scope Scope{ get; init; }
@@ -39,21 +40,12 @@ namespace ParseScope
             //Parser for the unparsed scopes; 
         }
         
-        private void Parse(){
+        private void Parse(){//TODO: rename
             while(Current < Length){
-                if(Code[Current].IsValueType()){
-                    ParseNewVar();
-                } else if(Code[Current].IsCommand()){
-                    switch(Code[Current].Type){
-                        case TokenType.NEW: ParseNewVar(); continue;
-                        case TokenType.VIEW: ParseView(); continue;
-                        case TokenType.USING: ParseUsing(); continue;
-                        case TokenType.FOR: ParseFor(); continue;
-                        case TokenType.FOREACH: ParseForEach(); continue;
-                        case TokenType.PERMANENT: ParsePermanent(); continue;
-                        case TokenType.WHILE: ParseWhile(); continue;
-                        default: throw new ExpaInterpreterError(-1, $"reached default case in {nameof(Parse)}, IsCommand.");
-                    }
+                if(Code[Current].IsValueType() || Code[Current].IsCommand()){
+                    
+                } else if(Code[Current].IsCtrl()){
+                    
                 }
             }
 
@@ -86,30 +78,75 @@ namespace ParseScope
                     throw new ExpaSyntaxError(Code[Current].Line, "Missing closing bracket ')' after or");
                 }
             }
-            return Code[Start..Current];
+            return Code[Start..(Current-1)];//-1 to skip the closing bracket
 
         }
         private Token[] ExtractRoundBrackets() => ExtractBrackets(TokenType.LEFTPAREN, TokenType.RIGHTPAREN);
         private Token[] ExtractBraces() => ExtractBrackets(TokenType.LEFTBRACE, TokenType.RIGHTBRACE);
-        //any form of new variable statment will be handled by the New class instead of here
-        private void ParseNewVar() => new New(ExtractCurrentLine(), Self.StringID).Execute();
-        private void ParseView() => new View(ExtractCurrentLine(), Self.StringID).Execute();
-        private void ParseUsing() => new Using(ExtractCurrentLine(), Self.StringID).Execute();
-        private void ParseFor(){
-            Current++;
-            new For(ExtractRoundBrackets(), ExtractBraces(), Self.StringID).Execute();
+        private void ParseCommandOrVT(){
+            if(Code[Current].IsValueType()){
+                ParseNewVar(); //any form of new variable statment will be handled by the New class instead of here
+                return;
+            }
+            switch(Code[Current].Type){
+                case TokenType.NEW: ParseNewVar(); return;
+                case TokenType.VIEW: ParseView(); return;
+                case TokenType.USING: ParseUsing(); return;
+                case TokenType.FOR: ParseFor(); return;
+                case TokenType.FOREACH: ParseForEach(); return;
+                case TokenType.PERMANENT: ParsePermanent(); return;
+                case TokenType.WHILE: ParseWhile(); return;
+                default: throw new ExpaInterpreterError(-1, $"reached default case in {nameof(Parse)}, IsCommand.");
+            }
+            void ParseNewVar() => new New(ExtractCurrentLine(), Self.StringID).Execute();
+            void ParseView() => new View(ExtractCurrentLine(), Self.StringID).Execute();
+            void ParseUsing() => new Using(ExtractCurrentLine(), Self.StringID).Execute();
+            void ParseFor(){
+                Current++;
+                new For(ExtractRoundBrackets(), ExtractBraces(), Self.StringID).Execute();
+            }
+            void ParseForEach(){
+                Current++;
+                new ForEach(ExtractRoundBrackets(), ExtractBraces(), Self.StringID).Execute();
+            }
+            void ParsePermanent(){
+                Current++;
+                new Permanent(ExtractBraces(), Self.StringID).Execute();
+            }
+            void ParseWhile(){
+                Current++;
+                new While(ExtractRoundBrackets(), ExtractBraces(), Self.StringID).Execute();
+            }
         }
-        private void ParseForEach(){
-            Current++;
-            new ForEach(ExtractRoundBrackets(), ExtractBraces(), Self.StringID).Execute();
-        }
-        private void ParsePermanent(){
-            Current++;
-            new Permanent(ExtractBraces(), Self.StringID).Execute();
-        }
-        private void ParseWhile(){
-            Current++;
-            new While(ExtractRoundBrackets(), ExtractBraces(), Self.StringID).Execute();
+       
+        private void ParseCtrl(){
+            switch(Code[Current].Type){
+                case TokenType.SWITCH: ParseSwitch(); return;
+                case TokenType.IF: ParseIf(); return;
+            }
+            void ParseSwitch(){
+                Current++;
+                new ExpaSwitch(ExtractBraces(), Self.StringID).Execute();
+            }
+            void ParseIf(){
+                List<ExpaIfThen> expaIfThens = new();
+                while(true){
+                    expaIfThens.Add(__ParseIf());
+                    if(Code[Current].Type == TokenType.ELSE){
+                        if(Code[Current+1].Type == TokenType.IF){
+                            continue;
+                        }
+                        expaIfThens.Add(new(null, ExtractBraces()));
+                    }
+                    break;
+                }
+                new ExpaIf(expaIfThens.ToArray(), Self.StringID).Execute();
+                ExpaIfThen __ParseIf(){
+                    Current++;
+                    return new ExpaIfThen(ExtractRoundBrackets(), ExtractBraces());
+                }
+                
+            }
         }
         
     }
