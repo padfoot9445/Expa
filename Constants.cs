@@ -45,7 +45,7 @@ namespace Constants{
         public const string OBJECT_ID_SEPERATOR = ".";
         public const string GLOBAL_DEFAULT_DISPLAY = "global";
     }
-    internal static class KeywordStringConstants{
+    internal static class KwStrConsts{
         public const string GLOBAL = "global";
         public const string NEW = "new";
         public const string TIME = "time";
@@ -114,6 +114,8 @@ namespace Constants{
         public const string QUEUE = "queue";
         public const string VOID = "void";
         public const string NAMESPACE = "namespace";
+        public const string LENGTH = "length";
+        public const string TYPE = "type";
     }
     internal static class LexerConstants{
         #region literals
