@@ -1,0 +1,125 @@
+===============================================================================
+EXTENSION NAME : linecounter
+EXTENSION VERSION : 0.2.7
+-------------------------------------------------------------------------------
+count time : 2023-11-20 07:56:02
+count workspace : d:\coding\c#\expa\Expa\Expa
+total files : 95
+total code lines : 3335
+total comment lines : 187
+total blank lines : 137
+
+    statistics
+   |      extension|     total code|  total comment|    total blank|percent|
+   -------------------------------------------------------------------------
+   |           .txt|            152|              0|              3|    4.6|
+   |            .cs|           2057|            150|            103|     62|
+   |           .sln|             25|              0|              0|   0.75|
+   |          .expa|            236|             37|              9|    7.1|
+   |        .csproj|             12|              0|              3|   0.36|
+   |          .Todo|             11|              0|              1|   0.33|
+   |            .md|              2|              0|              0|  0.060|
+   |           .bnf|              9|              0|              0|   0.27|
+   |         .cache|             20|              0|              1|   0.60|
+   |          .json|            770|              0|             17|     23|
+   |       .targets|              6|              0|              0|   0.18|
+   |         .props|             13|              0|              0|   0.39|
+   |  .CopyComplete|              0|              0|              0|    0.0|
+   |  .editorconfig|             22|              0|              0|   0.66|
+   -------------------------------------------------------------------------
+arguments.txt, code is 20, comment is 0, blank is 3.
+BackgroundObjects.cs, code is 49, comment is 0, blank is 3.
+BackgroundValues.cs, code is 188, comment is 16, blank is 1.
+bin\Debug\net7.0\583627be84a542fcbc72f47b4668effb.ctr, it is a binary file.
+bin\Debug\net7.0\e2f5ad39ff0c4a45adc7b30dcc5a05e3.ctr, it is a binary file.
+bin\Debug\net7.0\ea0dfcf755044363a18b3aab2ff96b50.ctr, it is a binary file.
+bin\Debug\net7.0\Expa, it is a binary file.
+bin\Debug\net7.0\Expa.deps.json, code is 262, comment is 0, blank is 0.
+bin\Debug\net7.0\Expa.dll, it is a binary file.
+bin\Debug\net7.0\Expa.exe, it is a binary file.
+bin\Debug\net7.0\Expa.pdb, it is a binary file.
+bin\Debug\net7.0\Expa.runtimeconfig.json, code is 9, comment is 0, blank is 0.
+bin\Debug\net7.0\Microsoft.Data.Sqlite.dll, it is a binary file.
+bin\Debug\net7.0\Newtonsoft.Json.dll, it is a binary file.
+bin\Debug\net7.0\runtimes\alpine-arm64\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\alpine-arm\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\alpine-x64\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\browser-wasm\nativeassets\net7.0\e_sqlite3.a, it is a binary file.
+bin\Debug\net7.0\runtimes\linux-arm64\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\linux-arm\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\linux-armel\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\linux-mips64\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\linux-musl-arm64\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\linux-musl-arm\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\linux-musl-x64\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\linux-ppc64le\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\linux-s390x\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\linux-x64\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\linux-x86\native\libe_sqlite3.so, it is a binary file.
+bin\Debug\net7.0\runtimes\maccatalyst-arm64\native\libe_sqlite3.dylib, it is a binary file.
+bin\Debug\net7.0\runtimes\maccatalyst-x64\native\libe_sqlite3.dylib, it is a binary file.
+bin\Debug\net7.0\runtimes\osx-arm64\native\libe_sqlite3.dylib, it is a binary file.
+bin\Debug\net7.0\runtimes\osx-x64\native\libe_sqlite3.dylib, it is a binary file.
+bin\Debug\net7.0\runtimes\win-arm64\native\e_sqlite3.dll, it is a binary file.
+bin\Debug\net7.0\runtimes\win-arm\native\e_sqlite3.dll, it is a binary file.
+bin\Debug\net7.0\runtimes\win-x64\native\e_sqlite3.dll, it is a binary file.
+bin\Debug\net7.0\runtimes\win-x86\native\e_sqlite3.dll, it is a binary file.
+bin\Debug\net7.0\SQLitePCLRaw.batteries_v2.dll, it is a binary file.
+bin\Debug\net7.0\SQLitePCLRaw.core.dll, it is a binary file.
+bin\Debug\net7.0\SQLitePCLRaw.provider.e_sqlite3.dll, it is a binary file.
+bin\Debug\net7.0dll, it is a binary file.
+Commands.cs, code is 35, comment is 0, blank is 3.
+Constants.cs, code is 166, comment is 1, blank is 4.
+Defaults.cs, code is 7, comment is 0, blank is 0.
+Errors.cs, code is 73, comment is 0, blank is 2.
+Expa.csproj, code is 12, comment is 0, blank is 3.
+Expa.sln, code is 25, comment is 0, blank is 0.
+ExpaObjects.cs, code is 273, comment is 3, blank is 25.
+FileHandler.cs, code is 149, comment is 27, blank is 6.
+Finished.expa, code is 24, comment is 20, blank is 1.
+Helpers.cs, code is 123, comment is 0, blank is 3.
+Interfaces.cs, code is 45, comment is 14, blank is 3.
+Lexer.cs, code is 205, comment is 3, blank is 6.
+Main.bnf, code is 9, comment is 0, blank is 0.
+main.expa, code is 201, comment is 16, blank is 6.
+Markers.cs, code is 6, comment is 0, blank is 0.
+New.cs, code is 234, comment is 39, blank is 11.
+obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs, code is 3, comment is 1, blank is 0.
+obj\Debug\net6.0\Expa.AssemblyInfo.cs, code is 9, comment is 9, blank is 4.
+obj\Debug\net6.0\Expa.AssemblyInfoInputs.cache, code is 1, comment is 0, blank is 0.
+obj\Debug\net6.0\Expa.assets.cache, it is a binary file.
+obj\Debug\net6.0\Expa.csproj.AssemblyReference.cache, it is a binary file.
+obj\Debug\net6.0\Expa.GeneratedMSBuildEditorConfig.editorconfig, code is 11, comment is 0, blank is 0.
+obj\Debug\net6.0\Expa.GlobalUsings.g.cs, code is 7, comment is 1, blank is 0.
+obj\Debug\net7.0\.NETCoreApp,Version=v7.0.AssemblyAttributes.cs, code is 3, comment is 1, blank is 0.
+obj\Debug\net7.0\apphost, it is a binary file.
+obj\Debug\net7.0\apphost.exe, it is a binary file.
+obj\Debug\net7.0\Expa.AssemblyInfo.cs, code is 9, comment is 9, blank is 4.
+obj\Debug\net7.0\Expa.AssemblyInfoInputs.cache, code is 1, comment is 0, blank is 0.
+obj\Debug\net7.0\Expa.assets.cache, it is a binary file.
+obj\Debug\net7.0\Expa.csproj.AssemblyReference.cache, it is a binary file.
+obj\Debug\net7.0\Expa.csproj.CopyComplete, code is 0, comment is 0, blank is 0.
+obj\Debug\net7.0\Expa.csproj.CoreCompileInputs.cache, code is 1, comment is 0, blank is 0.
+obj\Debug\net7.0\Expa.csproj.FileListAbsolute.txt, code is 132, comment is 0, blank is 0.
+obj\Debug\net7.0\Expa.dll, it is a binary file.
+obj\Debug\net7.0\Expa.GeneratedMSBuildEditorConfig.editorconfig, code is 11, comment is 0, blank is 0.
+obj\Debug\net7.0\Expa.genruntimeconfig.cache, code is 1, comment is 0, blank is 0.
+obj\Debug\net7.0\Expa.GlobalUsings.g.cs, code is 7, comment is 1, blank is 0.
+obj\Debug\net7.0\Expa.pdb, it is a binary file.
+obj\Debug\net7.0\ref\Expa.dll, it is a binary file.
+obj\Debug\net7.0\refint\Expa.dll, it is a binary file.
+obj\Expa.csproj.nuget.dgspec.json, code is 67, comment is 0, blank is 4.
+obj\Expa.csproj.nuget.g.props, code is 13, comment is 0, blank is 0.
+obj\Expa.csproj.nuget.g.targets, code is 6, comment is 0, blank is 0.
+obj\project.assets.json, code is 432, comment is 0, blank is 13.
+obj\project.nuget.cache, code is 16, comment is 0, blank is 1.
+Parser.cs, code is 60, comment is 14, blank is 7.
+ParseScope.cs, code is 35, comment is 2, blank is 7.
+Program.cs, code is 55, comment is 2, blank is 5.
+README.md, code is 2, comment is 0, blank is 0.
+Scope.cs, code is 24, comment is 0, blank is 1.
+Structs.cs, code is 40, comment is 0, blank is 5.
+test.expa, code is 11, comment is 1, blank is 2.
+Todo.Todo, code is 11, comment is 0, blank is 1.
+Tokens.cs, code is 252, comment is 7, blank is 3.
+===============================================================================
