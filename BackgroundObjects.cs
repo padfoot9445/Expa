@@ -20,11 +20,11 @@ namespace BackgroundObjects
             this.Sort((x, y) => x.Position.CompareTo(y.Position));
         }
     }
-    internal abstract class BaseExpaObject: IMExpaRelatedObject{
+    internal abstract class BaseExpaObject: IMExpaRelatedObject, IExpaObject{
         public abstract TokenType Type{ get; }
         public virtual bool IsNameSpace => false;
-        public string Display{ get; internal set; }
-        public string? Comment{ get; internal set; }
+        public string Display{ get; set; }
+        public string? Comment{ get; set; }
         public string StringIdentifier{ get; init; }
         public virtual string StringID =>StringIdentifier;
         protected BaseExpaObject(string stringIdentifier, string display, string? comment){
@@ -33,13 +33,13 @@ namespace BackgroundObjects
             this.Comment = comment;
         }
     }
-    internal abstract class BaseExpaNonGlobalObject: BaseExpaObject, IHasStringID{
+    internal abstract class BaseExpaNonGlobalObject: BaseExpaObject, IHasStringID, IExpaNonGlobalObject{
         protected BaseExpaNonGlobalObject(string parentStringID, string stringIdentifier, string? display=null, string? comment=null) : base(stringIdentifier, display is null? stringIdentifier : display, comment){
             
             this.StringIdentifier = stringIdentifier;
             this.ParentStringID = parentStringID;
         }
-        public string ParentStringID{ get; internal set; }
+        public string ParentStringID{ get; set; }
         public override string StringID => ParentStringID + Constants.ExpaObjectConstants.OBJECT_ID_SEPERATOR + StringIdentifier;
     }
     internal abstract class BaseExpaNameSpace: BaseExpaNonGlobalObject, IExpaNameSpace{
