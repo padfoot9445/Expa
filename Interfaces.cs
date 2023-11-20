@@ -55,19 +55,19 @@ namespace Interfaces
         public string StringID{ get; }
     }
     internal interface IExpaObject{
-        public TokenType Type{ get; }
-        public bool IsNameSpace => false;
-        public string Display{ get; internal set; }
-        public string? Comment{ get; internal set; }
-        public string StringIdentifier{ get; init; }
-        public string StringID => StringIdentifier;
+        internal TokenType Type{ get; }
+        internal bool IsNameSpace => false;
+        internal string Display{ get; set; }
+        internal string? Comment{ get; set; }
+        internal string StringIdentifier{ get; init; }
+        internal string StringID => StringIdentifier;
     }
     internal interface IExpaNonGlobalObject : IExpaObject{
-        public string ParentStringID{ get; internal set; }
+        internal string ParentStringID{ get; set; }
     }
     internal interface IExpaNameSpace: IExpaObject{ 
-        public List<string> ChildrenStringIDs{ get; init; }
-        public Scope Scope{ get; init; }
+        internal List<string> ChildrenStringIDs{ get; init; }
+        internal Scope Scope{ get; init; }
     }
     
 }
