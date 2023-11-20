@@ -1,13 +1,9 @@
 using Tokens;
 
 namespace Commands{
-    internal class Using : Command
+    internal class Using(Token[] codeSection, string parentStringID) : BaseCommand(codeSection, parentStringID)
     {
-        public Using(Token[] codeSection, string parentStringID) : base(codeSection, parentStringID)
-        {
-        }
-
-        internal override void Execute()
+        public override void Execute()
         {
             throw new NotImplementedException();
         }

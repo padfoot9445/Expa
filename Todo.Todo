@@ -1,10 +1,17 @@
 codeAdd loading support for various objects @ FileHandler.cs 103
 DP: add attributes and functions as we go; it shouldn't be that difficult
-
+feature notes:
+    using * from namespace;
+    using var from namespace as e;
+    namespace.var;
 features to be added:
     lambdas
 
 revamp syntax.
+When possible:
+Verify(probably will fail) that all keywords are accounted for in TokenTypeType and subsequent commands namespace classes and ParseScope, etc.
+Implementation defails:
+    If: while there is an else if, keep extracting; and finally if there is an else extract that as well.
 Immediate:
 rewrite ParseScope.cs
 
@@ -13,8 +20,12 @@ rewrite New.cs
 rewrite Program.cs
 Add support for namespaces without explicitly defined scope.
 add <> symbols
+continue keyword
 readonly keyword
 rollback database to last stable version if an expasyntaxerror is thrown.
+eval function class, possibly with a common ancestor to ParseScope.cs
+
+change private properties to fields
 Add support for custom default display values.
 refactor for internal where possible
 remove alt spellings for keywords

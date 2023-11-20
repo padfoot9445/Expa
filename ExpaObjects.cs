@@ -21,13 +21,13 @@ namespace ExpaObjects
         public ChildrenIDList ChildrenStringIDs { get; init; }
 
         public Scope Scope { get; init; }
-        public
 
-        public ExpaGlobal(
+        internal ExpaGlobal(
             Scope scope,
             string display = ExpaObjectConstants.GLOBAL_DEFAULT_DISPLAY, 
             string? comment = null
         ): base(
+            ExpaObjectConstants.GLOBAL_IDENTIFIER,
             display,
             comment
         ){
@@ -35,7 +35,7 @@ namespace ExpaObjects
             this.Scope = scope;
             this.ChildrenStringIDs = new();
         }
-        public ExpaGlobal(
+        internal ExpaGlobal(
             Scope scope, 
             BackgroundTime time, 
             string display = ExpaObjectConstants.GLOBAL_DEFAULT_DISPLAY,
@@ -129,8 +129,8 @@ namespace ExpaObjects
             Commands = Array.Empty<StaticCommand>();
         }
         #endregion
-        public void Reuse(){
-            
+        public BaseExpaNonGlobalObject Reuse(){
+            throw new NotImplementedException();
         }
         
     }
@@ -157,7 +157,9 @@ namespace ExpaObjects
             this.Equalize = equalize;
         }
         #endregion
-        public void Reuse(){}
+        public BaseExpaNonGlobalObject Reuse(){
+            throw new NotImplementedException();
+        }
     }
     #endregion
     

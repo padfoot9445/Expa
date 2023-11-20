@@ -1,16 +1,20 @@
 using Tokens;
 
 namespace Commands.Ctrl;
-internal class ExpaIf : Command
+internal class ExpaIf : ICommand
 {
-    private Token[] Condition{ get; init; }
-    public ExpaIf(Token[] condition, Token[] codeSection, string parentStringID) : base(codeSection, parentStringID)
+    private ExpaIfThen[] ifThen{ get; init; }
+    private string ParentStrID{ get; init; }
+    public ExpaIf(ExpaIfThen[] ifThen, string parentStringID) 
     {
-        Condition = condition;
+        this.ifThen = ifThen;
+        ParentStrID = parentStringID;
     }
 
-    internal override void Execute()
+    public void Execute()
     {
         throw new NotImplementedException();
     }
+    
 }
+internal readonly record struct ExpaIfThen(Token[]? Condition, Token[] Then);

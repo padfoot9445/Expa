@@ -1,13 +1,13 @@
 using Tokens;
 
 namespace Commands.Ctrl{
-    internal class ExpaSwitch : Command
+    internal class ExpaSwitch : BaseCommand
     {
         public ExpaSwitch(Token[] codeSection, string parentStringID) : base(codeSection, parentStringID)
         {
         }
 
-        internal override void Execute()
+        public override void Execute()
         {
             throw new NotImplementedException();
         }

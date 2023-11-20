@@ -1,13 +1,13 @@
 using Tokens;
 
 namespace Commands{
-    internal class Permanent : Command
+    internal class Permanent : BaseCommand
     {
         public Permanent(Token[] codeSection, string parentStringID) : base(codeSection, parentStringID)
         {
         }
 
-        internal override void Execute()
+        public override void Execute()
         {
             throw new NotImplementedException();
         }

@@ -1,13 +1,13 @@
 using Tokens;
 
 namespace Commands{
-    internal class View : Command
+    internal class View : BaseCommand
     {
         public View(Token[] codeSection, string parentStringID) : base(codeSection, parentStringID)
         {
         }
 
-        internal override void Execute()
+        public override void Execute()
         {
             throw new NotImplementedException();
         }

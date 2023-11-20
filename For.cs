@@ -1,7 +1,7 @@
 using Tokens;
 
 namespace Commands{
-    internal class For : Command
+    internal class For : BaseCommand
     {
         private Token[] Condition{ get; init; }
         public For(Token[] condition, Token[] codeSection, string parentStringID) : base(codeSection, parentStringID)
@@ -9,7 +9,7 @@ namespace Commands{
             Condition = condition;
         }
 
-        internal override void Execute()
+        public override void Execute()
         {
             throw new NotImplementedException();
         }

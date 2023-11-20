@@ -1,11 +1,11 @@
 using Tokens;
 
 namespace Commands{
-    internal class New : Command{
+    internal class New : BaseCommand{
         public New(Token[] codeSection, string parentStringID) : base(codeSection, parentStringID){
         }
 
-        internal override void Execute()
+        public override void Execute()
         {
             throw new NotImplementedException();
         }

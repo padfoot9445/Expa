@@ -1,7 +1,7 @@
 using Tokens;
 
 namespace Commands{
-    internal class ForEach : Command
+    internal class ForEach : BaseCommand
     {
         private Token[] LoopControl{ get; init; }
         public ForEach(Token[] loopControl, Token[] codeSection, string parentStringID) : base(codeSection, parentStringID)
@@ -9,7 +9,7 @@ namespace Commands{
             LoopControl = loopControl;
         }
 
-        internal override void Execute()
+        public override void Execute()
         {
             throw new NotImplementedException();
         }
