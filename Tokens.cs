@@ -1,7 +1,8 @@
 namespace Tokens
 {
-    using Constants;
     using Errors;
+    using Constants;
+    using Lexer.Constants;
 
     internal static class Keywords{
         public static TokenType StrKWToTType(string input){
@@ -201,6 +202,11 @@ namespace Tokens
         }
         public override string ToString(){
             return Lexeme;
+        }
+    }
+    internal static class Comparisons{
+        public static bool Is(this TokenType self, TokenType other){
+            return self == other;
         }
     }
 }

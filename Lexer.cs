@@ -1,8 +1,9 @@
 using Errors;
 using Tokens;
-using Constants;
 using Helpers;
-namespace lexer{
+using Constants;
+namespace Lexer
+{
     class Lexer{
         public string code;
         private int current = 0;

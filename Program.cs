@@ -1,5 +1,5 @@
 
-using lexer;
+using Lexer;
 using Helpers;
 using Errors;
 using ExpaObjects;

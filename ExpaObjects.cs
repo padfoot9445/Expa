@@ -6,11 +6,11 @@ namespace ExpaObjects
     using Helpers;
     using Markers;
     using Interfaces;
-    using Constants;
     using Defaults;
     using Parser;
     using Errors;
     using ChildrenIDList = List<string>;
+    using Constants;
 
     #region Namespaces
     internal class ExpaGlobal : BaseExpaObject, IExpaNameSpace, IHasTime, IMCanBeParent<ExpaNation>{

@@ -34,17 +34,19 @@ namespace ParseScope
                 case TokenType.GLOBAL:
                 case TokenType.NATION:
                 case TokenType.AREA:
-                    Parse();
+                    Parse(false);
                     break;
             }
             //Parser for the unparsed scopes; 
         }
         
-        private void Parse(){//TODO: rename
+        private void Parse(bool OnlyAllowStatements){//TODO: rename
             while(Current < Length){
                 if(Code[Current].IsValueType() || Code[Current].IsCommand()){
-                    
+                    ParseCommandOrVT();     
                 } else if(Code[Current].IsCtrl()){
+                    ParseCtrl();
+                } else if(Code[Current].Type == TokenType.IDENTIFIER){
                     
                 }
             }

@@ -1,4 +1,5 @@
-namespace FileHandler{
+namespace FileHandler
+{
     using Microsoft.Data.Sqlite;
     using ExpaObjects;
     using Structs;
@@ -7,8 +8,9 @@ namespace FileHandler{
     using Markers;
     using Tokens;
     using Interfaces;
-    using Constants;
     using Parser;
+    using Constants;
+
     internal abstract class FileHandlerBase{
         protected readonly string filePath;
         protected SqliteConnection connection;
@@ -136,7 +138,7 @@ namespace FileHandler{
                         _ => throw new MainException("error while parsing db file")
                         //TODO: Add loading support for various objects
                     };
-                    rl.Add(new Result(expaObject, objectParentID, reader[DBAccessConstants.ColumnNames.CHILDREN].ToString()!.Split(Constants.DBAccessConstants.CSVDELIMITER)/*children*/));
+                    rl.Add(new Result(expaObject, objectParentID, reader[DBAccessConstants.ColumnNames.CHILDREN].ToString()!.Split(DBAccessConstants.CSVDELIMITER)/*children*/));
                 }
             }
             return rl.ToArray();

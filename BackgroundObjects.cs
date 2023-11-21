@@ -5,6 +5,8 @@ namespace BackgroundObjects
     using Structs;
     using Markers;
     using Tokens;
+    using Constants;
+
     internal class StaticCommand{
         public void Execute(){
             
@@ -40,7 +42,7 @@ namespace BackgroundObjects
             this.ParentStringID = parentStringID;
         }
         public string ParentStringID{ get; set; }
-        public override string StringID => ParentStringID + Constants.ExpaObjectConstants.OBJECT_ID_SEPERATOR + StringIdentifier;
+        public override string StringID => ParentStringID + ExpaObjectConstants.OBJECT_ID_SEPERATOR + StringIdentifier;
     }
     internal abstract class BaseExpaNameSpace: BaseExpaNonGlobalObject, IExpaNameSpace{
         public override bool IsNameSpace => true;
