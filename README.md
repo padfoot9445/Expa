@@ -1,2 +1,2 @@
 # Expa
-Nostars expansion tracker psuedo-terminal scripting language
+Nostars expansion tracker Command language
