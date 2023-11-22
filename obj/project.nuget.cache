@@ -1,17 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "HNY7CeY0EhpSBG1gl+JAMOd2dxUqgWOBs0bOvt6ycGr9PBAL94Hu4lqrh6Dsza7PrEEl26FYX3RquxXmO4TDYA==",
+  "dgSpecHash": "4raLk2bHJYgxTAGqswtF+W9zw6/dTi5phZ1q2S0H9X3XNgStR6j8czUUyYfrog650PVSPTqkumhGjdV91TU83A==",
   "success": true,
-  "projectFilePath": "D:\\coding\\c#\\expa\\Expa\\Expa\\Expa.csproj",
+  "projectFilePath": "/workspaces/Expa/Expa.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Isaac\\.nuget\\packages\\microsoft.data.sqlite\\7.0.13\\microsoft.data.sqlite.7.0.13.nupkg.sha512",
-    "C:\\Users\\Isaac\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.13\\microsoft.data.sqlite.core.7.0.13.nupkg.sha512",
-    "C:\\Users\\Isaac\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
-    "C:\\Users\\Isaac\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.4\\sqlitepclraw.bundle_e_sqlite3.2.1.4.nupkg.sha512",
-    "C:\\Users\\Isaac\\.nuget\\packages\\sqlitepclraw.core\\2.1.4\\sqlitepclraw.core.2.1.4.nupkg.sha512",
-    "C:\\Users\\Isaac\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.4\\sqlitepclraw.lib.e_sqlite3.2.1.4.nupkg.sha512",
-    "C:\\Users\\Isaac\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.4\\sqlitepclraw.provider.e_sqlite3.2.1.4.nupkg.sha512",
-    "C:\\Users\\Isaac\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+    "/home/vscode/.nuget/packages/microsoft.data.sqlite/7.0.13/microsoft.data.sqlite.7.0.13.nupkg.sha512",
+    "/home/vscode/.nuget/packages/microsoft.data.sqlite.core/7.0.13/microsoft.data.sqlite.core.7.0.13.nupkg.sha512",
+    "/home/vscode/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
+    "/home/vscode/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.4/sqlitepclraw.bundle_e_sqlite3.2.1.4.nupkg.sha512",
+    "/home/vscode/.nuget/packages/sqlitepclraw.core/2.1.4/sqlitepclraw.core.2.1.4.nupkg.sha512",
+    "/home/vscode/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.4/sqlitepclraw.lib.e_sqlite3.2.1.4.nupkg.sha512",
+    "/home/vscode/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.4/sqlitepclraw.provider.e_sqlite3.2.1.4.nupkg.sha512",
+    "/home/vscode/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512"
   ],
   "logs": []
 }

@@ -18,7 +18,10 @@ Implementation defails:
     built-in methods are just methods, with identifiers, etc instead of kw
     String id should be namespace/namespace.valueType>attribute>attribute
 Immediate:
+metacode w/python
+
 rewrite ParseScope.cs
+refactor commands to be in staement and expr classes; exprparser
 
 
 rewrite New.cs
