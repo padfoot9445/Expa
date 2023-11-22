@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\coding\\c#\\expa\\Expa\\Expa\\Expa.csproj": {}
+    "/workspaces/Expa/Expa.csproj": {}
   },
   "projects": {
-    "D:\\coding\\c#\\expa\\Expa\\Expa\\Expa.csproj": {
+    "/workspaces/Expa/Expa.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\coding\\c#\\expa\\Expa\\Expa\\Expa.csproj",
+        "projectUniqueName": "/workspaces/Expa/Expa.csproj",
         "projectName": "Expa",
-        "projectPath": "D:\\coding\\c#\\expa\\Expa\\Expa\\Expa.csproj",
-        "packagesPath": "C:\\Users\\Isaac\\.nuget\\packages\\",
-        "outputPath": "D:\\coding\\c#\\expa\\Expa\\Expa\\obj\\",
+        "projectPath": "/workspaces/Expa/Expa.csproj",
+        "packagesPath": "/home/vscode/.nuget/packages/",
+        "outputPath": "/workspaces/Expa/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Isaac\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/vscode/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -63,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
