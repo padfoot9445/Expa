@@ -43,5 +43,26 @@ def main(*args: tuple[str, str, list[MyEnums]]):
             Strings.st3 += f"\n{' '* 4 * Strings.st3_indent}case Keywords.{name.upper()}: return TokenType.{name.upper()}"
         Strings.t2 += f",\n{' '* 4 * Strings.t2_indent}{name.upper()}"
         for i in t3:
-                 eval(f'''Strings.{i} += {r"""f"\n{' '* 4 * Strings.switch_indent}case TokenType.{name.upper()}: """"}''')
+                if i == MyEnums.SWITCH:
+                    Strings.switch += f"\n{' '* 4 * Strings.switch_indent}case {name.upper()}:"
+                elif i == MyEnums.C_OP:
+                     Strings.c_op += f"\n{' '* 4 * Strings.c_op_indent}case {name.upper()}:"
+                elif i == MyEnums.CTRL:
+                     Strings.ctrl += f"\n{' '* 4 * Strings.ctrl_indent}case {name.upper()}:"
+                elif i == MyEnums.VT:
+                     Strings.vt += f"\n{' '* 4 * Strings.vt_indent}case {name.upper()}:"
+                elif i == MyEnums.COM:
+                     Strings.com += f"\n{' '* 4 * Strings.com_indent}case {name.upper()}:"
+                elif i == MyEnums.OP:
+                     Strings.op += f"\n{' '* 4 * Strings.op_indent}case {name.upper()}:"
+                elif i == MyEnums.NMSPCT:
+                     Strings.nmspct += f"\n{' '* 4 * Strings.nmspct_indent}case {name.upper()}:"
+        Strings.switch += f"\n{(Strings.switch_indent - 1) * 4 * ' '}default: return false;\n{(Strings.switch_indent - 2) * 4 * ' '}{r'}'}"
+        Strings.c_op += f"\n{(Strings.c_op_indent - 1) * 4 * ' '}default: return false;\n{(Strings.c_op_indent - 2) * 4 * ' '}{r'}'}"
+        Strings.ctrl += f"\n{(Strings.ctrl_indent - 1) * 4 * ' '}default: return false;\n{(Strings.ctrl_indent - 2) * 4 * ' '}{r'}'}"
+        Strings.vt += f"\n{(Strings.vt_indent - 1) * 4 * ' '}default: return false;\n{(Strings.vt_indent - 2) * 4 * ' '}{r'}'}"
+        Strings.com += f"\n{(Strings.com_indent - 1) * 4 * ' '}default: return false;\n{(Strings.com_indent - 2) * 4 * ' '}{r'}'}"
+        Strings.op += f"\n{(Strings.op_indent - 1) * 4 * ' '}default: return false;\n{(Strings.op_indent - 2) * 4 * ' '}{r'}'}"
+        Strings.nmspct += f"\n{(Strings.nmspct_indent - 1) * 4 * ' '}default: return false;\n{(Strings.nmspct_indent - 2) * 4 * ' '}{r'}'}"
+        
             
