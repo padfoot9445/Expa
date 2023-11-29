@@ -15,54 +15,68 @@ class MyEnums(Enum):
     CTRL = 6
     C_OP = 9
     OP = 10
-class Strings:
     
-    st3 = ""; st3_indent = 0
+class Strings:
+    GetMethodDefString = lambda name: f"""public static bool Is{name}(this TokenType input){r'{'} switch(input){r'{'}"""
+    GetDefault = lambda indent: f"\n{indent * 4 * ' '}default: return false;\n{(indent - 2) * 4 * ' '}{r'}}'}"
+    str_to_t2 = ""; str_to_t2_indent = 0 #string to tokentype
     kws = ""; kws_indent = 0
     literals = ""; literals_indent = 0
     chars = ""; chars_indent = 0
     t2 = ""; t2_indent = 0
     
-    switch = ""; switch_indent = 0
-    vt = ""; vt_indent = 0
-    nmspct = ""; nmspct_indent = 0
-    com = ""; com_indent = 0
-    ctrl = ""; ctrl_indent = 0
-    c_op = ""; c_op_indent = 0
-    op = ""; op_indent = 00
+    switch = GetMethodDefString("Switch"); switch_indent = 2
+    vt = GetMethodDefString("ValueType"); vt_indent = 2
+    nmspct = GetMethodDefString("NameSpaceType"); nmspct_indent = 2
+    com = GetMethodDefString("Commnad"); com_indent = 2
+    ctrl = GetMethodDefString("Control"); ctrl_indent = 2
+    c_op = GetMethodDefString("ControlOperator"); c_op_indent = 2
+    op = GetMethodDefString("Operator"); op_indent = 00
+   
 def x(i):
      return eval(f"Strings.{i}")
 
 def main(*args: tuple[str, str, list[MyEnums]]):
     for name, str, t3 in args:
         if len(str) == 1:
-                Strings.chars += f"\n{' ' * 4 * Strings.chars_indent}public const char {name.upper()} = '{str}';"
-                Strings.literals += f"\n{' '* 4 * Strings.literals_indent}public const string {name.upper()} = \"{str}\";"
-        elif len(str) == 2:
-            Strings.kws += f"\n{' '* 4 * Strings.kws_indent}public const string {name.upper()} = \"{str}\";"
-            Strings.st3 += f"\n{' '* 4 * Strings.st3_indent}case Keywords.{name.upper()}: return TokenType.{name.upper()}"
+                Strings.chars += f"\n{' ' * 4 * Strings.chars_indent}public const char {name.upper()} = '{str}';{r'}}'}"
+                Strings.literals += f"\n{' '* 4 * Strings.literals_indent}public const string {name.upper()} = \"{str}\";{r'}}'}"
+        else:
+            Strings.kws += f"\n{' '* 4 * Strings.kws_indent}public const string {name.upper()} = \"{str}\"{r'}}'};"
+            Strings.str_to_t2 += f"\n{' '* 4 * Strings.str_to_t2_indent}case Keywords.{name.upper()}: return TokenType.{name.upper()};{r'}}'}"
         Strings.t2 += f",\n{' '* 4 * Strings.t2_indent}{name.upper()}"
         for i in t3:
                 if i == MyEnums.SWITCH:
-                    Strings.switch += f"\n{' '* 4 * Strings.switch_indent}case {name.upper()}:"
+                    Strings.switch += f"\n{' '* 4 * Strings.switch_indent}case TokenType.{name.upper()}:"
                 elif i == MyEnums.C_OP:
-                     Strings.c_op += f"\n{' '* 4 * Strings.c_op_indent}case {name.upper()}:"
+                     Strings.c_op += f"\n{' '* 4 * Strings.c_op_indent}case TokenType.{name.upper()}:"
                 elif i == MyEnums.CTRL:
-                     Strings.ctrl += f"\n{' '* 4 * Strings.ctrl_indent}case {name.upper()}:"
+                     Strings.ctrl += f"\n{' '* 4 * Strings.ctrl_indent}case TokenType.{name.upper()}:"
                 elif i == MyEnums.VT:
-                     Strings.vt += f"\n{' '* 4 * Strings.vt_indent}case {name.upper()}:"
+                     Strings.vt += f"\n{' '* 4 * Strings.vt_indent}case TokenType.{name.upper()}:"
                 elif i == MyEnums.COM:
-                     Strings.com += f"\n{' '* 4 * Strings.com_indent}case {name.upper()}:"
+                     Strings.com += f"\n{' '* 4 * Strings.com_indent}case TokenType.{name.upper()}:"
                 elif i == MyEnums.OP:
-                     Strings.op += f"\n{' '* 4 * Strings.op_indent}case {name.upper()}:"
+                     Strings.op += f"\n{' '* 4 * Strings.op_indent}case TokenType.{name.upper()}:"
                 elif i == MyEnums.NMSPCT:
                      Strings.nmspct += f"\n{' '* 4 * Strings.nmspct_indent}case {name.upper()}:"
-        Strings.switch += f"\n{(Strings.switch_indent - 1) * 4 * ' '}default: return false;\n{(Strings.switch_indent - 2) * 4 * ' '}{r'}'}"
-        Strings.c_op += f"\n{(Strings.c_op_indent - 1) * 4 * ' '}default: return false;\n{(Strings.c_op_indent - 2) * 4 * ' '}{r'}'}"
-        Strings.ctrl += f"\n{(Strings.ctrl_indent - 1) * 4 * ' '}default: return false;\n{(Strings.ctrl_indent - 2) * 4 * ' '}{r'}'}"
-        Strings.vt += f"\n{(Strings.vt_indent - 1) * 4 * ' '}default: return false;\n{(Strings.vt_indent - 2) * 4 * ' '}{r'}'}"
-        Strings.com += f"\n{(Strings.com_indent - 1) * 4 * ' '}default: return false;\n{(Strings.com_indent - 2) * 4 * ' '}{r'}'}"
-        Strings.op += f"\n{(Strings.op_indent - 1) * 4 * ' '}default: return false;\n{(Strings.op_indent - 2) * 4 * ' '}{r'}'}"
-        Strings.nmspct += f"\n{(Strings.nmspct_indent - 1) * 4 * ' '}default: return false;\n{(Strings.nmspct_indent - 2) * 4 * ' '}{r'}'}"
-        
+
+        Strings.switch += Strings.GetDefault(Strings.switch_indent)
+        Strings.c_op += Strings.GetDefault(Strings.c_op_indent)
+        Strings.ctrl += Strings.GetDefault(Strings.ctrl_indent)
+        Strings.vt += Strings.GetDefault(Strings.vt_indent)
+        Strings.com += Strings.GetDefault(Strings.com_indent)
+        Strings.op += Strings.GetDefault(Strings.op_indent)
+        Strings.nmspct += Strings.GetDefault(Strings.nmspct_indent)
+        with open("TokenTypeTypeChecker.cs", "w") as T3Ccs:
+             mainstring ="""namespace Tokens.TokenTypes.Conversions;
+internal static class TokenT2C{
+ """
+             mainstring += '\n\t' + Strings.switch + '\n' + Strings.c_op + '\n' + Strings.ctrl + Strings.vt + Strings.com + Strings.op + Strings.nmspct + '}'
+             T3Ccs.write(mainstring)
+        with open("KwStrConsts.cs", "w") as Kwscf:
+             Kwscf.write("namespace Tokens.TokenTypes.Conversions;\ninternal static class StringToTokenType{\npublic static TokenType StringToTokenType(string input){switch(input){\n" + Strings.str_to_t2 + '}')
+main(
+     ("information", "information", [MyEnums.SWITCH])
+)
             
