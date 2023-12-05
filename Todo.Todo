@@ -33,6 +33,8 @@ readonly keyword
 rollback database to last stable version if an expasyntaxerror is thrown.
 eval function class, possibly with a common ancestor to ParseScope.cs
 
+refactor to have background interfaces file and nmspc
+
 change private properties to fields
 Add support for custom default display values.
 refactor for internal where possible
